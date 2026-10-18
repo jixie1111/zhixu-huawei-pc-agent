@@ -6,9 +6,9 @@
 
 从实际发布并验证可访问的静态地址打开页面；链接未验证前不称已上线。使用公开版提供的少量官网摘要与远程图片，确认来源可打开、图片型号一致，并看到“规则演示／非大模型生成”标识。不需要模型或 ima 账号。准备开学季×小红书、职场办公×公众号、门店到访×朋友圈三组输入；这些是规则交互案例，不计入正式模型案例。依据见 [资料使用方案](SOURCE-POLICY.md)。
 
-本地预演使用 `npm run build:demo` 和 `npm run preview:demo`，地址为 `http://127.0.0.1:4174`；`npm run package:demo` 只准备静态上传包，不上传。目前 [GitHub 仓库](https://github.com/jixie1111/zhixu-huawei-pc-agent)已创建待推送，[魔搭创空间](https://modelscope.cn/studios/jixie1111/zhixu-huawei-pc-demo)首版已 Running、首页HTTP200。修正版已完成本地构建并在第二次部署中；最终线上交互待验证，首页可访问不能替代完整演示录制。
+本地预演使用 `npm run build:demo` 和 `npm run preview:demo`，地址为 `http://127.0.0.1:4174`；`npm run package:demo` 只准备静态上传包，不上传。[GitHub 仓库](https://github.com/jixie1111/zhixu-huawei-pc-agent)源码已推送，本次发布附作品说明书PDF；[魔搭创空间](https://modelscope.cn/studios/jixie1111/zhixu-huawei-pc-demo)最终版已Running、游客可访问，真实桌面/手机交互通过。可从 [在线体验](https://jixie1111-zhixu-huawei-pc-demo.ms.show/) 打开实际应用。
 
-已有本地公开规则版三场景九导出位于 `output/public-demo/`，HTML内嵌图分别3/3、2/2、1/1且0 API调用，另有桌面/手机 e2e 2/2与额外补测3/3通过。这些可作为规则版讲解证据，但不能当作第二次部署后的视频或正式模型录屏。
+本地公开规则版三场景九导出位于 `output/public-demo/`，HTML内嵌图3/3、2/2、1/1且0 API调用，静态e2e 2/2、本地模型/权限回归3/3通过。最终线上另执行真实浏览器验收，报告与连续视频保存在 `private/public-live-2026-10-18T08-38-03-345Z/`：三场景×双视口6项、转换/编辑版本1项及三格式导出通过，0应用API请求、0页面异常，无横向溢出。该连续录屏说明浏览器自动化操作，使用实际官网资料和线上页面，仍属于规则演示录屏，不是正式模型录屏。
 
 ## 公开规则版建议流程
 

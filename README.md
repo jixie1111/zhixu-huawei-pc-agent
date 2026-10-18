@@ -21,7 +21,7 @@ deployspec:
 | 公开交互演示 | 少量已核对官网摘要、官网远程图片 URL；在浏览器按场景/平台规则编排 | 无 API Key、无后台模型调用；始终标为规则演示，非真实 LLM |
 | 本机完整工作台 | 用户授权的完整本地知识库与原图；默认规则预览，可显式切换真实模型；ima 为可选来源 | 规则无需密钥；选择模型才需要可用模型配置，选择 ima 才需要其权限与 CLI |
 
-本次上传已获用户授权。[GitHub 仓库](https://github.com/jixie1111/zhixu-huawei-pc-agent)已创建，源码尚未推送；[魔搭创空间](https://modelscope.cn/studios/jixie1111/zhixu-huawei-pc-demo)首次部署已达 `Running`，首页 HTTP200。图片读取修正版已完成本地构建，第二次部署进行中，最终线上交互验收仍待完成。以上是预览上架进度，不是正式比赛提交。
+本次预览已按用户授权发布：[在线体验](https://jixie1111-zhixu-huawei-pc-demo.ms.show/) · [魔搭创空间](https://modelscope.cn/studios/jixie1111/zhixu-huawei-pc-demo) · [GitHub 源码](https://github.com/jixie1111/zhixu-huawei-pc-agent) · [作品说明书 PDF](docs/作品说明书.pdf)。魔搭最终版为 `Running`，游客可访问，真实桌面/手机交互验收通过。公开版为免 API 规则演示，不是正式比赛提交或真实大模型成果。
 
 ## 能做什么
 
@@ -49,7 +49,7 @@ npm run preview:demo
 
 此构建不启动 Express、SQLite、ima 或模型服务，不需要 `PUBLIC_DEPLOYMENT`、`ADMIN_TOKEN` 或服务端 Secrets。公开规则稿不是大模型生成结果，不能代替比赛要求的三组真实模型案例。上架操作与真实地址验收见 [部署指南](docs/DEPLOYMENT.md)。
 
-当前本地静态验收：桌面/手机 e2e 2/2通过，额外补测3/3通过；实际生成三场景、九份 Markdown/HTML/JSON 导出，HTML 原站图片内嵌分别3/3、2/2、1/1，0 API调用。最终本地静态构建 CSS 68.82KB、JS 432.26KB；这些记录不替代最终版本的线上验收，详见 [测试报告](docs/TEST-REPORT.md)。
+当前检查：完整单元/接口125/125、静态桌面/手机 e2e 2/2、本地模型与访问权限回归3/3通过；本地三场景九导出有效。最终魔搭线上另通过7项实际操作结果（三场景×双视口＋平台转换/编辑版本），三格式导出、HTML内嵌3张官网图、刷新历史、无密码配置和布局检查通过；0应用 API请求、0页面异常，连续录屏已保存。云端JS与本地最终构建哈希一致，详见 [测试报告](docs/TEST-REPORT.md)。
 
 ## 本地启动
 
@@ -151,6 +151,6 @@ private/         仅本地资料与记录（不入库）
 
 [作品说明书草稿](docs/WORK-SUBMISSION-DRAFT.md) · [系统设计](docs/ARCHITECTURE.md) · [部署指南](docs/DEPLOYMENT.md) · [安全边界](docs/SECURITY.md) · [演示脚本](docs/DEMO-SCRIPT.md) · [验收矩阵](docs/REQUIREMENTS.md)
 
-用户已授权上传 GitHub 与魔搭预览，不再以模型配置作为本次规则演示上架前提。GitHub 仓库已创建待推送，魔搭首版已 Running/首页HTTP200，第二次修正版部署与最终线上交互检查尚在进行，正式比赛提交尚未进行。真实 AI 验收仍需可用模型、至少三组本地知识库＋模型结果及真实模型运行录屏；规则演示录屏只能证明规则版实际可用。浏览器自动化可记录真实流程，合成 mock 回归不能替代。ima 成员资格仅在选择 ima 来源时需要。
+GitHub源码已推送，本次发布附作品说明书PDF；魔搭最终规则演示已公开运行并通过真实线上验收，正式比赛提交尚未进行。真实 AI 验收仍需可用模型、至少三组本地知识库＋模型结果及真实模型运行录屏；本次连续录屏证明规则版实际可用。浏览器自动化可记录真实流程，合成 mock 回归不能替代。ima 成员资格仅在选择 ima 来源时需要。
 
 项目中的 Huawei/华为/ima 等名称仅用于说明目标产品或接入对象，不表示官方授权或背书。官网摘要和远程图片保留具体出处，权利仍归原权利人；不重分发用户原库。当前未替用户选择开源代码许可证。

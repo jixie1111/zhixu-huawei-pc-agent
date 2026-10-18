@@ -1,7 +1,7 @@
 {
-  "status": "SOURCE_PREVIEW_ONLY",
-  "createdAt": "2026-10-18T08:26:15.417Z",
-  "notice": "仅准备本地源码预览包；未上传、未正式提交。原始知识库、图片、凭证、会话记录与供应商插件不在包中。",
+  "status": "PUBLIC_PREVIEW_RELEASE",
+  "createdAt": "2026-10-18T08:45:00.699Z",
+  "notice": "公开源码与经审核的自研作品说明书；非正式比赛提交。原始资料库、私人记录、凭据不在包中。",
   "excluded": [
     "private/",
     "private/deploy.env",
@@ -38,28 +38,28 @@
     },
     {
       "path": "README.md",
-      "bytes": 12260,
-      "sha256": "5bcf3dca2db49e5a6a5437c6f6da4aeb7dbb82d525ac54b2eaf5ec57c056bada"
+      "bytes": 12348,
+      "sha256": "1e3d777d9334d1849f63de443fc0378931589f09652492aea9fc9b31384d2490"
     },
     {
       "path": "docs/ACCEPTANCE.md",
-      "bytes": 9623,
-      "sha256": "41066a725b0b8e8e87ad472927e5acc9a563ca090d7bdc6de93177cc77327ac9"
+      "bytes": 9785,
+      "sha256": "4b903c22dc3fc36b9648641c0702458e46555ca1c02731446102844c6fede9d6"
     },
     {
       "path": "docs/ARCHITECTURE.md",
-      "bytes": 9779,
-      "sha256": "c8438bcd74f3c0e8324151c214de1a32edbe04fa03dee0c7715930f13ed8f363"
+      "bytes": 9932,
+      "sha256": "5fa7062ea190485182e78a5000ccebcf8cecde6566693b63c8dc81e9c00e2d82"
     },
     {
       "path": "docs/DEMO-SCRIPT.md",
-      "bytes": 4684,
-      "sha256": "235025cf48104266c74826c0c20ede26075437e6beb81342e656d8475c95021c"
+      "bytes": 4990,
+      "sha256": "b4a43d3aab4bd51829ebcb53e1efc341e4bce7769c942aca1122abe64509f396"
     },
     {
       "path": "docs/DEPLOYMENT.md",
-      "bytes": 21290,
-      "sha256": "194f048afd3961803c6c7e9c653955f5b940899e9abf82a7f45abcfd21511b9b"
+      "bytes": 22364,
+      "sha256": "0b90f8b08a0033da9d7bbbed2956353ce0a12377f1585127c8abd7de2e1e75bb"
     },
     {
       "path": "docs/HANDBOOK.md",
@@ -68,38 +68,38 @@
     },
     {
       "path": "docs/PROGRESS.md",
-      "bytes": 5835,
-      "sha256": "2ebc3ba51b359af149f530e61c453a3ed9d7c3974ebe138f5aed3efbe90ee0e7"
+      "bytes": 7419,
+      "sha256": "767e2d492aac19c567ca8299bc4f0996a1555d00bf7bc7464ce3eaa379c284df"
     },
     {
       "path": "docs/REQUIREMENTS.md",
-      "bytes": 5489,
-      "sha256": "58d2a420ddd7eaaad1f862ca0c25925789d520943a592253f59f851df4171b0c"
+      "bytes": 5710,
+      "sha256": "cb0aaec52f631712c3fb6e3b81253b615808589e8103547d4558b43cdbd598b4"
     },
     {
       "path": "docs/SECURITY.md",
-      "bytes": 10245,
-      "sha256": "ed5aba768eb371919120fac5ebd82193d5f36d5a3c85288f95699e30a864f5d5"
+      "bytes": 11134,
+      "sha256": "65f9598a4c3758f988e54aa89ed10ed6acf9ef9e2805889089ee761a333b6171"
     },
     {
       "path": "docs/SOURCE-POLICY.md",
-      "bytes": 5716,
-      "sha256": "2a91ae940816c3afae9dd26391b0d476eff26e39fc1d70d2c818da75f7bd6cfa"
+      "bytes": 5950,
+      "sha256": "5a593537b91b36c9e151ac632451a5f93653e1ff3cd61f6ead685e5bdec11c46"
     },
     {
       "path": "docs/TEST-REPORT.md",
-      "bytes": 7897,
-      "sha256": "0827f3f1d67fc85c39f361be97fa1c900d3fa8d21d45a7f7167fb668b8d1ce18"
+      "bytes": 11493,
+      "sha256": "4621f3d63106f9a3d475173b448d19266eb8b1c00ff43c05945e6c0e05477ce1"
     },
     {
       "path": "docs/WORK-SUBMISSION-DRAFT.md",
-      "bytes": 10987,
-      "sha256": "cb4def42052a7c544f9534051ec197002aabb6d79ab862256fafbe49f5900fa4"
+      "bytes": 11709,
+      "sha256": "42422a6b31d9f60c6aae0ea9405b73ad269f17328009bc69218591cf69b78c85"
     },
     {
       "path": "docs/handbook-status.json",
-      "bytes": 1049,
-      "sha256": "4e69db002591a9e20f99e4df0ba73db072ba6d02755d685c7b737766ed57f17a"
+      "bytes": 1672,
+      "sha256": "0f24be5d40207881594cdf346ebbd744a7771dc471009ad19db425f8c225ca92"
     },
     {
       "path": "index.html",
@@ -523,8 +523,8 @@
     },
     {
       "path": "tests/public-demo-live.ts",
-      "bytes": 7874,
-      "sha256": "3c35bef1da4e5ca47d82632612f7f367d795abcc11a845e2fbfe943821b7525c"
+      "bytes": 8519,
+      "sha256": "4a68a26a54dbec097b1ec8f69d4dc0475efceb33fd81f1d922099ea2a493a22a"
     },
     {
       "path": "tests/public.test.ts",
@@ -555,6 +555,11 @@
       "path": "vite.config.ts",
       "bytes": 709,
       "sha256": "44db9a576fa8e7b7489ac987301bc8f3c57921ad184ffaece1a678d972a1aa10"
+    },
+    {
+      "path": "docs/作品说明书.pdf",
+      "bytes": 892918,
+      "sha256": "47a834351fd1ce09ae3eb1836dc5f774aed699d8529382e28adb8bd49dc4be6c"
     }
   ]
 }

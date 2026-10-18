@@ -2,7 +2,7 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import assert from 'node:assert/strict';
-import { chromium, expect, type Page } from '@playwright/test';
+import { chromium, expect, type Page, type Frame } from '@playwright/test';
 
 const target = process.argv[2];
 if (!target) throw new Error('Pass a deployed HTTPS URL or a private deployment-result JSON file.');
@@ -16,37 +16,40 @@ const browser = await chromium.launch({ channel: process.env.PLAYWRIGHT_CHANNEL 
 const report: { site: string; at: string; cases: unknown[]; errors: string[]; apiRequests: string[]; video?: string; passed?: boolean } = {
   site: address.origin + address.pathname, at: new Date().toISOString(), cases: [], errors: [], apiRequests: [],
 };
-const readRecords = (page: Page) => page.evaluate(() => JSON.parse(localStorage.getItem('zhixu-public-demo-v1') || '[]') as { id: string; version: number; brief: { scene: string; platform: string; generation: string }; article: { title: string; sections: unknown[] }; parentId?: string }[]);
+const readRecords = (page: Page | Frame) => page.evaluate(() => JSON.parse(localStorage.getItem('zhixu-public-demo-v1') || '[]') as { id: string; version: number; brief: { scene: string; platform: string; generation: string }; article: { title: string; sections: unknown[] }; parentId?: string }[]);
 try {
   for (const viewport of [{ name: 'desktop', width: 1440, height: 1000 }, { name: 'mobile', width: 390, height: 844 }]) {
     const context = await browser.newContext({ viewport: { width: viewport.width, height: viewport.height }, acceptDownloads: true,
       ...(viewport.name === 'desktop' ? { recordVideo: { dir: directory, size: { width: 1440, height: 1000 } } } : {}) });
-    const page = await context.newPage();
-    page.setDefaultTimeout(30000);
-    page.on('pageerror', error => report.errors.push(`${viewport.name}: ${error.message}`));
-    page.on('request', request => { if (new URL(request.url()).pathname.startsWith('/api/')) report.apiRequests.push(request.url().split('?')[0]); });
-    await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 60000 });
+    const rootPage = await context.newPage();
+    rootPage.setDefaultTimeout(30000);
+    rootPage.on('pageerror', error => report.errors.push(`${viewport.name}: ${error.message}`));
+    rootPage.on('request', request => { const requestUrl = new URL(request.url()); if (requestUrl.origin === address.origin && requestUrl.pathname.startsWith('/api/')) report.apiRequests.push(request.url().split('?')[0]); });
+    await rootPage.goto(url, { waitUntil: 'domcontentloaded', timeout: 60000 });
+    // ModelScope may wrap the real app in its public studio iframe.
+    await expect.poll(() => rootPage.frames().some(frame => frame.url().startsWith(address.origin)), { timeout: 60000 }).toBe(true);
+    let page: Page | Frame = rootPage.frames().find(frame => frame.url().startsWith(address.origin))!;
     await page.getByRole('button', { name: '开始创作', exact: true }).waitFor();
-    await page.screenshot({ path: path.join(directory, `workspace-${viewport.name}.png`), fullPage: false });
+    await rootPage.screenshot({ path: path.join(directory, `workspace-${viewport.name}.png`), fullPage: false });
     for (const scenario of [{ scene: '开学季', sceneId: 'school', platform: 'xiaohongshu', images: 3 }, { scene: '职场办公', sceneId: 'office', platform: 'wechat', images: 2 }, { scene: '门店到访', sceneId: 'store', platform: 'moments', images: 1 }]) {
       await page.locator(`input[name="platform"][value="${scenario.platform}"]`).check({ force: true });
       await page.getByRole('button', { name: scenario.scene, exact: true }).click();
       const oldId = (await readRecords(page))[0]?.id;
       await page.getByRole('button', { name: '开始创作', exact: true }).click();
       await page.waitForFunction(id => JSON.parse(localStorage.getItem('zhixu-public-demo-v1') || '[]')[0]?.id !== id, oldId);
-      const current = (await readRecords(page))[0];
+      const current: Awaited<ReturnType<typeof readRecords>>[number] = (await readRecords(page))[0];
       assert.equal(current.brief.scene, scenario.sceneId); assert.equal(current.brief.platform, scenario.platform); assert.equal(current.brief.generation, 'rules');
       const images = page.locator('.article-preview .article-image img');
       await expect(images).toHaveCount(scenario.images);
       for (const img of await images.all()) { await img.scrollIntoViewIfNeeded(); await img.evaluate(async node => { const image = node as HTMLImageElement; if (!image.complete) await image.decode(); if (!image.naturalWidth) throw new Error('Official product image did not decode'); }); }
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth + 2), false);
       await page.locator('.result-section').scrollIntoViewIfNeeded();
-      await page.screenshot({ path: path.join(directory, `${scenario.sceneId}-${viewport.name}.png`), fullPage: false });
+      await rootPage.screenshot({ path: path.join(directory, `${scenario.sceneId}-${viewport.name}.png`), fullPage: false });
       report.cases.push({ viewport: viewport.name, scene: scenario.sceneId, platform: scenario.platform, id: current.id, imageCount: scenario.images });
       if (viewport.name === 'desktop' && scenario.sceneId === 'school') {
         for (const [format, label] of [['md', 'Markdown'], ['html', 'HTML 图文'], ['json', 'JSON 数据']] as const) {
           await page.getByRole('button', { name: '导出草稿', exact: true }).click();
-          const downloadEvent = page.waitForEvent('download');
+          const downloadEvent = rootPage.waitForEvent('download');
           await page.getByRole('button', { name: new RegExp(label) }).click();
           const download = await downloadEvent;
           const output = path.join(directory, `school.${format}`);
@@ -74,13 +77,15 @@ try {
       report.cases.push({ platformConversion: true, manualEdit: true, id: edited.id, version: edited.version });
     }
     const before = await readRecords(page);
-    await page.reload({ waitUntil: 'domcontentloaded' });
+    await rootPage.reload({ waitUntil: 'domcontentloaded' });
+    await expect.poll(() => rootPage.frames().some(frame => frame.url().startsWith(address.origin)), { timeout: 60000 }).toBe(true);
+    page = rootPage.frames().find(frame => frame.url().startsWith(address.origin))!;
     await page.getByRole('button', { name: '开始创作', exact: true }).waitFor();
     assert.deepEqual((await readRecords(page)).map(record => record.id), before.map(record => record.id));
-    await page.goto(address.origin + address.pathname + address.search + '#settings', { waitUntil: 'domcontentloaded' });
+    await page.evaluate(() => { location.hash = 'settings'; });
     await page.getByRole('heading', { name: '打开就能创作，无需配置密钥。' }).waitFor();
     assert.equal(await page.locator('input[type="password"]').count(), 0);
-    const video = page.video();
+    const video = rootPage.video();
     await context.close();
     if (video) report.video = await video.path();
   }
