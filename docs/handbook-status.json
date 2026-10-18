@@ -1,0 +1,13 @@
+{
+  "date": "2026-10-18（America/Los_Angeles）",
+  "unit": "最新完整npm test 125/125通过，0失败，32.098秒；合成/mock测试不等于真实模型或线上验收。",
+  "browser": "静态桌面/手机2/2通过；默认规则、模型选择与私有图片3/3通过。三场景9导出完成，图片3/3、2/2、1/1。",
+  "build": "最终build:demo及TypeScript通过；CSS68.82KB、JS432.26KB。线上状态见第9页。",
+  "model": "默认免API规则演示，模型未配置不阻塞上架；真实模型生成、独立核验与三组正式AI案例尚未完成。",
+  "audit": "最新 npm 审计 0 vulnerabilities；不等于全面安全保证。",
+  "workspaceImage": "ui-public-demo-workspace-desktop.png",
+  "resultImage": "ui-public-demo-result-desktop.png",
+  "screenshot": "真实免 API 演示界面：公开官网摘要、规则编排；非模型生成。",
+  "resultScreenshot": "真实规则演示结果：官网图片、证据与待人工核验提示；非模型案例。",
+  "cases": "规则已验证；模型待验收"
+}

@@ -1,0 +1,67 @@
+import { test, expect } from '@playwright/test';
+import fs from 'node:fs';
+
+test('静态演示无API：真实生成、编辑核验、版本、导出、刷新历史及公开资料', async ({ page }, testInfo) => {
+  test.setTimeout(90000);
+  const apiCalls: string[] = [];
+  const errors: string[] = [];
+  page.on('pageerror', error => errors.push(error.message));
+  await page.route('**/api/**', route => { apiCalls.push(route.request().url()); return route.abort(); });
+  // Deliberately unavailable remote pictures exercise truthful placeholders and incomplete HTML export.
+  await page.route('https://consumer.huawei.com/**', route => route.abort());
+  await page.goto('/?demo=1');
+  await expect(page.getByText('无需 API · 规则交互演示')).toBeVisible();
+  await expect(page.getByRole('radio', { name: /规则预览/ })).toBeChecked();
+  await expect(page.getByRole('radio', { name: /AI 模型创作/ })).toBeDisabled();
+  await page.getByRole('button', { name: '开学季', exact: true }).click();
+  await page.getByRole('button', { name: '开始创作', exact: true }).click();
+  const result = page.getByRole('region', { name: '创作结果' });
+  await expect(result.getByText('规则预览 · 未调用模型')).toBeVisible();
+  await expect(result.getByText('公开官网摘录', { exact: true })).toBeVisible();
+  await result.getByRole('button', { name: /^查看配图/ }).first().scrollIntoViewIfNeeded();
+  await expect(result.getByText('官方远程图片暂不可用').first()).toBeVisible();
+  const initialCount = await result.locator('.article-body > section').count();
+  await result.getByLabel('改写指令').fill('精简正文');
+  await result.getByRole('button', { name: '按指令改写' }).click();
+  await expect(result.getByRole('button', { name: /版本记录 V2/ })).toBeVisible();
+  expect(await result.locator('.article-body > section').count()).toBeLessThan(initialCount);
+  await result.getByLabel('换个平台').selectOption('poster');
+  await result.getByRole('button', { name: '转换平台' }).click();
+  await expect(result.getByRole('button', { name: /版本记录 V3/ })).toBeVisible();
+  await expect(result.getByRole('button', { name: /^查看配图/ })).toHaveCount(1);
+  await result.getByRole('button', { name: '编辑正文', exact: true }).click();
+  await result.getByLabel('作品标题', { exact: true }).fill('静态演示回归 · 已编辑');
+  await result.getByLabel('第 1 段正文', { exact: true }).fill('全网第一，保证永不卡顿。');
+  await result.getByRole('button', { name: '保存并重新核验', exact: true }).click();
+  await expect(result.getByRole('button', { name: /版本记录 V4/ })).toBeVisible();
+  await result.getByRole('tab', { name: /核验结果/ }).click();
+  await expect(result.getByText('绝对化宣传或无依据排名')).toBeVisible();
+  for (const format of [{ label: /Markdown/, extension: 'md' }, { label: /JSON 数据/, extension: 'json' }, { label: /HTML 图文/, extension: 'html' }]) {
+    await result.getByRole('button', { name: '导出草稿' }).click();
+    const pending = page.waitForEvent('download');
+    await result.getByRole('button', { name: format.label }).click();
+    const download = await pending;
+    const path = testInfo.outputPath(`demo-export.${format.extension}`);
+    await download.saveAs(path);
+    const content = fs.readFileSync(path, 'utf8');
+    expect(content).toContain('静态演示回归 · 已编辑');
+    expect(content).toContain('公开官网摘录');
+    if (format.extension === 'html') expect(content).toContain('本导出不完整');
+    if (format.extension === 'json') expect(JSON.parse(content).demo).toBe(true);
+  }
+  await page.reload();
+  await page.goto('/?demo=1#history');
+  await page.locator('.history-card').filter({ hasText: '静态演示回归 · 已编辑' }).click();
+  await expect(result.getByRole('heading', { name: '静态演示回归 · 已编辑' })).toBeVisible();
+  await page.goto('/?demo=1#knowledge');
+  await expect(page.locator('.document-row')).toHaveCount(9);
+  await page.getByLabel('搜索知识库').fill('内存');
+  await expect(page.locator('.document-row')).toHaveCount(1);
+  await page.goto('/?demo=1#settings');
+  await expect(page.getByRole('heading', { name: '打开就能创作，无需配置密钥。' })).toBeVisible();
+  await expect(page.locator('input[type=password]')).toHaveCount(0);
+  expect(await page.evaluate(() => Object.keys(localStorage))).toEqual(['zhixu-public-demo-v1']);
+  await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth - innerWidth)).toBeLessThanOrEqual(1);
+  expect(apiCalls).toEqual([]);
+  expect(errors).toEqual([]);
+});
