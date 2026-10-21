@@ -2,7 +2,7 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import assert from 'node:assert/strict';
-import { chromium, expect, type Page, type Frame } from '@playwright/test';
+import { chromium, devices, expect, type Page, type Frame } from '@playwright/test';
 
 const target = process.argv[2];
 if (!target) throw new Error('Pass a deployed HTTPS URL or a private deployment-result JSON file.');
@@ -13,17 +13,24 @@ const stamp = new Date().toISOString().replace(/[:.]/g, '-');
 const directory = path.resolve('private', `public-live-${stamp}`);
 await fs.mkdir(directory, { recursive: true });
 const browser = await chromium.launch({ channel: process.env.PLAYWRIGHT_CHANNEL || 'msedge', headless: true });
-const report: { site: string; at: string; cases: unknown[]; errors: string[]; apiRequests: string[]; video?: string; passed?: boolean } = {
-  site: address.origin + address.pathname, at: new Date().toISOString(), cases: [], errors: [], apiRequests: [],
+const report: { site: string; at: string; cases: unknown[]; layouts: unknown[]; errors: string[]; providerErrors: { viewport: string; message: string; stack: string }[]; apiRequests: string[]; video?: string; passed?: boolean; hostLayoutPassed: boolean } = {
+  site: address.origin + address.pathname, at: new Date().toISOString(), cases: [], layouts: [], errors: [], providerErrors: [], apiRequests: [], hostLayoutPassed: true,
 };
 const readRecords = (page: Page | Frame) => page.evaluate(() => JSON.parse(localStorage.getItem('zhixu-public-demo-v1') || '[]') as { id: string; version: number; brief: { scene: string; platform: string; generation: string }; article: { title: string; sections: unknown[] }; parentId?: string }[]);
 try {
   for (const viewport of [{ name: 'desktop', width: 1440, height: 1000 }, { name: 'mobile', width: 390, height: 844 }]) {
-    const context = await browser.newContext({ viewport: { width: viewport.width, height: viewport.height }, acceptDownloads: true,
+    const context = await browser.newContext({ ...(viewport.name === 'mobile' ? devices['Pixel 7'] : {}), viewport: { width: viewport.width, height: viewport.height }, acceptDownloads: true,
       ...(viewport.name === 'desktop' ? { recordVideo: { dir: directory, size: { width: 1440, height: 1000 } } } : {}) });
     const rootPage = await context.newPage();
     rootPage.setDefaultTimeout(30000);
-    rootPage.on('pageerror', error => report.errors.push(`${viewport.name}: ${error.message}`));
+    rootPage.on('pageerror', error => {
+      const stack = error.stack || '';
+      const sources = [...stack.matchAll(/https?:\/\/[^\s)]+/g)].map(match => match[0]);
+      // Separately retain proven provider-shell errors, never discard them.
+      // Any application or unknown stack still blocks acceptance.
+      if (sources.length && sources.every(source => source.startsWith('https://g.alicdn.com/sail-web/maas/'))) report.providerErrors.push({ viewport: viewport.name, message: error.message, stack });
+      else report.errors.push(`${viewport.name}: ${error.message}`);
+    });
     rootPage.on('request', request => { const requestUrl = new URL(request.url()); if (requestUrl.origin === address.origin && requestUrl.pathname.startsWith('/api/')) report.apiRequests.push(request.url().split('?')[0]); });
     await rootPage.goto(url, { waitUntil: 'domcontentloaded', timeout: 60000 });
     // ModelScope may wrap the real app in its public studio iframe.
@@ -31,10 +38,17 @@ try {
     let page: Page | Frame = rootPage.frames().find(frame => frame.url().startsWith(address.origin))!;
     await expect(page.getByRole('heading', { name: /让真实产品，\s*一句话变成\s*能发的图文/ })).toBeVisible();
     await expect(page.getByRole('button', { name: '创意导演', exact: true })).toHaveAttribute('aria-pressed', 'true');
+    // The provider can give the iframe a desktop width inside a narrow outer
+    // window. Test both viewports; an inner no-overflow result is not mobile QA.
+    const hostLayout = await rootPage.evaluate(() => ({ width: innerWidth, scrollWidth: document.documentElement.scrollWidth }));
+    const appLayout = await page.evaluate(() => ({ width: innerWidth, scrollWidth: document.documentElement.scrollWidth }));
+    const fitsHost = hostLayout.scrollWidth <= hostLayout.width + 2 && appLayout.width <= hostLayout.width + 2;
+    report.layouts.push({ viewport: viewport.name, host: hostLayout, app: appLayout, fitsHost });
+    if (!fitsHost) report.hostLayoutPassed = false;
     const hero = page.locator('.hero-stage img');
     await expect(hero).toHaveCount(1);
     await expect.poll(() => hero.evaluate(node => (node as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
-    await rootPage.screenshot({ path: path.join(directory, `workspace-${viewport.name}.png`), fullPage: false });
+    await rootPage.screenshot({ path: path.join(directory, `workspace-${viewport.name}.png`), fullPage: false, scale: 'css' });
     for (const scenario of [{ scene: '开学季', sceneId: 'school', platform: 'xiaohongshu', images: 3 }, { scene: '职场办公', sceneId: 'office', platform: 'wechat', images: 2 }, { scene: '门店到访', sceneId: 'store', platform: 'moments', images: 1 }]) {
       const audience = scenario.sceneId === 'school' ? '大学新生' : scenario.sceneId === 'office' ? '商务人士' : '有产品选购需求的顾客';
       const platform = scenario.platform === 'xiaohongshu' ? '小红书' : scenario.platform === 'wechat' ? '公众号' : '朋友圈';
@@ -54,7 +68,7 @@ try {
       for (const img of await images.all()) { await img.scrollIntoViewIfNeeded(); await img.evaluate(async node => { const image = node as HTMLImageElement; if (!image.complete) await image.decode(); if (!image.naturalWidth) throw new Error('Official product image did not decode'); }); }
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth + 2), false);
       await page.locator('.result-section').scrollIntoViewIfNeeded();
-      await rootPage.screenshot({ path: path.join(directory, `${scenario.sceneId}-${viewport.name}.png`), fullPage: false });
+      await rootPage.screenshot({ path: path.join(directory, `${scenario.sceneId}-${viewport.name}.png`), fullPage: false, scale: 'css' });
       report.cases.push({ viewport: viewport.name, scene: scenario.sceneId, platform: scenario.platform, id: current.id, imageCount: scenario.images });
       if (viewport.name === 'desktop' && scenario.sceneId === 'school') {
         for (const [format, label] of [['md', 'Markdown'], ['html', 'HTML 图文'], ['json', 'JSON 数据']] as const) {
@@ -99,7 +113,9 @@ try {
     await context.close();
     if (video) report.video = await video.path();
   }
-  assert.deepEqual(report.apiRequests, []); assert.deepEqual(report.errors, []); report.passed = true;
+  assert.deepEqual(report.apiRequests, []); assert.deepEqual(report.errors, []);
+  if (!report.hostLayoutPassed) throw new Error('Hosting shell clips the application at a narrow viewport; inner-frame flow success is not mobile layout acceptance.');
+  report.passed = true;
 } catch (error) { report.passed = false; report.errors.push(error instanceof Error ? error.message : String(error)); process.exitCode = 1; }
 finally { await browser.close(); await fs.writeFile(path.join(directory, 'report.json'), JSON.stringify(report, null, 2)); }
-console.log(JSON.stringify({ passed: report.passed, site: report.site, cases: report.cases.length, errors: report.errors, apiRequests: report.apiRequests.length, directory }, null, 2));
+console.log(JSON.stringify({ passed: report.passed, site: report.site, cases: report.cases.length, errors: report.errors, providerErrors: report.providerErrors.length, hostLayoutPassed: report.hostLayoutPassed, apiRequests: report.apiRequests.length, directory }, null, 2));

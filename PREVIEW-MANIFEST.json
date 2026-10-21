@@ -1,6 +1,6 @@
 {
   "status": "PUBLIC_SOURCE_RELEASE",
-  "createdAt": "2026-10-21T17:09:44.348Z",
+  "createdAt": "2026-10-21T17:26:05.667Z",
   "notice": "复赛源码与经检查的自研作品说明书。公开魔搭为静态规则演示；原始知识库、原图文件、私人记录、模型输出、数据库和凭据不公开。",
   "excluded": [
     "private/",
@@ -73,8 +73,8 @@
     },
     {
       "path": "docs/TEST-REPORT.md",
-      "bytes": 1548,
-      "sha256": "68b059a138a39433111a237ac03fc7a569648a314f0b60e6cf5a9bace534afb1"
+      "bytes": 4976,
+      "sha256": "123af32053dee298047f7e54c98fd29e9837d7c0ae53932ea724b14f41fcb96f"
     },
     {
       "path": "index.html",
@@ -758,8 +758,8 @@
     },
     {
       "path": "tests/public-demo-live.ts",
-      "bytes": 9595,
-      "sha256": "059d584d465efcca610edc6ffd32dc46f0e2a423aca44f340ef14ec5769c19ef"
+      "bytes": 11294,
+      "sha256": "60a8ab12a014f75bfda8425ef2f14db3c8ec3fa474b52cea227d057c262851e3"
     },
     {
       "path": "tests/public.test.ts",
