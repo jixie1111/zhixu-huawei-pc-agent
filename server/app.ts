@@ -19,10 +19,19 @@ import { publicCatalog } from './catalog';
 import { verifyImageAvailability } from './image-verification';
 import { hasPublicOnlineLineage } from './public-history';
 import { createEvidenceImageReader } from './evidence-images';
+import { interpretIntent, planCreative } from './director';
+import { createCampaign } from './campaign';
+import { EcosystemStore } from './ecosystem';
+import { generateEcosystem, editEcosystem, presentEcosystem } from './ecosystem-agent';
+import { ecosystemMarkdown, ecosystemHtml } from './ecosystem-export';
+import { createEcosystemCampaign, reviseEcosystemCampaign, presentEcosystemCampaign } from './ecosystem-campaign';
+import { singleVisualDocument, ecosystemVisualDocument } from './visual-document';
+import { renderVisualBundle } from './visual-renderer';
 
-export function createApp(options:{knowledge?:KnowledgeStore;store?:RunStore;ima?:ImaAdapter}={}) {
+export function createApp(options:{knowledge?:KnowledgeStore;store?:RunStore;ima?:ImaAdapter;ecosystem?:EcosystemStore}={}) {
   const security=deploymentSecurity();
   const app=express(),knowledge=options.knowledge||new KnowledgeStore(),store=options.store||new RunStore(),ima=options.ima||new ImaAdapter();
+  const ecosystem=options.ecosystem||EcosystemStore.fromLocal();
   // All expensive workflows share one budget. A disconnected request retains its
   // slot until its upstream work has actually stopped, then finally releases it.
   let active=0;
@@ -67,7 +76,7 @@ export function createApp(options:{knowledge?:KnowledgeStore;store?:RunStore;ima
     if(rate.size>1000)for(const [key,v]of rate)if(now-v.start>60000)rate.delete(key);
     next();
   });
-  app.get('/api/status',(_req,res)=>res.json({name:'知序',version:'0.1.0',mode:publicDeployment?'public-preview':'local',ready:true}));
+  app.get('/api/status',(_req,res)=>res.json({name:'物有言',version:'0.1.0',mode:publicDeployment?'public-preview':'local',ready:true}));
   app.get('/api/bootstrap',(_req,res)=>res.json({products:publicDeployment?publicCatalog:knowledge.products,stats:publicDeployment?{documents:0,images:0,products:publicCatalog.length,categories:0}:knowledge.stats,settings:settings(),runs:publicDeployment?[]:store.list()}));
   app.use('/api',requireAdmin);
   app.get('/api/products/:id',(req,res)=>{
@@ -78,6 +87,54 @@ export function createApp(options:{knowledge?:KnowledgeStore;store?:RunStore;ima
     if(publicDeployment)throw new AppError('PRIVATE_SNAPSHOT','本地知识库不在公开部署中展示。',403);
     const q=String(req.query.q||''),category=String(req.query.category||''),page=Math.max(1,Math.min(10000,Number(req.query.page)||1));
     res.json(knowledge.search(q,category,page));
+  });
+  app.get('/api/ecosystem',(_req,res)=>{
+    if(publicDeployment)throw new AppError('ECOSYSTEM_LOCAL_ONLY','生态资料目前仅在本地开放。',403);
+    res.json({relations:ecosystem.list(),products:knowledge.products.map(p=>({id:p.id,name:p.name,category:p.category??'computer',factCount:p.factCount,imageCount:p.imageCount}))});
+  });
+  app.post('/api/ecosystem/resolve',(req,res)=>{
+    if(publicDeployment)throw new AppError('ECOSYSTEM_LOCAL_ONLY','生态资料目前仅在本地开放。',403);
+    res.json(ecosystem.resolve(req.body,knowledge));
+  });
+  const ecosystemLocal=()=>{if(publicDeployment)throw new AppError('ECOSYSTEM_LOCAL_ONLY','生态创作目前仅在本地开放。',403);};
+  const ecoDeps=(signal?:AbortSignal)=>({knowledge,ecosystem,store,images:createEvidenceImageReader(knowledge,ima,'local'),signal});
+  const getEcosystem=(id:string)=>{ecosystemLocal();const run=store.getEcosystem(id);if(!run)throw new AppError('ECOSYSTEM_NOT_FOUND','生态作品不存在。',404);return presentEcosystem(run,{knowledge,ecosystem});};
+  app.get('/api/ecosystem/campaigns',(_req,res)=>{ecosystemLocal();res.json(store.listEcosystemCampaigns().map(c=>presentEcosystemCampaign(c,{knowledge,ecosystem,store})));});
+  app.get('/api/ecosystem/campaigns/:id',(req,res)=>{ecosystemLocal();const campaign=store.getEcosystemCampaign(req.params.id);if(!campaign)throw new AppError('CAMPAIGN_NOT_FOUND','生态内容包不存在。',404);res.json(presentEcosystemCampaign(campaign,{knowledge,ecosystem,store}));});
+  app.post('/api/ecosystem/campaigns',async(req,res)=>{ecosystemLocal();await withRequest(req,res,true,async signal=>{const result=await createEcosystemCampaign(req.body,ecoDeps(signal));signal.throwIfAborted();res.json(result);});});
+  app.post('/api/ecosystem/campaigns/:id/revise',async(req,res)=>{ecosystemLocal();await withRequest(req,res,true,async signal=>{const result=await reviseEcosystemCampaign(req.params.id,req.body,ecoDeps(signal));signal.throwIfAborted();res.json(result);});});
+  app.get('/api/ecosystem/runs',(_req,res)=>{ecosystemLocal();res.json(store.listEcosystem().map(summary=>{const run=getEcosystem(summary.id);return {...summary,status:run.audit.status,releaseReady:run.audit.releaseReady};}));});
+  app.get('/api/ecosystem/runs/:id',(req,res)=>res.json(getEcosystem(req.params.id)));
+  app.post('/api/ecosystem/runs',async(req,res)=>{
+    ecosystemLocal();await withRequest(req,res,true,async signal=>{const run=await generateEcosystem(req.body,ecoDeps(signal));signal.throwIfAborted();res.json(run);});
+  });
+  app.post('/api/ecosystem/runs/:id/edit',async(req,res)=>{
+    const original=getEcosystem(req.params.id);await withRequest(req,res,true,async signal=>{const run=await editEcosystem(original,req.body,ecoDeps(signal));signal.throwIfAborted();res.json(run);});
+  });
+  app.get('/api/ecosystem/runs/:id/export',async(req,res)=>{
+    const run=getEcosystem(req.params.id),draft=req.query.draft==='true';
+    if(!run.audit.releaseReady&&!draft)throw new AppError('EXPORT_NOT_APPROVED','当前版本需要复核，可选择导出带标记的草稿。',409);
+    const format=z.enum(['json','md','html','png-pack']).parse(req.query.format??'html');
+    if(format==='png-pack')return withRequest(req,res,true,async signal=>{
+      const document=ecosystemVisualDocument(run,draft);
+      const bundle=await renderVisualBundle(document,ecoDeps(signal).images,{signal,beforeReturn:()=>{const current=getEcosystem(run.id);if(!current.audit.releaseReady&&!draft)throw new AppError('EXPORT_NOT_APPROVED','来源有效性已变化，请重新核验或明确导出草稿。',409);}});
+      signal.throwIfAborted();res.setHeader('Content-Disposition',`attachment; filename="wuyan-ecosystem-${run.id.slice(0,8)}${document.draft?'-DRAFT':''}.zip"`).type('application/zip').send(bundle.zip);
+    });
+    const filename=`wuyan-ecosystem-${run.id.slice(0,8)}-v${run.version}${run.audit.releaseReady?'':'-DRAFT'}.${format}`;
+    if(format==='json')return res.setHeader('Content-Disposition',`attachment; filename="${filename}"`).type('application/json').send(JSON.stringify(run,null,2));
+    if(format==='md')return res.setHeader('Content-Disposition',`attachment; filename="${filename}"`).type('text/markdown; charset=utf-8').send(ecosystemMarkdown(run));
+    await withRequest(req,res,true,async signal=>{
+      const images=new Map<string,string>(),reader=ecoDeps(signal).images;
+      const audit=structuredClone(run.audit);await verifyImageAvailability({images:run.article.images} as Parameters<typeof verifyImageAvailability>[0],audit,reader,signal);
+      if(audit.status==='blocked'&&!draft)throw new AppError('EXPORT_IMAGES_UNAVAILABLE','原图读取核验未通过，请恢复素材或导出草稿。',503);
+      for(const image of run.article.images){signal.throwIfAborted();try{const asset=await reader.asset?.(image.id,signal);if(asset&&asset.body.length<8_000_000)images.set(image.id,`data:${asset.type};base64,${asset.body.toString('base64')}`);}catch{signal.throwIfAborted();}}
+      if(images.size!==run.article.images.length&&!draft)throw new AppError('EXPORT_IMAGES_UNAVAILABLE','部分原图缺失，请恢复素材后导出。',503);
+      // The preceding reads may outlive a source expiry boundary.
+      const latest=getEcosystem(run.id);latest.audit.findings.push(...audit.findings.filter(f=>f.id.startsWith('image-unavailable-')));
+      if(audit.status==='blocked'||images.size!==run.article.images.length){latest.audit.status='blocked';latest.audit.releaseReady=false;}
+      if(!latest.audit.releaseReady&&!draft)throw new AppError('EXPORT_NOT_APPROVED','当前来源已变化，请重新核验。',409);
+      signal.throwIfAborted();res.setHeader('Content-Disposition',`attachment; filename="${filename}"`).type('html').send(ecosystemHtml(latest,images));
+    });
   });
   app.get('/api/knowledge/:id',(req,res)=>{
     if(publicDeployment)throw new AppError('PRIVATE_SNAPSHOT','本地知识库不在公开部署中展示。',403);
@@ -109,6 +166,29 @@ export function createApp(options:{knowledge?:KnowledgeStore;store?:RunStore;ima
     finally{clearInterval(heartbeat);if(!res.destroyed&&!res.writableEnded)res.end();}
     });
   });
+  app.post('/api/director/interpret',async(req,res)=>{
+    if(publicDeployment)throw new AppError('DIRECTOR_LOCAL_ONLY','复赛策划室目前仅在本地开放。',403);
+    await withRequest(req,res,true,async signal=>{const proposal=await interpretIntent(req.body,knowledge.products,signal,knowledge);signal.throwIfAborted();res.json(proposal);});
+  });
+  app.post('/api/director/plan',async(req,res)=>{
+    if(publicDeployment)throw new AppError('DIRECTOR_LOCAL_ONLY','复赛策划室目前仅在本地开放。',403);
+    await withRequest(req,res,true,async signal=>{const history=store.list().map(summary=>store.get(summary.id)!).filter(Boolean);const plan=await planCreative(req.body,knowledge,signal,history);signal.throwIfAborted();res.json(plan);});
+  });
+  app.get('/api/campaigns',(_req,res)=>{
+    if(publicDeployment)throw new AppError('CAMPAIGN_LOCAL_ONLY','内容包目前仅在本地开放。',403);
+    res.json(store.listCampaigns());
+  });
+  app.get('/api/campaigns/:id',(req,res)=>{
+    if(publicDeployment)throw new AppError('CAMPAIGN_LOCAL_ONLY','内容包目前仅在本地开放。',403);
+    const campaign=store.getCampaign(req.params.id);if(!campaign)throw new AppError('CAMPAIGN_NOT_FOUND','内容包不存在。',404);res.json(campaign);
+  });
+  app.post('/api/campaigns',async(req,res)=>{
+    if(publicDeployment)throw new AppError('CAMPAIGN_LOCAL_ONLY','内容包目前仅在本地开放。',403);
+    await withRequest(req,res,true,async signal=>{
+      const campaign=await createCampaign(req.body,{knowledge,store,ima,signal});
+      signal.throwIfAborted();res.json(campaign);
+    });
+  });
   app.post('/api/runs/:id/edit',async(req,res)=>{
     const original=getRun(req.params.id);const parsed=editableSchema.parse(req.body);
     await withRequest(req,res,original.engine==='llm',async signal=>{
@@ -123,8 +203,13 @@ export function createApp(options:{knowledge?:KnowledgeStore;store?:RunStore;ima
   });
   app.get('/api/runs/:id/export',async(req,res)=>{
     const run=getRun(req.params.id);if(!run.audit.releaseReady&&req.query.draft!=='true')throw new AppError('EXPORT_NOT_APPROVED','该稿件尚未通过完整验收，只能导出带标记的草稿。',409);
-    const format=String(req.query.format||'md');if(!['md','json','html'].includes(format))throw new AppError('EXPORT_FORMAT','不支持的导出格式。');
-    const name=`zhixu-${run.id.slice(0,8)}-v${run.version}${run.audit.releaseReady?'':'-DRAFT'}.${format}`;
+    const format=String(req.query.format||'md');if(!['md','json','html','png-pack'].includes(format))throw new AppError('EXPORT_FORMAT','不支持的导出格式。');
+    if(format==='png-pack')return withRequest(req,res,true,async signal=>{
+      const document=singleVisualDocument(run,req.query.draft==='true');
+      const bundle=await renderVisualBundle(document,createEvidenceImageReader(knowledge,ima,run.brief.mode),{signal});
+      signal.throwIfAborted();res.setHeader('Content-Disposition',`attachment; filename="wuyan-${run.id.slice(0,8)}${document.draft?'-DRAFT':''}.zip"`).type('application/zip').send(bundle.zip);
+    });
+    const name=`wuyan-${run.id.slice(0,8)}-v${run.version}${run.audit.releaseReady?'':'-DRAFT'}.${format}`;
     if(format==='json')return res.setHeader('Content-Disposition',`attachment; filename="${name}"`).type('application/json').send(JSON.stringify(run,null,2));
     if(format==='md')return res.setHeader('Content-Disposition',`attachment; filename="${name}"`).type('text/markdown; charset=utf-8').send(toMarkdown(run));
     await withRequest(req,res,true,async signal=>{

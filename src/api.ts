@@ -53,17 +53,22 @@ export async function generate(brief: Brief, onStage: (event: StageEvent) => voi
   if (!result) throw new Error('生成连接已结束，但未收到完整作品。请检查作品记录后重试。');
   return result;
 }
-export async function downloadRun(id: string, format: 'md' | 'html' | 'json', draft: boolean): Promise<void> {
-  if (isDemo) { saveDownload(await (await import('./demo-adapter')).demoExport(id, format), id, format, true); return; }
+export async function downloadRun(id: string, format: 'md' | 'html' | 'json' | 'png-pack', draft: boolean): Promise<void> {
+  if (isDemo) { if(format==='png-pack')throw new Error('图文配图包在本地创作版提供。');saveDownload(await (await import('./demo-adapter')).demoExport(id, format), id, format, true); return; }
   const response = await fetch(`/api/runs/${encodeURIComponent(id)}/export?format=${format}&draft=${draft}`, { headers: adminToken ? { 'X-Admin-Token': adminToken } : {} });
   if (!response.ok) { const data = await response.json().catch(() => ({})); throw new Error(data.message || data.error?.message || '导出失败，请先处理核验问题。'); }
   const blob = await response.blob();
-  saveDownload(blob, id, format, draft);
+  saveDownload(blob, id, format==='png-pack'?'zip':format, draft);
 }
 function saveDownload(blob: Blob, id: string, format: string, draft: boolean) {
   const url = URL.createObjectURL(blob);
-  const link = document.createElement('a'); link.href = url; link.download = `知序-${id}${draft ? '-待审核草稿' : ''}.${format}`; document.body.append(link); link.click(); link.remove();
+  const link = document.createElement('a'); link.href = url; link.download = `物有言-${id}${draft ? '-待审核草稿' : ''}.${format}`; document.body.append(link); link.click(); link.remove();
   setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+export async function downloadEcosystem(id:string,format:'html'|'md'|'json'|'png-pack',draft:boolean){
+  const response=await fetch(`/api/ecosystem/runs/${encodeURIComponent(id)}/export?format=${format}&draft=${draft}`,{headers:getAdminHeaders()});
+  if(!response.ok){const data=await response.json().catch(()=>({}));throw new Error(data.message||data.error?.message||'生态图文导出未完成，请检查作品状态。');}
+  saveDownload(await response.blob(),id,format==='png-pack'?'zip':format,draft);
 }
 export function articleText(run: Run) {
   const { article: a } = run;

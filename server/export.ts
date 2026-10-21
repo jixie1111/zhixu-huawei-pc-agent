@@ -8,7 +8,7 @@ export function toMarkdown(run:Run):string {
   const {brief:b,article:a,evidence:e,audit:v,strategy:s}=run;
   const state=v.releaseReady?'已通过自动核验，发布前仍需人工审阅':'未验收草稿 · 不用于正式发布或在线接入证明';
   return [
-    `# ${a.title}`,`> 知序 · ${state}\n> 来源：${b.mode==='ima'?'ima 在线检索':'本地 ZIP 快照'}｜引擎：${run.engine==='llm'?run.model:'本地规则编排'}｜版本 ${run.version}`,
+    `# ${a.title}`,`> 物有言 · ${state}\n> 来源：${b.mode==='ima'?'ima 在线检索':'本地 ZIP 快照'}｜引擎：${run.engine==='llm'?run.model:'本地规则编排'}｜版本 ${run.version}`,
     '## 一、场景判断',`- 目标人群：${b.audience}\n- 使用场景：${SCENES[b.scene].name}\n- 用户问题：${s.problem}\n- 购买阶段：${b.stage}\n- 内容目标：${b.goal}\n- 平台：${PLATFORMS[b.platform].name}\n- 切入策略：${s.angle}\n- 策略解释：${s.rationale}`,
     '## 二、知识库依据',`产品型号：${e.product.name}`,
     ...e.facts.map(f=>`### ${f.label}\n\n${f.text}\n\n资料：${f.sourceTitle}\n来源：${safeLink(f.sourceUrl)||'待确认'}\n取证时间：${f.retrievedAt}`),
@@ -37,7 +37,7 @@ img{width:100%;max-height:560px;object-fit:contain;background:#f4f3ef;border-rad
 pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.8 system-ui}details{border-top:1px solid #ddd;padding-top:24px}.unavailable{padding:30px;background:#f4f2eb}
 @media(max-width:600px){main{margin:0;padding:24px;border-radius:0}}
 </style></head><body><main>
-<div class="brand">知序 / ZHIXU · ${e(PLATFORMS[run.brief.platform].name)}</div>
+<div class="brand">物有言 / WUYAN · ${e(PLATFORMS[run.brief.platform].name)}</div>
 <p class="notice">${run.audit.releaseReady&&!missing?'自动核验通过，发布前请人工审阅。':'未验收草稿，不用于正式发布或在线接入证明。'} ${run.brief.mode==='local'?'本地知识库。':'ima 在线检索。'} ${run.engine==='llm'?'模型生成。':'本地规则编排。'}${missing?` ${missing} 张图片尚未成功嵌入，本导出不完整。`:''}</p>
 <h1>${e(a.title)}</h1><p>${e(a.lead)}</p>${layout.cover.map(figure).join('')}
 ${a.sections.map((s,i)=>`<section><h2>${e(s.heading)}</h2><p>${e(s.text)}</p>${layout.after[i].map(figure).join('')}</section>`).join('')}

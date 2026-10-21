@@ -45,6 +45,8 @@ test('部署密钥键名、常见令牌及私有deploy配置泄漏均拒绝且�
     ...['MODELSCOPE_ACCESS_KEY','GH_TOKEN','GITHUB_TOKEN'].map(name=>`${name}=synthetic-deploy-value-not-public`),
     'Copied token: '+['ms','12345678-1234-1234-1234-123456789abc'].join('-'),
     'Copied token: '+['ghp','a'.repeat(36)].join('_'),
+    'Copied token: '+['gho','a'.repeat(36)].join('_'),
+    'Copied token: '+['agt','codex','a'.repeat(36)].join('_'),
     'Copied token: '+['github','pat','a'.repeat(80)].join('_'),
     'Copied token: synthetic-private-deployment-only',
   ];
@@ -55,6 +57,23 @@ test('部署密钥键名、常见令牌及私有deploy配置泄漏均拒绝且�
     assert.ok(!result.stdout.includes(sample)&&!result.stderr.includes(sample));
     assert.ok(!fs.existsSync(path.join(scope.root,'output')));
   }
+});
+
+test('复赛源码包含开发文档与Windows启动脚本，但不收集PDF或私有截图', t => {
+  const scope = fixture(); t.after(scope.cleanup);
+  fs.mkdirSync(path.join(scope.root, 'docs'), { recursive: true });
+  fs.mkdirSync(path.join(scope.root, 'scripts'), { recursive: true });
+  fs.writeFileSync(path.join(scope.root, 'docs', 'BACKEND-V2.md'), '# Synthetic backend documentation\n');
+  fs.writeFileSync(path.join(scope.root, 'scripts', 'local-recording.ps1'), 'Write-Output "Synthetic launcher"\n');
+  fs.writeFileSync(path.join(scope.root, 'docs', 'private-screenshot.png'), 'synthetic excluded binary');
+  fs.writeFileSync(path.join(scope.root, 'docs', 'handbook.pdf'), 'synthetic separately reviewed PDF');
+  const result = run(scope.root);
+  assert.equal(result.status, 0, result.stderr);
+  const directory = path.join(scope.root, 'output', fs.readdirSync(path.join(scope.root, 'output'))[0]);
+  const manifest = JSON.parse(fs.readFileSync(path.join(directory, 'PREVIEW-MANIFEST.json'), 'utf8'));
+  assert.ok(manifest.files.some((entry: { path: string }) => entry.path === 'docs/BACKEND-V2.md'));
+  assert.ok(manifest.files.some((entry: { path: string }) => entry.path === 'scripts/local-recording.ps1'));
+  assert.ok(!manifest.files.some((entry: { path: string }) => /\.(png|pdf)$/.test(entry.path)));
 });
 
 test('示例配置误填密钥时打包失败且不打印秘密', t => {

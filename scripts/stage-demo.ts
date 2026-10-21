@@ -15,7 +15,7 @@ deployspec:
   entry_file: index.html
 ---
 
-# 知序 · 华为 PC 营销图文工作台
+# 物有言 · 华为门店营销图文智能体
 
 打开即可使用，无需登录或配置 API Key。支持八场景、四平台规则编排，编辑与版本、来源追溯、表达核验及 Markdown / HTML / JSON 导出。
 
@@ -23,7 +23,9 @@ deployspec:
 
 此目录不含原始知识库、私人运行记录或凭据。最近 20 条作品保存在当前浏览器；图片直接从华为官网读取，需要网络。HTML 导出会尝试内嵌图片，失败时如实标记缺图。
 
-源码与完整项目：[GitHub](https://github.com/jixie1111/zhixu-huawei-pc-agent)。本机完整版可使用已授权的完整资料库，并可选择接入真实模型进行创作与独立核验。
+本次更新采用新版物有言工作台界面。真实模型策划、发帖人设、手机平板生态和 PNG 配图包属于本机完整版，不在这个静态规则演示中提供。
+
+源码与完整项目：[GitHub](https://github.com/jixie1111/zhixu-huawei-pc-agent) · [作品说明书](https://github.com/jixie1111/zhixu-huawei-pc-agent/blob/main/docs/作品说明书.pdf)。本机完整版可使用已授权的完整资料库，并可选择接入真实模型进行创作与独立核验。
 
 将本目录作为静态站点根目录，入口为 index.html。应用使用相对资源地址，可部署于站点子路径。页面刷新和页面内导航无需额外后端路由。
 `;

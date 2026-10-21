@@ -1,0 +1,52 @@
+import { useEffect,useRef,useState } from 'react';
+import { ArrowRight,ChevronDown,Copy,Image,Layers3,LoaderCircle,ShieldCheck,Sparkles } from 'lucide-react';
+import type { Bootstrap,Platform } from '../shared/types';
+import type { EcosystemRelation,EcosystemRequest,EcosystemEvidence,EcosystemRun } from '../shared/ecosystem';
+import { PLATFORMS } from '../shared/rules';
+import { request,downloadEcosystem } from './api';
+import { AuditBadge,Findings,Notice,SafeImage,SafeLink,Spinner } from './components';
+import './delivery.css';
+
+type Relation=Pick<EcosystemRelation,'id'|'capability'|'participants'|'conditions'|'sourceTitle'|'sourceUrl'|'reviewedAt'|'expiresAt'>&{active:boolean};
+interface Summary{id:string;title:string;platform:Platform;status:EcosystemRun['audit']['status'];version:number}
+interface Props{bootstrap:Bootstrap;notify:(text:string)=>void}
+export default function EcosystemStudio({bootstrap,notify}:Props){
+  const [relations,setRelations]=useState<Relation[]>([]),[relationId,setRelationId]=useState('');
+  const [systems,setSystems]=useState<Record<string,string>>({}),[conditions,setConditions]=useState<Record<string,string>>({});
+  const [resolved,setResolved]=useState<EcosystemEvidence|null>(null),[run,setRun]=useState<EcosystemRun|null>(null);
+  const [history,setHistory]=useState<Summary[]>([]),[error,setError]=useState('');
+  const [audience,setAudience]=useState('经常带平板出门看资料的职场人士'),[platform,setPlatform]=useState<Platform>('moments');
+  const [requirements,setRequirements]=useState('围绕出门看资料的一个小场景，自然介绍这组设备，邀请到店体验。');
+  const [busy,setBusy]=useState<'resolve'|'generate'|'export'|'open'|null>(null);
+  const controller=useRef<AbortController|null>(null),sequence=useRef(0),output=useRef<HTMLElement|null>(null);
+  const relation=relations.find(r=>r.id===relationId),locked=!!busy;
+  const selection: EcosystemRequest={devices:(relation?.participants??[]).map(p=>({productId:p.productId,system:systems[p.productId]??''})),relationIds:relation?[relation.id]:[],conditions};
+  const canResolve=!!relation&&relation.active&&selection.devices.every(d=>d.system)&&relation.conditions.every(c=>conditions[c.key]===c.value);
+  useEffect(()=>{
+    const abort=new AbortController();
+    Promise.all([request<{relations:Relation[]}>('/api/ecosystem',{signal:abort.signal}),request<Summary[]>('/api/ecosystem/runs',{signal:abort.signal})]).then(([catalog,items])=>{setRelations(catalog.relations);setHistory(items);}).catch(e=>{if(!abort.signal.aborted)setError(e.message);});
+    return()=>{sequence.current++;abort.abort();controller.current?.abort();};
+  },[]);
+  function clearResolution(){setResolved(null);setError('');}
+  async function operate(kind:NonNullable<typeof busy>,work:(signal:AbortSignal)=>Promise<void>){
+    if(locked)return;const seq=++sequence.current,abort=new AbortController();controller.current=abort;setBusy(kind);setError('');
+    try{await work(abort.signal);}catch(e){if(seq===sequence.current&&!abort.signal.aborted)setError(e instanceof Error?e.message:'请稍后重试');}
+    finally{if(seq===sequence.current){setBusy(null);controller.current=null;}}
+  }
+  async function resolve(){await operate('resolve',async signal=>{const evidence=await request<EcosystemEvidence>('/api/ecosystem/resolve',{method:'POST',body:JSON.stringify(selection),signal});if(!signal.aborted)setResolved(evidence);});}
+  async function generate(){await operate('generate',async signal=>{
+    const next=await request<EcosystemRun>('/api/ecosystem/runs',{method:'POST',body:JSON.stringify({selection,audience,platform,goal:'引导到店了解具体配置和协同条件',requirements,generation:'model',autoRepair:true}),signal});
+    if(signal.aborted)return;setRun(next);setHistory(await request<Summary[]>('/api/ecosystem/runs',{signal}));
+    notify('生态图文已保存，请审阅成品与适用条件');setTimeout(()=>output.current?.scrollIntoView({behavior:'smooth',block:'start'}),50);
+  });}
+  async function open(id:string){await operate('open',async signal=>{const next=await request<EcosystemRun>(`/api/ecosystem/runs/${id}`,{signal});if(!signal.aborted){setRun(next);setTimeout(()=>output.current?.scrollIntoView({behavior:'smooth',block:'start'}),50);}});}
+  async function copy(){if(!run)return;const a=run.article,text=[a.title.text,a.lead.text,...a.sections.flatMap(s=>[s.heading.text,s.body.text]),a.cta.text,a.tags.map(t=>t.text).join(' '),...a.disclosures.flatMap(d=>[d.capability+' · 适用条件',...d.systems,...d.conditions]),!run.audit.releaseReady?'【待审核草稿，不可直接发布】':''].filter(Boolean).join('\n\n');try{await navigator.clipboard.writeText(text);notify('已复制正文与完整适用条件');}catch{notify('浏览器未允许复制，请使用图文导出');}}
+  return <div className="ecosystem-workspace"><header className="page-heading"><span className="section-kicker">WUYAN · CONNECTED STORIES</span><h1>让设备相遇，让故事连起来。</h1><p>选定设备组合与适用条件，再创作一份生态图文。</p></header><section className="idea-card"><div className="director-card-head"><h2>这次，讲哪一种连接？</h2><Layers3 size={22}/></div><label className="field"><span>协同主题</span><select aria-label="生态协同主题" disabled={locked} value={relationId} onChange={e=>{setRelationId(e.target.value);setSystems({});setConditions({});clearResolution();}}><option value="">选择已收录的协同主题</option>{relations.map(r=><option key={r.id} value={r.id}>{r.capability}{r.active?'':' · 待更新资料'}</option>)}</select></label>
+    {relation&&<><div className="ecosystem-devices">{relation.participants.map(p=>{const product=bootstrap.products.find(item=>item.id===p.productId);return <article key={p.productId}>{product?.cover&&<SafeImage src={product.cover} alt={product.name}/>}<h3>{product?.name??p.productId}</h3><p>{p.role}</p><label className="field"><span>本次宣传适用的系统</span><select aria-label={`${product?.shortName??p.productId}系统`} value={systems[p.productId]??''} disabled={locked} onChange={e=>{setSystems({...systems,[p.productId]:e.target.value});clearResolution();}}><option value="">选择系统版本</option>{p.systems.map(s=><option key={s}>{s}</option>)}</select></label></article>;})}</div><div className="ecosystem-conditions"><h3>确认本次内容的适用范围</h3><p>以下条件将随成品一同保留。</p>{relation.conditions.map(c=><label key={c.key}><input type="checkbox" disabled={locked} checked={conditions[c.key]===c.value} onChange={e=>{const next={...conditions};if(e.target.checked)next[c.key]=c.value;else delete next[c.key];setConditions(next);clearResolution();}}/><span><strong>{c.label}</strong>{c.value}</span></label>)}<SafeLink url={relation.sourceUrl}>查看官方说明</SafeLink></div><button className="button light" disabled={locked||!canResolve} onClick={()=>void resolve()}><ShieldCheck size={16}/>核对适用范围</button></>}
+    {resolved&&<div className="ecosystem-resolution">{resolved.ready?<p><ShieldCheck size={17}/>资料与本次选择相符</p>:resolved.capabilities.map(c=><Notice type="warning" key={c.relationId}>{c.reasons.join('；')}</Notice>)}</div>}
+    {resolved?.ready&&<div className="ecosystem-creation"><div className="director-fields"><label className="field"><span>希望打动的人</span><input aria-label="生态目标人群" disabled={locked} value={audience} maxLength={200} onChange={e=>setAudience(e.target.value)}/></label><label className="field"><span>发布平台</span><select aria-label="生态发布平台" disabled={locked} value={platform} onChange={e=>setPlatform(e.target.value as Platform)}>{Object.entries(PLATFORMS).filter(([key])=>key!=='poster').map(([key,p])=><option value={key} key={key}>{p.name}</option>)}</select></label></div><label className="field"><span>想讲怎样的故事？</span><textarea aria-label="生态创作要求" disabled={locked} rows={3} maxLength={3000} value={requirements} onChange={e=>setRequirements(e.target.value)}/></label><button className="button primary" disabled={locked||!audience.trim()||!bootstrap.settings.llmConfigured} onClick={()=>void generate()}><Sparkles size={16}/>生成生态图文<ArrowRight size={16}/></button>{!bootstrap.settings.llmConfigured&&<Notice>连接模型后，即可创作生态图文。</Notice>}</div>}
+    {busy&&<div className="director-busy"><Spinner label={busy==='generate'?'正在创作与核验':busy==='export'?'正在排版原图':'正在读取资料'}/>{busy!=='export'&&<button className="text-button" onClick={()=>controller.current?.abort()}>停止</button>}</div>}{error&&<Notice type="error">{error}</Notice>}</section>
+    {!!history.length&&<details className="ecosystem-history"><summary>已有生态作品<ChevronDown size={14}/></summary>{history.map(item=><button className="ecosystem-history-item" disabled={locked} key={item.id} onClick={()=>void open(item.id)}><span>{item.title}<small>{PLATFORMS[item.platform].name} · V{item.version}</small></span><AuditBadge status={item.status}/><ArrowRight size={14}/></button>)}</details>}
+    {run&&<section ref={output} className="ecosystem-result" aria-label="生态创作结果"><div className="section-heading"><h2>这一次，连接成了故事。</h2><AuditBadge status={run.audit.status}/></div><div className="delivery-actions"><button className="button light small" disabled={locked} onClick={()=>void copy()}><Copy size={14}/>复制正文与条件</button><button className="button primary small" disabled={locked} onClick={()=>void operate('export',async()=>{await downloadEcosystem(run.id,'png-pack',!run.audit.releaseReady);notify('图文包已导出，请整组保留适用条件');})}>{busy==='export'?<LoaderCircle size={14} className="spinning"/>:<Image size={14}/>}下载生态配图包</button></div><article className="article-preview"><div className="article-heading"><span className="article-overline">{PLATFORMS[run.brief.platform].name} · V{run.version}</span><h2>{run.article.title.text}</h2><p className="article-lead">{run.article.lead.text}</p></div><div className="ecosystem-product-images">{run.article.images.map(img=><figure key={img.id}><SafeImage src={img.url} alt={img.description}/><figcaption>{img.productName}</figcaption></figure>)}</div><div className="article-body">{run.article.sections.map((s,i)=><section key={i}><h3>{s.heading.text}</h3><p>{s.body.text}</p></section>)}<p className="article-cta">{run.article.cta.text}</p>{run.article.disclosures.map(d=><section className="ecosystem-disclosure" key={d.relationId}><h3>{d.capability} · 适用条件</h3>{[...d.systems,...d.conditions].map((text,i)=><p key={i}>{text}</p>)}<SafeLink url={d.sourceUrl}>官方来源</SafeLink></section>)}</div></article><details className="ecosystem-review"><summary>查看依据与核验<ChevronDown size={14}/></summary><p>模型：{run.model} · 发布前请复核配置、有效条件与素材使用权限。</p><Findings findings={run.audit.findings}/>{run.evidence.devices.map(d=><div key={d.product.id}><h3>{d.product.name}</h3>{d.facts.map(f=><details className="material-fact" key={f.id}><summary>{f.label}</summary><p>{f.text}</p><SafeLink url={f.sourceUrl}>原始资料</SafeLink></details>)}</div>)}</details></section>}
+  </div>;
+}

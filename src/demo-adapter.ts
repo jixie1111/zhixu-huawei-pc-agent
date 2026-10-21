@@ -104,7 +104,9 @@ export async function demoRequest<T>(url: string, init: RequestInit = {}): Promi
   return structuredClone(result) as T;
 }
 export async function demoGenerate(input: Brief, onStage: (event: StageEvent) => void, signal: AbortSignal): Promise<Run> {
-  const parsed = briefSchema.safeParse(input);
+  // Match JSON transport: optional fields cleared by the shared editor are absent,
+  // while non-empty model-only fields still fail the strict demo boundary.
+  const parsed = briefSchema.safeParse(Object.fromEntries(Object.entries(input).filter(([, value]) => value !== undefined)));
   if (!parsed.success) throw new Error('请补充准确型号、受众、场景与平台。公开演示仅支持本地规则创作。');
   const brief: Brief = { ...parsed.data, generation: 'rules' };
   const parent = brief.parentId ? getRun(brief.parentId) : undefined;

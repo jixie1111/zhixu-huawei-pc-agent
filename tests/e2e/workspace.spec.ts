@@ -8,7 +8,10 @@ test.afterEach(({ page }) => expect(runtimeErrors.get(page) || [], '页面不得
 async function openPage(page: Page, hash = '') {
   await page.goto('/' + hash);
   await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
-  if (!hash || hash === '#studio') await page.getByRole('radio', { name: /规则预览/ }).check();
+  if (!hash || hash === '#studio') {
+    await page.getByRole('button',{name:'经典表单',exact:true}).click();
+    await page.getByRole('radio', { name: /规则预览/ }).check();
+  }
 }
 async function create(page: Page) {
   await openPage(page);
@@ -75,8 +78,9 @@ test('编辑创建新版本、阻断风险并保留版本记录', async ({ page 
   await result.getByRole('button', { name: '编辑正文', exact: true }).click();
   await result.getByLabel('话题标签', { exact: true }).fill('场景标签');
   await result.getByLabel('话题标签', { exact: true }).press('End');
-  await result.getByLabel('话题标签', { exact: true }).pressSequentially(' second-tag');
-  await expect(result.getByLabel('话题标签', { exact: true })).toHaveValue('场景标签 second-tag');
+  await result.getByLabel('话题标签', { exact: true }).press('Enter');
+  await result.getByLabel('话题标签', { exact: true }).pressSequentially('second-tag');
+  await expect(result.getByLabel('话题标签', { exact: true })).toHaveValue('场景标签\nsecond-tag');
   await result.getByLabel('第 1 段正文', { exact: true }).fill('全网第一，限时只要999元，吊打竞品。');
   await result.getByRole('button', { name: '保存并重新核验', exact: true }).click();
   await expect(result.getByRole('button', { name: /版本记录 V2/ })).toBeVisible();

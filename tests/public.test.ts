@@ -43,3 +43,14 @@ test('公开模式私有读取与写入均需要令牌；授权后仍禁本地�
 test('未知或长度相同的错误令牌不能取得授权', async () => {
   for (const token of ['x', 'qa-public-fake', 'xx-public-token']) assert.equal((await fetch(base + '/api/runs', { headers: { 'X-Admin-Token': token } })).status, 401);
 });
+
+test('新导演、内容包及生态端点在公开服务中保持本地边界',async()=>{
+  for(const endpoint of ['/api/campaigns','/api/campaigns/any','/api/ecosystem','/api/ecosystem/runs','/api/ecosystem/runs/any','/api/ecosystem/runs/any/export','/api/ecosystem/campaigns','/api/ecosystem/campaigns/any']){
+    assert.equal((await fetch(base+endpoint)).status,401);
+    assert.equal((await fetch(base+endpoint,{headers:{'X-Admin-Token':'qa-public-token'}})).status,403);
+  }
+  for(const endpoint of ['/api/director/interpret','/api/director/plan','/api/campaigns','/api/ecosystem/resolve','/api/ecosystem/runs','/api/ecosystem/runs/any/edit','/api/ecosystem/campaigns','/api/ecosystem/campaigns/any/revise']){
+    assert.equal((await fetch(base+endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:'{}'})).status,401);
+    assert.equal((await fetch(base+endpoint,{method:'POST',headers:{'Content-Type':'application/json','X-Admin-Token':'qa-public-token'},body:'{}'})).status,403);
+  }
+});

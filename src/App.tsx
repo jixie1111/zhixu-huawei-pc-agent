@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { ArrowRight, BookOpen, ChevronDown, ChevronRight, CircleHelp, Clock3, Command, Feather, Layers3, Menu, Plus, Settings2, ShieldCheck, Sparkles, X } from 'lucide-react';
+import { ArrowRight, BookOpen, ChevronDown, ChevronRight, CircleHelp, Clock3, Command, Cpu, Layers3, Menu, Plus, Settings2, ShieldCheck, Sparkles, X } from 'lucide-react';
 import type { Bootstrap, Brief, Evidence, Run, RunSummary, Settings } from '../shared/types';
 import { SCENES } from '../shared/rules';
 import { generate, hasAdminToken, request, type StageEvent } from './api';
@@ -13,7 +13,7 @@ import { isDemo } from './demo-mode';
 
 type Page = 'studio' | 'knowledge' | 'history' | 'audit' | 'settings';
 const pages = [
-  { id: 'studio' as const, name: '创作工作台', en: 'Workspace', icon: Feather },
+  { id: 'studio' as const, name: '创作工作台', en: 'Workspace', icon: Sparkles },
   { id: 'knowledge' as const, name: '产品知识库', en: 'Knowledge', icon: BookOpen },
   { id: 'history' as const, name: '作品记录', en: 'My creations', icon: Layers3 },
   { id: 'audit' as const, name: '核验中心', en: 'Verification', icon: ShieldCheck },
@@ -78,7 +78,7 @@ export default function App() {
     request<Evidence>(`/api/products/${encodeURIComponent(brief.productId)}`, { signal: controller.signal }).then(setEvidence).catch(error => { if (error.name !== 'AbortError') setEvidenceError(error.message); }).finally(() => { if (!controller.signal.aborted) setEvidenceLoading(false); });
     return () => controller.abort();
   }, [brief.productId, bootstrap?.settings.publicDeployment]);
-  useEffect(() => { document.title = `${pages.find(p => p.id === page)?.name} · 知序 ZHIXU`; }, [page]);
+  useEffect(() => { document.title = `${pages.find(p => p.id === page)?.name} · 物有言 WUYAN`; }, [page]);
   useEffect(() => {
     if (!mobileNav) return;
     const previous = document.activeElement as HTMLElement | null;
@@ -132,18 +132,18 @@ export default function App() {
     <a className="skip-link" href="#main-content">跳至主要内容</a>
     {mobileNav && <button className="sidebar-scrim" aria-label="关闭导航" onClick={() => setMobileNav(false)} />}
     <aside ref={sidebarRef} className={`sidebar ${mobileNav ? 'is-open' : ''}`} role={mobileNav ? 'dialog' : undefined} aria-modal={mobileNav ? true : undefined} aria-label={mobileNav ? '工作空间导航' : undefined}>
-      <button className="brand" onClick={() => navigate('studio')} aria-label="知序首页"><span className="brand-mark"><Feather size={25} strokeWidth={1.6} /></span><span className="brand-word">知序<span>ZHIXU STUDIO</span></span></button>
-      <button className="workspace-pill" onClick={() => { setMobileNav(false); setHelp(true); }}><span className="workspace-avatar">H</span><span>华为 PC 创作空间<small>营销图文智能体</small></span><ChevronDown size={14} /></button>
-      <div className="navigation-label">WORKSPACE <span>工作空间</span></div>
+      <button className="brand" onClick={() => navigate('studio')} aria-label="物有言首页"><span className="brand-mark"><Cpu size={22} strokeWidth={1.8} /></span><span className="brand-word">物有言<span>华为门店营销智能体</span></span></button>
+      <button className="workspace-pill" onClick={() => { setMobileNav(false); setHelp(true); }}><span className="workspace-avatar">H</span><span>华为产品创作空间<small>营销图文智能体</small></span><ChevronDown size={14} /></button>
+      <div className="navigation-label">工作空间</div>
       <nav aria-label="主导航">{pages.map(({ id, name, icon: Icon }) => <button key={id} className={`nav-item ${page === id ? 'active' : ''}`} onClick={() => navigate(id)} aria-current={page === id ? 'page' : undefined}><Icon size={19} strokeWidth={1.7} /><span>{name}</span>{id === 'history' && !!bootstrap?.runs.length && <span className="nav-count">{bootstrap.runs.length}</span>}{page === id && <span className="nav-active-dot" />}</button>)}</nav>
       <div className="sidebar-note"><span className="sidebar-note-icon"><ShieldCheck size={20} strokeWidth={1.5} /></span><h3>让表达，有据可循。</h3><p>从产品事实到内容表达，<br />每一步都有清晰的来路。</p><button onClick={() => navigate('audit')}>了解内容核验 <ArrowRight size={13} /></button></div>
-      <div className="sidebar-bottom"><div className="profile-avatar">知</div><div><strong>创作者工作空间</strong><span>{isDemo ? '无需 API · 公开规则演示' : bootstrap?.settings.publicDeployment ? '公开预览环境' : '本地知识库创作'}</span></div><button className="icon-button" aria-label="打开连接设置" onClick={() => navigate('settings')}><Settings2 size={17} /></button></div>
+      <div className="sidebar-bottom"><div className="profile-avatar">物</div><div><strong>创作者工作空间</strong><span>{isDemo ? '无需 API · 公开规则演示' : bootstrap?.settings.publicDeployment ? '公开预览环境' : '本地知识库创作'}</span></div><button className="icon-button" aria-label="打开连接设置" onClick={() => navigate('settings')}><Settings2 size={17} /></button></div>
     </aside>
 
     <div className="main-shell">
       <header className="topbar"><div className="breadcrumbs"><button className="icon-button mobile-menu" aria-label="打开导航" onClick={() => setMobileNav(true)}><Menu size={20} /></button><span className="breadcrumb-root">工作空间</span><ChevronRight size={13} /><strong>{pages.find(p => p.id === page)?.name}</strong></div><div className="topbar-actions"><button className={`connection-pill ${(brief.mode === 'local' ? !!bootstrap?.stats.documents : bootstrap?.settings.connected) ? 'connected' : ''}`} onClick={() => navigate('settings')}><span className="status-dot" />{brief.mode === 'local' ? (bootstrap?.stats.documents ? (isDemo ? '公开资料已就绪' : '本地知识库已就绪') : '资料尚未导入') : bootstrap?.settings.connected ? 'ima 已连接' : 'ima 待连接'}</button><span className="topbar-divider" /><button className="icon-button" aria-label="使用指南" onClick={() => setHelp(true)}><CircleHelp size={19} /></button><span className="mini-avatar" aria-label="创作者">Z</span></div></header>
       <main id="main-content" className={`main-content page-${page}`}>
-        {!bootstrap && !bootError && <div className="boot-loading"><span className="brand-mark"><Feather size={25} /></span><Spinner label="正在准备你的创作空间…" /></div>}
+        {!bootstrap && !bootError && <div className="boot-loading"><span className="brand-mark"><Cpu size={22} /></span><Spinner label="正在准备你的创作空间…" /></div>}
         {bootError && <div className="boot-error"><EmptyState title="暂时无法连接创作空间" detail={bootError}><button className="button primary" onClick={() => void refresh()}>重新连接 <ArrowRight size={15} /></button></EmptyState></div>}
         {bootstrap && <>
           {isDemo && <div className="demo-banner"><div><Sparkles size={18} /><strong>无需 API · 规则交互演示</strong><span>官网公开摘录驱动，浏览器实时生成；未调用大模型或 ima。</span></div><button className="text-button" onClick={() => navigate('settings')}>查看演示说明 <ArrowRight size={14} /></button></div>}
@@ -154,10 +154,10 @@ export default function App() {
           {page === 'settings' && (isDemo ? <DemoSettings /> : <ConnectionSettings settings={bootstrap.settings} onUpdate={updateSettings} notify={notify} />)}
         </>}
       </main>
-      <footer className="app-footer"><span><Feather size={12} /> 知序 ZHIXU</span><p>为好产品，写有依据的好内容。</p><span>来源可追溯 · 发布需审核</span></footer>
+      <footer className="app-footer"><span>物有言 · 华为门店营销智能体</span><p>{isDemo ? '资料来自公开官网摘录' : '资料来自本地知识库'}</p><span>卖点有出处，发布前核验</span></footer>
     </div>
     {toast && <div className="toast" role="status"><CheckToast /><span>{toast}</span><button aria-label="关闭消息" onClick={() => setToast('')}><X size={15} /></button></div>}
-    {help && <Modal title="把产品事实，变成恰到好处的表达" onClose={() => setHelp(false)}><div className="help-intro"><span className="eyebrow">A MORE THOUGHTFUL WORKFLOW</span><p>知序是面向华为 PC 门店营销的图文创作工作台。选择准确型号，描述真实场景，让内容从一份可信的创作简报开始。</p></div><div className="help-steps">{[{ icon: BookOpen, title: '01 · 选定资料与型号', detail: isDemo ? '本演示仅使用公开官网摘录与官方远程图片，直接浏览即可创作。' : '本地知识库默认支持免 API 规则编排；真实模型创作与 ima 资料来源可另外配置。' }, { icon: Sparkles, title: '02 · 描述受众与场景', detail: '平台、购买阶段和内容目标将共同决定结构、语气与配图数量。' }, { icon: ShieldCheck, title: '03 · 核验后再发布', detail: '检查每条事实、图片来源与合规风险；待审核作品只导出标记草稿。' }].map(item => <div key={item.title}><item.icon size={20} /><section><h3>{item.title}</h3><p>{item.detail}</p></section></div>)}</div><Notice>{isDemo ? '示例记录仅保存在当前浏览器，最多 20 条。公开演示不接收密钥，也不访问私人知识库。' : '作品默认保存在当前服务端。凭证仅存本机服务内存，不保存到浏览器；公开环境禁止通过页面修改凭证。'}</Notice><button className="button primary full-width" onClick={() => { setHelp(false); navigate('settings'); }}>查看我的连接状态 <ArrowRight size={16} /></button></Modal>}
+    {help && <Modal title="把产品事实，变成恰到好处的表达" onClose={() => setHelp(false)}><div className="help-intro"><p>物有言是面向华为产品门店营销的图文创作工作台。选择准确型号，描述真实场景，让内容从一份可信的创作简报开始。</p></div><div className="help-steps">{[{ icon: BookOpen, title: '01 · 选定资料与型号', detail: isDemo ? '本演示仅使用公开官网摘录与官方远程图片，直接浏览即可创作。' : '本地知识库默认支持免 API 规则编排；真实模型创作与 ima 资料来源可另外配置。' }, { icon: Sparkles, title: '02 · 描述受众与场景', detail: '平台、购买阶段和内容目标将共同决定结构、语气与配图数量。' }, { icon: ShieldCheck, title: '03 · 核验后再发布', detail: '检查每条事实、图片来源与合规风险；待审核作品只导出标记草稿。' }].map(item => <div key={item.title}><item.icon size={20} /><section><h3>{item.title}</h3><p>{item.detail}</p></section></div>)}</div><Notice>{isDemo ? '示例记录仅保存在当前浏览器，最多 20 条。公开演示不接收密钥，也不访问私人知识库。' : '作品默认保存在当前服务端。凭证仅存本机服务内存，不保存到浏览器；公开环境禁止通过页面修改凭证。'}</Notice><button className="button primary full-width" onClick={() => { setHelp(false); navigate('settings'); }}>查看我的连接状态 <ArrowRight size={16} /></button></Modal>}
   </div>;
 }
 function CheckToast() { return <span className="toast-icon"><Command size={15} /></span>; }

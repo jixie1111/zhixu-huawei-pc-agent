@@ -14,7 +14,7 @@ export function scanCompliance(text:string):Finding[] {
   for(const rule of rules) {
     rule.pattern.lastIndex=0;
     for(const match of text.matchAll(rule.pattern)) {
-      if(rule.id==='absolute'&&match[0]==='第一'&&/^(?:堂|次|个|步|天|课|页|段|章|阶段)/.test(text.slice((match.index||0)+2))) continue;
+      if(rule.id==='absolute'&&match[0]==='第一'&&/^(?:堂|次|个|步|天|课|页|篇|段|章|站|项|张|条|眼|本|节|份|年|门|轮|回|局|场|班|组|期|学期|学年|代|季|周|月|晚|趟|笔|行|列|格|封|套|句|栋|座|层|排|首|件|份|支|部|幅|格|帧|封|批|道|题|关|间|所|辆|顿|口|声|下|遍|拍|镜|屏|印象|台(?:电脑|笔记本|手机|平板|设备)|位(?:发言|家人|同学)|阶段)/.test(text.slice((match.index||0)+2))) continue;
       const before=text.slice(Math.max(0,(match.index||0)-10),match.index);
       if(/(?:不得|禁止|不承诺|不能|不要|避免|未核实|不使用)[^。！？\n]{0,5}$/.test(before)) continue;
       findings.push({id:`${rule.id}-${match.index}`,category:'compliance',severity:'block',message:rule.message,excerpt:match[0],suggestion:rule.suggestion});
@@ -60,6 +60,7 @@ export function auditArticle(article:Article,evidence:Evidence,brief:Brief,engin
   if(new Set(article.images.map(i=>i.id)).size!==article.images.length) add('duplicate-images','image','block','同一张图片被重复计数。','选择不同的真实素材。');
   for(const image of article.images) {
     const original=evidence.images.find(i=>i.id===image.id);
+    if(original?.editorial?.role==='screen-demo'&&imageSlot(image.position,article.sections.length)==='cover')add(`image-cover-${image.id}`,'image','block','屏幕演示画面没有产品机身，不适合作为产品封面。','从同型号已复核的整机原图中选择封面，演示画面可保留在相关正文。',image.name);
     if(!original||image.productId!==brief.productId||image.productName!==original.productName||image.url!==original.url||image.sourceMode!==original.sourceMode) add(`image-model-${image.id}`,'image','block','图片不在当前型号的来源清单内。','删除错配图片，按型号重新检索。',image.name);
     if(!image.position?.trim()||!image.reason?.trim()||!image.sourceTitle.trim()) add(`image-meta-${image.id}`,'image','block','图片缺少来源、插入位置或配图理由。','补全来源与编排信息。',image.name);
     if(image.position&&imageSlot(image.position,article.sections.length)===undefined) add(`image-position-${image.id}`,'image','warning','配图位置无法对应正文段落，暂放文末。','位置需为“封面”“第 n 段后”或“文末”，段号不能超出正文。',image.position);

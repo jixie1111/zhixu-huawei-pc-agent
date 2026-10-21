@@ -20,7 +20,9 @@ test('静态上传准备只复制dist-demo及说明卡，不带原库、配置�
   const destination=stageDemo(scope.root);
   assert.deepEqual(fs.readdirSync(destination).sort(),['README.md','assets','index.html']);
   assert.equal(fs.readFileSync(path.join(destination,'assets','app.js'),'utf8'),'console.log("synthetic static preview");');
-  assert.ok(fs.readFileSync(path.join(destination,'README.md'),'utf8').includes('不会调用 ima 或真实大模型'));
+  const readme=fs.readFileSync(path.join(destination,'README.md'),'utf8');
+  assert.match(readme,/不(?:会)?调用 ima 或(?:真实)?大模型/);
+  assert.match(readme,/规则/);
   assert.ok(!fs.existsSync(path.join(destination,'private')));
 });
 test('静态构建中误含部署凭据或非构建文件时在复制前阻断',t=>{

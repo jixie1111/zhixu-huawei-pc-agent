@@ -66,6 +66,7 @@ export function secrets() {
     llmKey: session.llmKey || process.env.LLM_API_KEY || '',
     llmBaseUrl: session.llmBaseUrl || process.env.LLM_BASE_URL || 'https://api.siliconflow.cn/v1',
     llmModel: session.llmModel || process.env.LLM_MODEL || '',
+    llmReasoningEffort: session.llmReasoningEffort ?? process.env.LLM_REASONING_EFFORT ?? '',
     kbName: process.env.IMA_KB_NAME || '任德耀新建华为PC知识库',
   };
 }
@@ -73,23 +74,33 @@ export function settings(): Settings {
   const s=secrets();
   return { imaConfigured:!!(s.clientId&&s.imaKey),llmConfigured:!!(s.llmKey&&s.llmModel),
     accountLabel:s.clientId?`凭证账户 · ${createHash('sha256').update(s.clientId).digest('hex').slice(0,8)}`:'尚未连接账号',
-    kbName:s.kbName,llmBaseUrl:s.llmBaseUrl,llmModel:s.llmModel,publicDeployment,...connection };
+    kbName:s.kbName,llmBaseUrl:s.llmBaseUrl,llmModel:s.llmModel,llmReasoningEffort:s.llmReasoningEffort,publicDeployment,...connection };
 }
-const configSchema=z.object({clientId:z.string().max(500).optional(),imaKey:z.string().max(1000).optional(),llmKey:z.string().max(1000).optional(),llmBaseUrl:z.string().url().optional(),llmModel:z.string().max(200).optional()}).strict();
+const configSchema=z.object({clientId:z.string().max(500).optional(),imaKey:z.string().max(1000).optional(),llmKey:z.string().max(1000).optional(),llmBaseUrl:z.string().url().optional(),llmModel:z.string().max(200).optional(),llmReasoningEffort:z.enum(['','low','medium','high','xhigh','max']).optional()}).strict();
 export function configure(input:unknown) {
   if(publicDeployment) throw new AppError('LOCAL_ONLY','公开部署不允许通过网页修改服务凭证。请使用部署平台的 Secret。',403);
   const data=configSchema.parse(input);
   if(data.llmBaseUrl) validateLlmUrl(data.llmBaseUrl);
-  for(const [k,v] of Object.entries(data)) if(v?.trim()) session[k]=v.trim();
+  for(const [k,v] of Object.entries(data)) if(typeof v==='string'&&(v.trim()||k==='llmReasoningEffort')) session[k]=v.trim();
   connection={connected:false};
   return settings();
 }
 export function clearSession() { session={}; connection={connected:false}; }
 export function setConnection(connected:boolean,message:string) {connection={connected,connectionCheckedAt:new Date().toISOString(),connectionMessage:message};}
-export function validateLlmUrl(raw:string) {
+export function validateLlmUrl(raw:string, localEndpoint=process.env.LOCAL_LLM_BASE_URL, isPublic=publicDeployment) {
   const u=new URL(raw);
+  // Only an operator-selected exact loopback endpoint, never arbitrary LAN/SSRF.
+  // LOCAL_LLM_BASE_URL is an environment setting, not writable via the web API.
+  const localPattern=/^http:\/\/(localhost|127\.0\.0\.1):([1-9][0-9]{0,4})\/v1\/?$/;
+  if(!isPublic&&localEndpoint&&localPattern.test(raw)&&localPattern.test(localEndpoint)) {
+    const expected=new URL(localEndpoint);
+    if(u.origin===expected.origin&&u.pathname.replace(/\/$/,'')===expected.pathname.replace(/\/$/,'')) {
+      // Avoid hostname resolution when sending credentials to the local bridge.
+      u.hostname='127.0.0.1';return u.toString().replace(/\/$/,'');
+    }
+  }
   const approved=['api.siliconflow.cn','dashscope.aliyuncs.com','api.deepseek.com','api.openai.com','api-inference.modelscope.cn'];
-  if(u.protocol!=='https:'||u.username||u.password||u.port||!approved.includes(u.hostname)) throw new AppError('MODEL_ENDPOINT','模型接口仅支持设置页列出的官方 HTTPS 服务域名。');
+  if(u.protocol!=='https:'||u.username||u.password||u.port||u.search||u.hash||!approved.includes(u.hostname)) throw new AppError('MODEL_ENDPOINT','模型接口需要官方 HTTPS 服务，或由本机环境明确授权的回环接口。');
   return u.toString().replace(/\/$/,'');
 }
 export function safeError(error:unknown) {

@@ -10,6 +10,7 @@ test('截图仅包含隔离合成QA资料，不作为真实ima验收证据', asy
     await route.fulfill({ response, json: data });
   });
   await page.goto('/');
+  await page.getByRole('button',{name:'经典表单',exact:true}).click();
   await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
   await page.evaluate(() => {
     const stamp = document.createElement('div');

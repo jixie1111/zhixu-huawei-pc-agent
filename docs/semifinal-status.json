@@ -1,0 +1,13 @@
+{
+  "verifiedAt": "2026-10-19",
+  "directionScreenshot": "private/real-director-ui-RSB5mf/02-creative-options.png",
+  "uiCaption": "真实任务：MateBook 14 酷睿 Ultra，大学新生、小红书。页面呈现三种创意，只需选择方向；依据与核验按需展开。",
+  "uiMeasurement": "从整理需求到保存成稿 101.918 秒；4 次主要操作，另点一次导出。",
+  "modelProfile": "gpt-6.1-sol 请求 low，平台策略v3，本次无修订。个案实测，不是稳定速度承诺；服务未回显执行档位。",
+  "coverImage": "private/real-director-ui-RSB5mf/01-cover.png",
+  "contentImage": "private/real-director-ui-RSB5mf/02-content.png",
+  "articleExcerpt": "选电脑时，这样一小段文字，也可以成为认识输入习惯的起点。HUAWEI MateBook 14 酷睿 Ultra 配备全尺寸背光键盘、大尺寸触控板，触控板支持多点触控；从敲字到移动光标，你可以留意自己是否习惯这样的操作。",
+  "workCaption": "同一真实模型作品的封面与正文节选。共4页PNG，已逐页检查；整机、局部及正面原图参与排版，正文和适用说明完整保留。",
+  "automatedTests": "完整单元、接口与渲染回归 219/219 通过（92.325秒）；桌面、手机在各自独立合成库完整运行 20/20、20/20，共40项通过，不与历史补测相加。TypeScript 与生产构建通过。自动化不代替真实创作效果验证。",
+  "deliveryResult": "最新真实页面从同一校园原稿生成朋友圈与公众号，两份均核验通过；内容包实测 134.567 秒（请求 low），保留父版本。朋友圈2页、公众号4页PNG已逐页检查；生态逐项条件确认、真实旧稿恢复及3页导出通过，恢复不算新生成。"
+}

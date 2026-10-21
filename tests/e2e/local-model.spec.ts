@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 import type { Bootstrap, Brief, Run } from '../../shared/types';
 import { brief } from '../fixtures';
 
-test('默认免API规则，主动选择模型后缺配置不调用生成或ima', async ({ page }) => {
+test('经典入口默认免API规则，主动选择模型后缺配置不调用生成或ima', async ({ page }) => {
   const bootstrap = await (await page.request.get('/api/bootstrap')).json() as Bootstrap;
   await page.route('**/api/bootstrap', route => route.fulfill({ json: { ...bootstrap, settings: { ...bootstrap.settings, imaConfigured: false, llmConfigured: false, connected: false } } }));
   let generations = 0;
@@ -10,6 +10,7 @@ test('默认免API规则，主动选择模型后缺配置不调用生成或ima',
   await page.route('**/api/generate', route => { generations++; return route.abort(); });
   await page.route('**/api/retrieve', route => { imaCalls++; return route.abort(); });
   await page.goto('/');
+  await page.getByRole('button',{name:'经典表单',exact:true}).click();
   await expect(page.getByRole('radio', { name: /本地知识库/ })).toBeChecked();
   await expect(page.getByRole('radio', { name: /规则预览/ })).toBeChecked();
   await expect(page.getByRole('button', { name: '开始创作', exact: true })).toBeEnabled();
@@ -39,6 +40,7 @@ test('合成本地模型结果保留本地来源，允许语气改写且导出�
   template.model = 'qa-synthetic-model';
   template.brief = { ...template.brief, mode: 'local', generation: 'model' };
   template.article.title = '[QA合成模型响应] 本地知识库创作';
+  template.article.tags = ['HUAWEI MateBook 14', '校园生活'];
   template.evidence.warnings = ['QA 合成模型响应，仅用于浏览器交互验收，不代表真实模型生成。'];
   template.audit.findings = [];
   template.audit.status = 'review';
@@ -55,6 +57,7 @@ test('合成本地模型结果保留本地来源，允许语气改写且导出�
   });
   await page.route('**/api/runs/qa-local-model-*/export?*', route => route.fulfill({ contentType: 'text/markdown; charset=utf-8', body: '# QA合成模型响应\n本地知识库 · 待人工审核草稿\n' }));
   await page.goto('/');
+  await page.getByRole('button',{name:'经典表单',exact:true}).click();
   await page.getByRole('radio', { name: /AI 模型创作/ }).check();
   await expect(page.getByRole('button', { name: '开始创作', exact: true })).toBeEnabled();
   await page.getByRole('button', { name: '开始创作', exact: true }).click();
@@ -76,6 +79,18 @@ test('合成本地模型结果保留本地来源，允许语气改写且导出�
   const pending = page.waitForEvent('download');
   await result.getByRole('button', { name: /Markdown/ }).click();
   expect(await (await pending).failure()).toBeNull();
+  // An untouched edit must not split a multiword topic into separate tags.
+  let edited: {tags:string[]}|undefined;
+  await page.route('**/api/runs/qa-local-model-2/edit',route=>{
+    const body=route.request().postDataJSON();edited=body;
+    return route.fulfill({json:{...template,id:'qa-local-edited-3',version:3,parentId:'qa-local-model-2',article:{...template.article,...body}}});
+  });
+  await result.getByRole('tab',{name:'图文预览'}).click();
+  await result.getByRole('button',{name:'编辑正文',exact:true}).click();
+  await expect(result.getByLabel('话题标签',{exact:true})).toHaveValue('HUAWEI MateBook 14\n校园生活');
+  await result.getByRole('button',{name:'保存并重新核验',exact:true}).click();
+  await expect(result.getByRole('button',{name:/版本记录 V3/})).toBeVisible();
+  expect(edited?.tags).toEqual(template.article.tags);
   await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth - innerWidth)).toBeLessThanOrEqual(1);
   await result.screenshot({ path: testInfo.outputPath('qa-synthetic-local-model.png') });
   expect(imaCalls).toBe(0);

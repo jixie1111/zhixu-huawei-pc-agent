@@ -16,3 +16,13 @@ export const SCENES: Record<Scene, { name:string; audience:string; angle:string;
   launch:{ name:'新品首发',audience:'正在关注新产品的用户',angle:'先看适用场景，再判断新产品是否值得了解',problem:'型号差异、版本边界与现有设备需求如何匹配',priorities:['操作系统','屏幕','处理器','尺寸与重量'],hook:'关注一款电脑，不必只看“新”，更要看是否契合自己的使用习惯。' },
   festival:{ name:'节日营销',audience:'希望为家人挑选电脑作为礼物的用户',angle:'把礼物选进对方的日常',problem:'收礼人的真实任务、喜好、软件与配置要求',priorities:['屏幕','尺寸与重量','存储','操作系统'],hook:'一份用得上的礼物，往往从认真听懂对方的需要开始。' },
 };
+
+/** Who is posting. Thousands of stores sending the same text is the core
+ * "千篇一律" problem; persona changes voice, rhythm and CTA, never product facts. */
+export const PERSONAS: Record<import('./types').Persona, { name: string; hint: string; voice: string }> = {
+  advisor: { name: '门店顾问', hint: '专业、给明确建议', voice: '门店顾问身份，用“你”称呼读者。标题直接点出这台机器最适合的一类人。正文第一段就给结论（适合谁、为什么），后面每段一个事实加一句建议。语气稳重、不俏皮、不用 emoji、不用反问开头。结尾邀请读者带着具体问题来店里找你。' },
+  friend: { name: '数码朋友', hint: '口语、轻松、像聊天', voice: '像懂数码的朋友发帖：口语化短句，可以用“说真的”“我跟你讲”这类口头语，适量 emoji（全文 2–4 个），段落每段一到两句。允许一点俏皮和夸张的语气词，但事实不夸大。结尾抛一个轻松的问题让人评论。' },
+  editor: { name: '测评编辑', hint: '有观点、讲取舍', voice: '克制的科技编辑。标题是一个明确的判断句。正文按“观点—依据—适合谁—不适合谁”组织，必须写出一句“如果你更看重……，可以再看看别的配置/型号”这类取舍（只基于已给事实，不点名竞品）。不用 emoji、不用感叹号。' },
+  story: { name: '场景故事', hint: '用一个画面带出产品', voice: '写一个具体的未来画面：开头一句交代时间和地点（如“周三晚上十点，宿舍书桌前”），用第二人称和动作推进，产品事实在动作里出现。不用“我建议”“值得”这类推荐口吻，结尾停在画面里，再接一句邀请。不虚构已发生的经历。' },
+  minimal: { name: '极简种草', hint: '一句亮点、大量留白', voice: '极简种草：标题不超过 14 个字；正文最多 2 段，每段不超过 2 句；只讲一个事实；不用“我建议”；结尾一句邀请，不提问。宁可短，不凑字。' },
+};

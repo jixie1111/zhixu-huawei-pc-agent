@@ -13,7 +13,27 @@ test('拦截绝对化、虚假承诺、价格补贴、无据对比和虚构成�
 test('合规提示中的否定语境与普通文字不会被当成营销承诺', () => {
   assert.equal(scanCompliance('不要宣传全网第一。不得承诺永不卡顿。').length, 0);
   assert.equal(scanCompliance('带上常用任务，到店核实具体配置。').length, 0);
+  assert.equal(scanCompliance('第一站看资料，第二站试装包。').length,0);
+  assert.equal(scanCompliance('第一位发言：照片想看，文档也要读。').length,0);
+  assert.equal(scanCompliance('第一轮：计划到底写多长？第二轮再看资料。').length,0);
+  for(const text of ['第一门课先看什么','第一学期的第一周','第一套复习计划的第一行','第一场小组会'])assert.equal(scanCompliance(text).length,0,text);
+  for(const text of ['大学第一台电脑','停在第一栋要去的楼上','第一排座位','第一首歌','准备拍第一支校园短片','第一部作品','第一幅草图','第一印象'])assert.equal(scanCompliance(text).length,0,text);
+  for(const text of ['同价位第一','全网第一台'])assert.ok(scanCompliance(text).length>0,text);
+  assert.ok(scanCompliance('行业第一，最佳选择。').length>0);
   assert.equal(scanCompliance('全网第一').length, scanCompliance('全网第一').length, '连续调用不得受RegExp lastIndex影响');
+});
+
+test('普通轮次例外不放过产品首创或行业排名',()=>{
+  for(const text of ['行业第一轮就领先','第一款支持该功能的电脑','全球第一','第一名的性能']){
+    assert.ok(scanCompliance(text).some(f=>f.severity==='block'),text);
+  }
+});
+
+test('第一篇资料为阅读顺序，带全球或行业修饰的排名仍拦截',()=>{
+  assert.equal(scanCompliance('第一篇资料的标题下面有陌生概念，先弄明白第一段。').length,0);
+  for(const text of ['全球第一篇产品测评','行业第一篇报告','全网第一篇宣传']){
+    assert.ok(scanCompliance(text).some(finding=>finding.severity==='block'),text);
+  }
 });
 
 test('引用存在不等于支持：捏造数值、错型号、未知引用均拦截', () => {

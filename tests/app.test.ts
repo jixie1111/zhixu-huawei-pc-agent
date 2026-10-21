@@ -1,5 +1,6 @@
 import test, { after, before } from 'node:test';
 import assert from 'node:assert/strict';
+import { unzipSync, strFromU8 } from 'fflate';
 import { request as httpRequest, type Server } from 'node:http';
 import type { AddressInfo } from 'node:net';
 import { createApp } from '../server/app';
@@ -46,6 +47,24 @@ async function createRun() {
   return { run: result.data as Run, output };
 }
 
+test('本地导演、内容包与生态接口校验输入并持久化平台状态',async()=>{
+  const intent=await post('/api/director/interpret',{message:'为大学新生写小红书',engine:'rules'});
+  assert.equal(intent.status,200);assert.equal((await intent.json()).engine,'rules');
+  const input={...brief,productId:knowledge.products[0].id,generation:'rules',autoRepair:true};
+  const planned=await post('/api/director/plan',{message:'为大学新生写小红书',engine:'rules',brief:input});
+  assert.equal(planned.status,200);const plan=await planned.json();assert.equal(plan.concepts.length,3);
+  const generated=await post('/api/generate',{...input,directorPlanId:plan.id,conceptId:plan.recommendedConceptId});
+  const run=events(await generated.text()).find(event=>event.event==='result')?.data as Run;
+  assert.ok(run?.director);assert.equal(run.director.planId,plan.id);
+  const created=await post('/api/campaigns',{sourceRunId:run.id,platforms:['wechat','poster']});
+  assert.equal(created.status,200);const campaign=await created.json();assert.equal(campaign.status,'complete');assert.equal(campaign.releaseReady,false);
+  assert.equal((await (await fetch(base+`/api/campaigns/${campaign.id}`)).json()).items.length,2);
+  assert.ok((await (await fetch(base+'/api/campaigns')).json()).some((c:{id:string})=>c.id===campaign.id));
+  const ecosystem=await (await fetch(base+'/api/ecosystem')).json();assert.ok(Array.isArray(ecosystem.relations));assert.ok(ecosystem.products.length);
+  assert.equal((await post('/api/ecosystem/resolve',{devices:[],relationIds:[],conditions:{}})).status,422);
+  assert.equal((await post('/api/campaigns',{sourceRunId:run.id,platforms:['wechat','wechat']})).status,422);
+});
+
 test('bootstrap/产品/搜索/资源端点返回真实状态并隔离受控目录', async () => {
   const response = await fetch(base + '/api/bootstrap');
   assert.equal(response.status, 200); assert.equal(response.headers.get('cache-control'), 'no-store');
@@ -62,6 +81,18 @@ test('bootstrap/产品/搜索/资源端点返回真实状态并隔离受控目�
   assert.equal((await fetch(base + '/api/assets/%2E%2E%2F.env')).status, 404);
   const image = knowledge.get(knowledge.products[0].id).images[0];
   assert.equal((await fetch(base + image.url)).status, 200);
+});
+
+test('可见状态与普通下载文件名统一物有言，历史作品无需更换内部标识',async()=>{
+  const status=await(await fetch(base+'/api/status')).json();assert.equal(status.name,'物有言');
+  const {run}=await createRun();
+  for(const format of ['md','json','html']){
+    const response=await fetch(base+`/api/runs/${run.id}/export?format=${format}&draft=true`);
+    assert.equal(response.status,200);
+    assert.match(response.headers.get('content-disposition')!,new RegExp(`filename="wuyan-${run.id.slice(0,8)}-v1-DRAFT\\.${format}"`));
+    await response.arrayBuffer();
+  }
+  assert.equal((await(await fetch(base+`/api/runs/${run.id}`)).json()).id,run.id);
 });
 
 test('跨站写入、伪Host、非JSON、超长或错误输入被拒绝', async () => {
@@ -114,13 +145,23 @@ test('HTML导出转义正文和属性，禁用脚本且保留审核信息', asyn
   assert.ok(html.includes('未验收草稿')); assert.ok(html.includes('完整场景、事实依据、图片来源与核验记录'));
 });
 
+test('真实PNG图文包HTTP下载：草稿权限、ZIP和原图来源清单',async()=>{
+  const {run}=await createRun();
+  assert.equal((await fetch(base+`/api/runs/${run.id}/export?format=png-pack`)).status,409);
+  const response=await fetch(base+`/api/runs/${run.id}/export?format=png-pack&draft=true`);
+  assert.equal(response.status,200);assert.match(response.headers.get('content-type')!,/application\/zip/);assert.match(response.headers.get('content-disposition')!,/DRAFT\.zip/);
+  const files=unzipSync(new Uint8Array(await response.arrayBuffer()));const manifest=JSON.parse(strFromU8(files['manifest.json']));assert.equal(manifest.runId,run.id);assert.equal(manifest.draft,true);assert.equal(manifest.originals.length,run.article.images.length);assert.ok(manifest.pages.length>=3);
+});
+
 test('独立文本核验不伪称完成产品事实认证；设置数据不回传秘密', async () => {
   const audit = await (await post('/api/audit', { text: '全网第一，国补500元。', productId: knowledge.products[0].id })).json();
   assert.ok(audit.findings.some((item: { severity: string }) => item.severity === 'block'));
   assert.ok(audit.findings.some((item: { id: string; message: string }) => item.id === 'scope' && item.message.includes('未进行')));
-  const settings = await post('/api/settings', { clientId: 'qa-http-client', imaKey: 'qa-http-secret', llmKey: 'qa-http-model-secret', llmModel: 'qa-fixture-model' });
+  const settings = await post('/api/settings', { clientId: 'qa-http-client', imaKey: 'qa-http-secret', llmKey: 'qa-http-model-secret', llmModel: 'qa-fixture-model',llmReasoningEffort:'low' });
   const text = await settings.text();
+  assert.equal(JSON.parse(text).llmReasoningEffort,'low');
   for (const secret of ['qa-http-client', 'qa-http-secret', 'qa-http-model-secret']) assert.ok(!text.includes(secret));
+  assert.equal((await post('/api/settings',{llmReasoningEffort:'light'})).status,422);
   assert.equal((await post('/api/settings/clear', {})).status, 200);
 });
 

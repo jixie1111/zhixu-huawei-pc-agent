@@ -1,4 +1,4 @@
-import { type Dispatch, type RefObject, type SetStateAction } from 'react';
+import { useState, type Dispatch, type RefObject, type SetStateAction } from 'react';
 import { ArrowRight, ArrowUpRight, BookOpen, Check, ChevronRight, Circle, Clock3, FileCheck2, Flower2, GraduationCap, Image, Laptop, Layers3, Leaf, MessageCircle, PanelTop, ShieldCheck, Sparkles, WandSparkles } from 'lucide-react';
 import type { Bootstrap, Brief, Evidence, Platform, Run, Scene } from '../shared/types';
 import { PLATFORMS, SCENES } from '../shared/rules';
@@ -7,8 +7,10 @@ import { CheckRow, ModeBadge, Notice, Spinner, SafeImage } from './components';
 import Result from './Result';
 import EvidencePreview from './EvidencePreview';
 import { isDemo } from './demo-mode';
+import DirectorStudio from './DirectorStudio';
+import EcosystemStudio from './EcosystemStudio';
 
-interface Props {
+export interface StudioProps {
   bootstrap: Bootstrap; brief: Brief; onBrief: Dispatch<SetStateAction<Brief>>;
   evidence: Evidence | null; evidenceError: string; evidenceLoading: boolean; run: Run | null;
   generating: boolean; stages: StageEvent[]; generationError: string;
@@ -20,7 +22,14 @@ const platformIcons = { xiaohongshu: BookOpen, wechat: MessageCircle, moments: C
 const goals = ['激发兴趣与收藏', '帮助理解产品', '引导到店体验', '引导私信咨询', '辅助配置决策', '提升活动关注'];
 const phases = ['了解产品', '比较与考虑', '准备购买', '到店体验', '换新升级'];
 
-export default function Studio(props: Props) {
+export default function Studio(props: StudioProps) {
+  const [entry,setEntry]=useState<'director'|'classic'|'ecosystem'>(()=>new URLSearchParams(location.search).get('workspace')==='classic'?'classic':'director');
+  const localDirector = !isDemo && !props.bootstrap.settings.publicDeployment;
+  const switcher = localDirector && <div className="studio-entry-switch" aria-label="工作台模式"><button aria-pressed={entry==='director'} disabled={props.generating} onClick={() => setEntry('director')}>创意导演</button><button aria-pressed={entry==='ecosystem'} disabled={props.generating} onClick={() => setEntry('ecosystem')}>生态创作</button><button aria-pressed={entry==='classic'} disabled={props.generating} onClick={() => setEntry('classic')}>经典表单</button></div>;
+  return <>{switcher}{localDirector&&entry==='director'?<DirectorStudio {...props}/>:localDirector&&entry==='ecosystem'?<EcosystemStudio bootstrap={props.bootstrap} notify={props.notify}/>:<ClassicStudio {...props}/>}</>;
+}
+
+function ClassicStudio(props: StudioProps) {
   const { bootstrap, brief, onBrief, evidence, evidenceError, evidenceLoading, run, generating, stages, generationError, onGenerate, onCancel, onSettings, onKnowledge, onNew } = props;
   const selectedProduct = bootstrap.products.find(p => p.id === brief.productId);
   const set = <K extends keyof Brief>(key: K, value: Brief[K]) => onBrief(current => ({ ...current, [key]: value }));
@@ -33,11 +42,11 @@ export default function Studio(props: Props) {
 
   return <>
     <section className="studio-hero" aria-label="创作工作台介绍">
-      <div className="hero-copy"><div className="eyebrow"><span className="tiny-star">✳</span> EVIDENCE-LED CREATION</div><h1>好内容，<br />从<span>有据可循</span>开始<span className="heading-period">。</span></h1><p>懂产品，更懂每一种生活场景。<br />让真实的产品价值，成为打动人心的表达。</p><div className="hero-trust"><span><FileCheck2 size={14} /> 事实有依据</span><span><Layers3 size={14} /> 多平台适配</span><span><ShieldCheck size={14} /> 内容先核验</span></div></div>
-      <div className="hero-visual"><div className="hero-orbit orbit-one" /><div className="hero-orbit orbit-two" /><span className="hero-edition">THE CREATOR’S DESK <span>2026 / VOL. 01</span></span>{selectedProduct?.cover ? <SafeImage className="hero-product" src={selectedProduct.cover} alt={`${selectedProduct.name} 官方产品资料图`} onError={e => { e.currentTarget.style.opacity = '0'; }} /> : <div className="hero-product-placeholder"><Laptop size={125} strokeWidth={0.8} /><span>给好产品，一个好故事。</span></div>}<div className="hero-caption"><span className="hero-caption-line" /><div><strong>{selectedProduct?.shortName || 'HUAWEI PC'}</strong><span>{isDemo ? '官方远程图片 · 官网公开资料摘录' : bootstrap.settings.publicDeployment ? '产品素材展示以已授权来源为准' : '产品图源自本地知识库 · 保留原始依据'}</span></div><ArrowUpRight size={17} /></div><div className="hero-label"><Leaf size={15} /><span>真实，才有力量</span></div></div>
+      <div className="hero-copy"><div className="eyebrow"><span className="tiny-star">✳</span> EVIDENCE-LED CREATION</div><h1>按表单写一篇，<br />每一处都有出处</h1><p>选好机型、人群、场景和平台，一次生成完整图文。{!isDemo && <><br />想要更多写法，回到创意导演。</>}</p><div className="hero-trust"><span><FileCheck2 size={14} /> 事实有依据</span><span><Layers3 size={14} /> 多平台适配</span><span><ShieldCheck size={14} /> 内容先核验</span></div></div>
+      <div className="hero-visual"><div className="hero-orbit orbit-one" /><div className="hero-orbit orbit-two" />{selectedProduct?.cover ? <SafeImage className="hero-product" src={selectedProduct.cover} alt={`${selectedProduct.name} 官方产品资料图`} onError={e => { e.currentTarget.style.opacity = '0'; }} /> : <div className="hero-product-placeholder"><Laptop size={125} strokeWidth={0.8} /><span>给好产品，一个好故事。</span></div>}<div className="hero-caption"><span className="hero-caption-line" /><div><strong>{selectedProduct?.shortName || 'HUAWEI PC'}</strong><span>{isDemo ? '官方远程图片 · 官网公开资料摘录' : bootstrap.settings.publicDeployment ? '产品素材展示以已授权来源为准' : '产品图源自本地知识库 · 保留原始依据'}</span></div><ArrowUpRight size={17} /></div><div className="hero-label"><Leaf size={15} /><span>真实，才有力量</span></div></div>
     </section>
 
-    <div className="section-heading"><div><span className="section-kicker">LET’S CREATE</span><h2>开启一次有序创作 <span>把想法交给知序，把时间留给灵感。</span></h2></div>{run && <button className="button light small" onClick={onNew}>新建创作 <ArrowRight size={14} /></button>}</div>
+    <div className="section-heading"><div><span className="section-kicker">LET’S CREATE</span><h2>开启一次有序创作 <span>把想法交给物有言，把时间留给灵感。</span></h2></div>{run && <button className="button light small" onClick={onNew}>新建创作 <ArrowRight size={14} /></button>}</div>
     <div className="creation-layout">
       <form className="composer card" onSubmit={e => { e.preventDefault(); if (!sourceBlocked && !modelBlocked && !conflictBlocked) void onGenerate({ ...brief, generation: usesModel ? 'model' : 'rules', parentId: undefined, revision: undefined }); }}>
         <fieldset disabled={generating} className="composer-fieldset">
