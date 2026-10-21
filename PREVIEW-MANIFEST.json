@@ -1,6 +1,6 @@
 {
   "status": "PUBLIC_SOURCE_RELEASE",
-  "createdAt": "2026-10-21T16:21:45.307Z",
+  "createdAt": "2026-10-21T16:27:56.575Z",
   "notice": "复赛源码与经检查的自研作品说明书。公开魔搭为静态规则演示；原始知识库、原图文件、私人记录、模型输出、数据库和凭据不公开。",
   "excluded": [
     "private/",
@@ -93,8 +93,8 @@
     },
     {
       "path": "docs/RELEASE-2026-10-21.md",
-      "bytes": 2090,
-      "sha256": "4487a855a1b1adaf0a26c85939497b6b3e886f0107cd485e814f78efe9026971"
+      "bytes": 2889,
+      "sha256": "ac9e1714c1402996801acc777495e4d527d64083c1008f1eb3064de491d0c044"
     },
     {
       "path": "docs/REQUIREMENTS.md",
