@@ -1,10 +1,12 @@
 import { z } from 'zod';
 import type { Article, Bootstrap, Brief, Evidence, Run, RunSummary } from '../shared/types';
 import { PLATFORMS, SCENES } from '../shared/rules';
-import { buildStrategy, composeLocal, shortRevision } from '../shared/local-composer';
+import { shortRevision } from '../shared/local-composer';
 import { auditArticle, scanCompliance } from '../server/audit';
 import { toHtml, toMarkdown } from '../server/export';
 import { demoEvidence } from './demo-evidence';
+import { demoBriefSchema as briefSchema, createDemoDirector, directionSchema, restoreDirection, savedDirection, composeDemoDirection } from './demo-director';
+const demoDirector = createDemoDirector(demoEvidence);
 import type { StageEvent } from './api';
 
 const STORAGE_KEY = 'zhixu-public-demo-v1';
@@ -13,8 +15,7 @@ const MAX_STORAGE = 1_500_000;
 const storageBytes = (text: string) => new TextEncoder().encode(text).byteLength;
 const sectionSchema = z.object({ heading: z.string().max(200), text: z.string().min(1).max(5000), factIds: z.array(z.string().max(100)).max(20) });
 const editSchema = z.object({ title: z.string().trim().min(1).max(200), lead: z.string().trim().min(1).max(4000), sections: z.array(sectionSchema).min(1).max(12), cta: z.string().max(1000), tags: z.array(z.string().max(80)).max(20) }).strict();
-const briefSchema = z.object({ productId: z.string().max(100), audience: z.string().trim().min(2).max(200), scene: z.enum(['school', 'office', 'creator', 'family', 'business', 'store', 'launch', 'festival']), platform: z.enum(['xiaohongshu', 'wechat', 'moments', 'poster']), stage: z.string().min(1).max(80), goal: z.string().min(1).max(160), requirements: z.string().max(3000), mode: z.literal('local'), generation: z.literal('rules').optional(), parentId: z.string().uuid().optional(), revision: z.string().max(1500).optional() }).strict();
-const savedSchema = z.object({ id: z.string().uuid(), parentId: z.string().uuid().optional(), createdAt: z.string().datetime(), updatedAt: z.string().datetime(), version: z.number().int().min(1).max(99999), brief: briefSchema, article: editSchema, trace: z.array(z.object({ action: z.string().max(100), detail: z.string().max(1000), at: z.string().datetime() })).max(40).optional(), durationMs: z.number().min(0).max(300000).optional() }).strict();
+const savedSchema = z.object({ id: z.string().uuid(), parentId: z.string().uuid().optional(), createdAt: z.string().datetime(), updatedAt: z.string().datetime(), version: z.number().int().min(1).max(99999), brief: briefSchema, direction: directionSchema.optional(), article: editSchema, trace: z.array(z.object({ action: z.string().max(100), detail: z.string().max(1000), at: z.string().datetime() })).max(40).optional(), durationMs: z.number().min(0).max(300000).optional() }).strict();
 type Saved = z.infer<typeof savedSchema>;
 let runs: Run[] | undefined;
 let storageAvailable = true;
@@ -35,11 +36,12 @@ function audit(run: Run) {
 }
 function restore(saved: Saved): Run {
   const evidence = evidenceFor(saved.brief.productId);
-  const strategy = buildStrategy(saved.brief);
-  const baseline = composeLocal(saved.brief, evidence, strategy);
+  if (saved.brief.directorPlanId && (!saved.direction || saved.direction.planId !== saved.brief.directorPlanId || saved.direction.conceptId !== saved.brief.conceptId)) throw new Error('草稿方案记录不完整。');
+  const { strategy, director } = restoreDirection(saved.brief, evidence, saved.direction);
+  const baseline = composeDemoDirection(saved.brief, evidence, strategy, saved.direction);
   const article: Article = { ...baseline, ...saved.article, disclaimer };
   if (saved.brief.requirements.trim()) evidence.warnings.push('规则演示根据结构化场景与平台编排；自由文本要求不作为已执行的自定义文风修改，需在编辑正文中调整。');
-  const run: Run = { ...saved, evidence, strategy, article, engine: 'local-composer', durationMs: saved.durationMs || 0, trace: saved.trace || [{ action: '公开官网摘录', detail: '独立的浏览器演示记录，仅引用当前随站发布的公开事实。', at: saved.createdAt }] , audit: { status: 'review', releaseReady: false, findings: [], factChecks: [], checkedAt: saved.updatedAt } };
+  const run: Run = { ...saved, evidence, strategy, director, article, engine: 'local-composer', durationMs: saved.durationMs || 0, trace: saved.trace || [{ action: '公开官网摘录', detail: '独立的浏览器演示记录，仅引用当前随站发布的公开事实。', at: saved.createdAt }] , audit: { status: 'review', releaseReady: false, findings: [], factChecks: [], checkedAt: saved.updatedAt } };
   run.audit = audit(run);
   return run;
 }
@@ -60,7 +62,7 @@ function history(): Run[] {
 }
 function save(run: Run): Run {
   runs = [run, ...history().filter(item => item.id !== run.id)].slice(0, LIMIT);
-  const records = () => runs!.map(({ id, parentId, createdAt, updatedAt, version, brief, article, trace, durationMs }) => ({ id, parentId, createdAt, updatedAt, version, brief, durationMs, trace: trace.slice(-40), article: { title: article.title, lead: article.lead, sections: article.sections, cta: article.cta, tags: article.tags } }));
+  const records = () => runs!.map(run => { const { id, parentId, createdAt, updatedAt, version, brief, article, trace, durationMs } = run; return { id, parentId, createdAt, updatedAt, version, brief, direction: savedDirection(run), durationMs, trace: trace.slice(-40), article: { title: article.title, lead: article.lead, sections: article.sections, cta: article.cta, tags: article.tags } }; });
   let serialized = JSON.stringify(records());
   while (storageBytes(serialized) > MAX_STORAGE && runs.length > 1) { runs.pop(); serialized = JSON.stringify(records()); }
   try { if (storageBytes(serialized) <= MAX_STORAGE) localStorage.setItem(STORAGE_KEY, serialized); else storageAvailable = false; } catch { storageAvailable = false; }
@@ -75,6 +77,8 @@ export async function demoRequest<T>(url: string, init: RequestInit = {}): Promi
   const payload = init.body ? JSON.parse(String(init.body)) : {};
   let result: unknown;
   if (path === '/api/bootstrap') result = { products: demoEvidence.map(e => e.product), stats: { documents: documents().length, images: demoEvidence.reduce((n, e) => n + e.images.length, 0), products: demoEvidence.length, categories: new Set(documents().map(d => d.category)).size }, settings, runs: history().map(summarize) } satisfies Bootstrap;
+  else if (path === '/api/director/interpret' && init.method === 'POST') result = demoDirector.interpret(payload);
+  else if (path === '/api/director/plan' && init.method === 'POST') result = demoDirector.plan(payload);
   else if (path.startsWith('/api/products/')) result = evidenceFor(decodeURIComponent(path.slice('/api/products/'.length)));
   else if (path === '/api/knowledge') {
     const all = documents();
@@ -104,8 +108,8 @@ export async function demoRequest<T>(url: string, init: RequestInit = {}): Promi
   return structuredClone(result) as T;
 }
 export async function demoGenerate(input: Brief, onStage: (event: StageEvent) => void, signal: AbortSignal): Promise<Run> {
-  // Match JSON transport: optional fields cleared by the shared editor are absent,
-  // while non-empty model-only fields still fail the strict demo boundary.
+  // Match JSON transport: cleared optional fields are absent. Plan references
+  // must resolve in the public cache; model/private fields remain rejected.
   const parsed = briefSchema.safeParse(Object.fromEntries(Object.entries(input).filter(([, value]) => value !== undefined)));
   if (!parsed.success) throw new Error('请补充准确型号、受众、场景与平台。公开演示仅支持本地规则创作。');
   const brief: Brief = { ...parsed.data, generation: 'rules' };
@@ -117,7 +121,8 @@ export async function demoGenerate(input: Brief, onStage: (event: StageEvent) =>
   const stamp = new Date().toISOString();
   const evidence = evidenceFor(brief.productId);
   if (evidence.product.conflicts.length || evidence.facts.length < 2) throw new Error('当前型号公开资料不足或存在冲突，暂不能生成。');
-  const strategy = buildStrategy(brief);
+  const direction = demoDirector.resolve(brief) ?? (parent ? savedDirection(parent) : undefined);
+  const { strategy, director } = restoreDirection(brief, evidence, direction);
   if (evidence.images.length < strategy.imageMin) throw new Error('当前型号的公开官方图片不足此平台要求，请切换平台或型号。');
   const trace: Run['trace'] = [];
   for (const [step, name, detail] of [[0, '理解创作需求', `${SCENES[brief.scene].name} · ${PLATFORMS[brief.platform].name}`], [1, '制定平台策略', strategy.angle], [2, '读取公开官网摘录', `${evidence.facts.length} 项事实 · ${evidence.images.length} 张官方远程图片`], [3, '浏览器内规则编排', '规则根据本次输入实时组织内容，未调用模型或 ima。']] as const) {
@@ -125,8 +130,8 @@ export async function demoGenerate(input: Brief, onStage: (event: StageEvent) =>
     await new Promise(resolve => setTimeout(resolve, 60));
   }
   signal.throwIfAborted();
-  const article = { ...composeLocal(brief, evidence, strategy), disclaimer };
-  const run: Run = { id: crypto.randomUUID(), parentId: parent?.id, version: parent ? parent.version + 1 : 1, createdAt: stamp, updatedAt: stamp, brief, strategy, evidence, article, engine: 'local-composer', durationMs: Math.round(performance.now() - started), trace, audit: { status: 'review', releaseReady: false, findings: [], factChecks: [], checkedAt: stamp } };
+  const article = { ...composeDemoDirection(brief, evidence, strategy, direction), disclaimer };
+  const run: Run = { id: crypto.randomUUID(), parentId: parent?.id, version: parent ? parent.version + 1 : 1, createdAt: stamp, updatedAt: stamp, brief, strategy, director, evidence, article, engine: 'local-composer', durationMs: Math.round(performance.now() - started), trace, audit: { status: 'review', releaseReady: false, findings: [], factChecks: [], checkedAt: stamp } };
   run.audit = audit(run);
   for (const finding of scanCompliance(brief.requirements)) run.audit.findings.push({ ...finding, id: `input-${finding.id}`, severity: 'info', message: `已拒绝附加要求中的风险：${finding.message}` });
   if (brief.requirements.trim()) run.evidence.warnings.push('规则演示根据结构化场景与平台编排；自由文本要求不作为已执行的自定义文风修改，需在编辑正文中调整。');

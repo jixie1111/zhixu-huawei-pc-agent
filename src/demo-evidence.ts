@@ -32,7 +32,7 @@ const images: ProductImage[] = ([['green', '原野绿'], ['pink', '樱粉金'], 
 
 export const demoEvidence: Evidence[] = [{
   product: { id: productId, name: productName, shortName: 'MateBook 14（鸿蒙版）', family: '鸿蒙电脑',
-    os: 'HarmonyOS 6', factCount: facts.length, imageCount: images.length, cover: images[0].url, conflicts: [] },
+    os: 'HarmonyOS 6', category: 'computer', factCount: facts.length, imageCount: images.length, cover: images[0].url, conflicts: [] },
   facts, images,
   warnings: ['无需 API 的规则演示；不是大模型生成。', '公开官网精简摘要，独立于本机完整 ZIP 知识库。',
     '图片直接访问华为官网，需要网络；本文不提供原始资料库或素材下载。', '具体销售配置与动态信息，发布前仍需核对。'],

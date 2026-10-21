@@ -3,6 +3,7 @@ import { ArrowRight, Check, ChevronDown, Compass, LoaderCircle, Plus, ShieldChec
 import type { Brief, Evidence, ProductCategory } from '../shared/types';
 import type { CreativePlan, DirectorEngine, IntentProposal } from '../shared/director';
 import { request } from './api';
+import { isDemo } from './demo-mode';
 import { Notice, SafeImage, Spinner } from './components';
 import Result from './Result';
 import type { StudioProps } from './Studio';
@@ -14,15 +15,16 @@ import './director.css';
 
 const examples = ['开学季，给大学新生写一篇小红书，邀请他们到店体验。', '面向经常出差的商务人士，写一篇公众号，围绕真实办公任务展开。', '门店朋友圈，一句话种草一个亮点，引导私信咨询。'];
 const categoryName: Record<ProductCategory, string> = { computer: '笔记本', phone: '手机', tablet: '平板', other: '其他' };
-const emptyBrief = (engine: DirectorEngine): Brief => ({ productId: '', audience: '', scene: 'school', platform: 'xiaohongshu', stage: '比较选型', goal: '引导到店体验', requirements: '', mode: 'local', generation: engine, autoRepair: true });
+const initialEngine: DirectorEngine = isDemo ? 'rules' : 'model';
+const emptyBrief = (engine: DirectorEngine): Brief => ({ productId: '', audience: '', scene: 'school', platform: 'xiaohongshu', stage: '比较选型', goal: '引导到店体验', requirements: '', mode: 'local', generation: engine, autoRepair: isDemo ? undefined : true });
 
 export default function DirectorStudio(props: StudioProps) {
   const { bootstrap, generating, run } = props;
   const [message, setMessage] = useState('');
   const [picked, setPicked] = useState('');
-  const [engine, setEngine] = useState<DirectorEngine>('model');
+  const [engine, setEngine] = useState<DirectorEngine>(initialEngine);
   const [proposal, setProposal] = useState<IntentProposal | null>(null);
-  const [draft, setDraft] = useState<Brief>(() => emptyBrief('model'));
+  const [draft, setDraft] = useState<Brief>(() => emptyBrief(initialEngine));
   const [focus,setFocus]=useState<FocusAnswer|undefined>();
   const [plan, setPlan] = useState<CreativePlan | null>(null);
   const [conceptId, setConceptId] = useState('');
@@ -66,7 +68,7 @@ export default function DirectorStudio(props: StudioProps) {
       const answers = { ...(nextFocus ? { focus: nextFocus } : {}), ...(picked ? { productId: picked } : {}) };
       const next = await request<IntentProposal>('/api/director/interpret', { method: 'POST', body: JSON.stringify({ message, engine, answers }), signal: abort.signal });
       if (abort.signal.aborted || seq !== requestSequence.current) return;
-      setProposal(next);setFocus(nextFocus); setDraft({ ...emptyBrief(engine), ...next.suggestedBrief, requirements:next.suggestedBrief.requirements??message, mode: 'local', generation: engine, autoRepair: true });
+      setProposal(next);setFocus(nextFocus); setDraft({ ...emptyBrief(engine), ...next.suggestedBrief, requirements:next.suggestedBrief.requirements??message, mode: 'local', generation: engine, autoRepair: isDemo ? undefined : true });
     } catch (e) { if (!abort.signal.aborted) setError(e instanceof Error ? e.message : '请稍后重试'); }
     finally { if (seq === requestSequence.current) { setBusy(null); controller.current = null; } }
   }
@@ -86,7 +88,7 @@ export default function DirectorStudio(props: StudioProps) {
   function startOver() { if (locked) return; changeMessage(''); props.onNew(); }
 
   const withCover = (p?: typeof product) => p && displayCover(p) ? p : undefined;
-  const featured = withCover(product) ?? withCover(bootstrap.products.find(p => p.id === picked)) ?? HERO_PRODUCTS.map(id => withCover(bootstrap.products.find(p => p.id === id))).find(Boolean);
+  const featured = withCover(product) ?? withCover(bootstrap.products.find(p => p.id === picked)) ?? HERO_PRODUCTS.map(id => withCover(bootstrap.products.find(p => p.id === id))).find(Boolean) ?? bootstrap.products.map(withCover).find(Boolean);
   const featuredCover = featured && displayCover(featured);
   const { stats } = bootstrap;
   const pickedId = proposal ? draft.productId : picked;
@@ -94,10 +96,10 @@ export default function DirectorStudio(props: StudioProps) {
   return <div className="director-workspace">
     <header className="director-hero">
       <div className="hero-text">
-        <p className="hero-status"><span className="hero-figure"><b>{stats.products}</b>款机型</span><span className="hero-figure"><b>{stats.documents}</b>份资料</span><span className="hero-figure"><b>{stats.images}</b>张原图</span></p>
+        <p className="hero-status"><span className="hero-figure"><b>{stats.products}</b>款机型</span><span className="hero-figure"><b>{stats.documents}</b>{isDemo ? '项公开资料' : '份资料'}</span><span className="hero-figure"><b>{stats.images}</b>{isDemo ? '张官网图' : '张原图'}</span></p>
         <h1>让真实产品，<br />一句话变成<wbr />能发的图文</h1>
-        <p className="hero-sub">卖点只取自知识库原文，配图只用<span className="nowrap">同型号原图</span>，成稿后自动核验事实与合规。</p>
-        <div className="idea-card"><div className="director-card-head"><span className="step-label">01 需求</span><div className="engine-toggle" aria-label="创作引擎"><button disabled={locked} aria-pressed={engine === 'model'} onClick={() => changeEngine('model')}>模型创作</button><button disabled={locked} aria-pressed={engine === 'rules'} onClick={() => changeEngine('rules')}>规则体验</button></div></div><label htmlFor="director-message"><h2>这次要写什么？</h2></label><textarea id="director-message" aria-label="创作想法" value={message} onChange={e => changeMessage(e.target.value)} disabled={locked} maxLength={3000} placeholder="比如：开学季，给大学新生写一篇小红书，推荐 MateBook 14，邀请他们到店体验。" rows={4} /><div className="idea-bottom"><span>写清机型、人群和平台，缺的会追问</span><button className="button primary" disabled={locked || !modelReady || message.trim().length < 2} onClick={() => void interpret()}>{busy === 'intent' ? <LoaderCircle size={16} className="spinning" /> : <Sparkles size={16} />}整理创作方向<ArrowRight size={16} /></button></div>{!modelReady && <div className="director-setup"><span>模型未连接，可以先用规则体验</span><button className="text-button" onClick={props.onSettings}>连接模型 <ArrowRight size={13} /></button></div>}{engine === 'rules' && <p className="director-mode-note">规则体验：预设方向与规则编排，不调用大模型</p>}</div>
+        <p className="hero-sub">{isDemo ? '卖点取自官网公开资料，搭配同型号官网图片，成稿后核验事实与表达。' : <>卖点只取自知识库原文，配图只用<span className="nowrap">同型号原图</span>，成稿后自动核验事实与合规。</>}</p>
+        <div className="idea-card"><div className="director-card-head"><span className="step-label">01 需求</span>{isDemo ? <span className="subtle-label">规则体验</span> : <div className="engine-toggle" aria-label="创作引擎"><button disabled={locked} aria-pressed={engine === 'model'} onClick={() => changeEngine('model')}>模型创作</button><button disabled={locked} aria-pressed={engine === 'rules'} onClick={() => changeEngine('rules')}>规则体验</button></div>}</div><label htmlFor="director-message"><h2>这次要写什么？</h2></label><textarea id="director-message" aria-label="创作想法" value={message} onChange={e => changeMessage(e.target.value)} disabled={locked} maxLength={3000} placeholder="比如：开学季，给大学新生写一篇小红书，推荐 MateBook 14，邀请他们到店体验。" rows={4} /><div className="idea-bottom"><span>写清机型、人群和平台，缺的会追问</span><button className="button primary" disabled={locked || !modelReady || message.trim().length < 2} onClick={() => void interpret()}>{busy === 'intent' ? <LoaderCircle size={16} className="spinning" /> : <Sparkles size={16} />}整理创作方向<ArrowRight size={16} /></button></div>{!modelReady && <div className="director-setup"><span>模型未连接，可以先用规则体验</span><button className="text-button" onClick={props.onSettings}>连接模型 <ArrowRight size={13} /></button></div>}{engine === 'rules' && <p className="director-mode-note">规则体验：预设方向与规则编排，不调用大模型</p>}</div>
       </div>
       <figure className="hero-stage" aria-hidden="true"><span className="stage-ring" />{featuredCover && <ProductShot key={featured.id} src={featuredCover} alt="" loading="eager" fetchPriority="high" />}<figcaption>{featured?.name}</figcaption></figure>
     </header>

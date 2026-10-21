@@ -1,4 +1,5 @@
 import type { Product } from '../shared/types';
+import { isDemo } from './demo-mode';
 
 /** Display-only thumbnails for the local knowledge base, picked on 2026-10-20 by
  * reviewing every image of each model. The server's cover choice is kept for
@@ -21,6 +22,7 @@ const reviewed: Record<string, string | null> = {
 export const HERO_PRODUCTS = ['ba31be3e28ba81ce', '3d677e42bc581fe3', 'ade82cac3e3845a0'];
 
 export function displayCover(product: Product): string | undefined {
+  if (isDemo) return product.cover;
   if (!Object.hasOwn(reviewed, product.id)) return product.cover;
   const id = reviewed[product.id];
   return id ? `/api/assets/${id}` : undefined;

@@ -13,5 +13,5 @@ export default defineConfig({
     { name: 'desktop', use: { ...devices['Desktop Chrome'], viewport: { width: 1440, height: 1000 } } },
     { name: 'mobile', use: { ...devices['Desktop Chrome'], viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true } },
   ],
-  webServer: { command: 'npx vite --host 127.0.0.1 --port 3102 --strictPort', cwd: '../..', url: 'http://127.0.0.1:3102', reuseExistingServer: true, timeout: 60_000 },
+  webServer: { command: 'npx vite preview --outDir dist-demo --host 127.0.0.1 --port 3102 --strictPort', cwd: '../..', url: 'http://127.0.0.1:3102', reuseExistingServer: false, timeout: 60_000 },
 });

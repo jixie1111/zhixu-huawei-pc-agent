@@ -63,7 +63,7 @@ test('复赛源码包含开发文档与Windows启动脚本，但不收集PDF或�
   const scope = fixture(); t.after(scope.cleanup);
   fs.mkdirSync(path.join(scope.root, 'docs'), { recursive: true });
   fs.mkdirSync(path.join(scope.root, 'scripts'), { recursive: true });
-  fs.writeFileSync(path.join(scope.root, 'docs', 'BACKEND-V2.md'), '# Synthetic backend documentation\n');
+  fs.writeFileSync(path.join(scope.root, 'docs', 'ARCHITECTURE.md'), '# Synthetic backend documentation\n');
   fs.writeFileSync(path.join(scope.root, 'scripts', 'local-recording.ps1'), 'Write-Output "Synthetic launcher"\n');
   fs.writeFileSync(path.join(scope.root, 'docs', 'private-screenshot.png'), 'synthetic excluded binary');
   fs.writeFileSync(path.join(scope.root, 'docs', 'handbook.pdf'), 'synthetic separately reviewed PDF');
@@ -71,7 +71,7 @@ test('复赛源码包含开发文档与Windows启动脚本，但不收集PDF或�
   assert.equal(result.status, 0, result.stderr);
   const directory = path.join(scope.root, 'output', fs.readdirSync(path.join(scope.root, 'output'))[0]);
   const manifest = JSON.parse(fs.readFileSync(path.join(directory, 'PREVIEW-MANIFEST.json'), 'utf8'));
-  assert.ok(manifest.files.some((entry: { path: string }) => entry.path === 'docs/BACKEND-V2.md'));
+  assert.ok(manifest.files.some((entry: { path: string }) => entry.path === 'docs/ARCHITECTURE.md'));
   assert.ok(manifest.files.some((entry: { path: string }) => entry.path === 'scripts/local-recording.ps1'));
   assert.ok(!manifest.files.some((entry: { path: string }) => /\.(png|pdf)$/.test(entry.path)));
 });

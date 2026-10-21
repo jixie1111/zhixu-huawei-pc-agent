@@ -24,9 +24,9 @@ const phases = ['了解产品', '比较与考虑', '准备购买', '到店体验
 
 export default function Studio(props: StudioProps) {
   const [entry,setEntry]=useState<'director'|'classic'|'ecosystem'>(()=>new URLSearchParams(location.search).get('workspace')==='classic'?'classic':'director');
-  const localDirector = !isDemo && !props.bootstrap.settings.publicDeployment;
-  const switcher = localDirector && <div className="studio-entry-switch" aria-label="工作台模式"><button aria-pressed={entry==='director'} disabled={props.generating} onClick={() => setEntry('director')}>创意导演</button><button aria-pressed={entry==='ecosystem'} disabled={props.generating} onClick={() => setEntry('ecosystem')}>生态创作</button><button aria-pressed={entry==='classic'} disabled={props.generating} onClick={() => setEntry('classic')}>经典表单</button></div>;
-  return <>{switcher}{localDirector&&entry==='director'?<DirectorStudio {...props}/>:localDirector&&entry==='ecosystem'?<EcosystemStudio bootstrap={props.bootstrap} notify={props.notify}/>:<ClassicStudio {...props}/>}</>;
+  const directorAvailable = isDemo || !props.bootstrap.settings.publicDeployment;
+  const switcher = directorAvailable && <div className="studio-entry-switch" aria-label="工作台模式"><button aria-pressed={entry==='director'} disabled={props.generating} onClick={() => setEntry('director')}>创意导演</button>{!isDemo && <button aria-pressed={entry==='ecosystem'} disabled={props.generating} onClick={() => setEntry('ecosystem')}>生态创作</button>}<button aria-pressed={entry==='classic'} disabled={props.generating} onClick={() => setEntry('classic')}>经典表单</button></div>;
+  return <>{switcher}{directorAvailable&&entry==='director'?<DirectorStudio {...props}/>:directorAvailable&&!isDemo&&entry==='ecosystem'?<EcosystemStudio bootstrap={props.bootstrap} notify={props.notify}/>:<ClassicStudio {...props}/>}</>;
 }
 
 function ClassicStudio(props: StudioProps) {

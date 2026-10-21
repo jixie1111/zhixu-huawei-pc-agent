@@ -8,9 +8,7 @@ const root = process.cwd();
 const files = [
   'README.md', 'package.json', 'package-lock.json', 'tsconfig.json', 'vite.config.ts',
   'playwright.config.ts', 'index.html', '.gitignore', '.dockerignore', '.env.example', 'Dockerfile',
-  'public/favicon.svg', 'docs/REQUIREMENTS.md', 'docs/PROGRESS.md', 'docs/ARCHITECTURE.md',
-  'docs/DEPLOYMENT.md', 'docs/ACCEPTANCE.md', 'docs/WORK-SUBMISSION-DRAFT.md',
-  'docs/DEMO-SCRIPT.md', 'docs/SECURITY.md', 'docs/TEST-REPORT.md', 'docs/HANDBOOK.md', 'docs/handbook-status.json', 'docs/SOURCE-POLICY.md', 'docs/REAL-MODEL-ACCEPTANCE.md',
+  'public/favicon.svg',
 ];
 const directories = ['src', 'server', 'shared', 'tests', 'scripts', 'prompts', 'docs'];
 const allowedExtensions = new Set(['.ts', '.tsx', '.css', '.json', '.md', '.html', '.svg', '.py', '.ps1']);

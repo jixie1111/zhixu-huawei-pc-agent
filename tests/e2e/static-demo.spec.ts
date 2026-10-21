@@ -11,10 +11,20 @@ test('静态演示无API：真实生成、编辑核验、版本、导出、刷�
   await page.route('https://consumer.huawei.com/**', route => route.abort());
   await page.goto('/?demo=1');
   await expect(page.getByText('无需 API · 规则交互演示')).toBeVisible();
-  await expect(page.getByRole('radio', { name: /规则预览/ })).toBeChecked();
-  await expect(page.getByRole('radio', { name: /AI 模型创作/ })).toBeDisabled();
-  await page.getByRole('button', { name: '开学季', exact: true }).click();
-  await page.getByRole('button', { name: '开始创作', exact: true }).click();
+  await expect(page.getByRole('heading', { name: /让真实产品，\s*一句话变成\s*能发的图文/ })).toBeVisible();
+  await expect(page.getByRole('button', { name: '创意导演', exact: true })).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.getByRole('button', { name: '模型创作', exact: true })).toHaveCount(0);
+  await expect(page.getByRole('button', { name: '生态创作', exact: true })).toHaveCount(0);
+  await page.getByLabel('创作想法', { exact: true }).fill('开学季，给大学新生写一篇小红书，邀请他们到店体验。');
+  await page.locator('.model-card').first().click();
+  await page.getByRole('button', { name: '整理创作方向' }).click();
+  await expect(page.getByLabel('策划目标人群')).toHaveValue('大学新生');
+  await expect(page.getByLabel('策划发布平台')).toHaveValue('xiaohongshu');
+  await expect(page.locator('.persona-picker')).toHaveCount(0);
+  await page.getByRole('button', { name: '确认方向，开始策划' }).click();
+  await expect(page.locator('.concept-card')).toHaveCount(3);
+  await page.locator('.concept-card').nth(1).click();
+  await page.getByRole('button', { name: '生成规则体验稿' }).click();
   const result = page.getByRole('region', { name: '创作结果' });
   await expect(result.getByText('规则预览 · 未调用模型')).toBeVisible();
   await expect(result.getByText('公开官网摘录', { exact: true })).toBeVisible();
@@ -47,12 +57,27 @@ test('静态演示无API：真实生成、编辑核验、版本、导出、刷�
     expect(content).toContain('静态演示回归 · 已编辑');
     expect(content).toContain('公开官网摘录');
     if (format.extension === 'html') expect(content).toContain('本导出不完整');
-    if (format.extension === 'json') expect(JSON.parse(content).demo).toBe(true);
+    if (format.extension === 'json') {
+      const exported = JSON.parse(content);
+      expect(exported.demo).toBe(true);
+      expect(exported.director.conceptName).toBe('带着问题做选择');
+      expect(exported.engine).toBe('local-composer');
+      expect(exported.audit.releaseReady).toBe(false);
+    }
   }
   await page.reload();
   await page.goto('/?demo=1#history');
   await page.locator('.history-card').filter({ hasText: '静态演示回归 · 已编辑' }).click();
   await expect(result.getByRole('heading', { name: '静态演示回归 · 已编辑' })).toBeVisible();
+  await result.getByRole('button', { name: '导出草稿' }).click();
+  const restoredDownload = page.waitForEvent('download');
+  await result.getByRole('button', { name: /JSON 数据/ }).click();
+  const restoredPath = testInfo.outputPath('restored.json');
+  await (await restoredDownload).saveAs(restoredPath);
+  const restored = JSON.parse(fs.readFileSync(restoredPath, 'utf8'));
+  expect(restored.director.conceptName).toBe('带着问题做选择');
+  expect(restored.strategy.prioritizedFactIds).toEqual(restored.director.factIds);
+  expect(restored.audit.status).toBe('blocked');
   await page.goto('/?demo=1#knowledge');
   await expect(page.locator('.document-row')).toHaveCount(9);
   await page.getByLabel('搜索知识库').fill('内存');
@@ -64,4 +89,16 @@ test('静态演示无API：真实生成、编辑核验、版本、导出、刷�
   await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth - innerWidth)).toBeLessThanOrEqual(1);
   expect(apiCalls).toEqual([]);
   expect(errors).toEqual([]);
+});
+
+test('经典表单作为次级入口保留，主页默认仍是创意导演', async ({ page }) => {
+  await page.goto('/?demo=1');
+  await expect(page.getByLabel('创作想法', { exact: true })).toBeVisible();
+  await page.getByRole('button', { name: '经典表单', exact: true }).click();
+  await expect(page.getByRole('radio', { name: /规则预览/ })).toBeChecked();
+  await expect(page.getByRole('radio', { name: /AI 模型创作/ })).toBeDisabled();
+  await page.getByRole('button', { name: '开始创作', exact: true }).click();
+  await expect(page.getByRole('region', { name: '创作结果' })).toBeVisible();
+  await page.getByRole('button', { name: '创意导演', exact: true }).click();
+  await expect(page.getByLabel('创作想法', { exact: true })).toBeVisible();
 });

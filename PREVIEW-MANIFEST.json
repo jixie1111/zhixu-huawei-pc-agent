@@ -1,6 +1,6 @@
 {
   "status": "PUBLIC_SOURCE_RELEASE",
-  "createdAt": "2026-10-21T16:27:56.575Z",
+  "createdAt": "2026-10-21T17:09:44.348Z",
   "notice": "复赛源码与经检查的自研作品说明书。公开魔搭为静态规则演示；原始知识库、原图文件、私人记录、模型输出、数据库和凭据不公开。",
   "excluded": [
     "private/",
@@ -38,53 +38,23 @@
     },
     {
       "path": "README.md",
-      "bytes": 15164,
-      "sha256": "43daad2dcaae82ae0aceba93281942ff193e7dab9f66be172343d851d53d104c"
+      "bytes": 4604,
+      "sha256": "99008b61ed2349fa48ca3b8f77cbbc7d1cbbe13edfd0d2569b500e8285fc2674"
     },
     {
       "path": "docs/ACCEPTANCE.md",
-      "bytes": 9785,
-      "sha256": "4b903c22dc3fc36b9648641c0702458e46555ca1c02731446102844c6fede9d6"
+      "bytes": 2342,
+      "sha256": "3d8419775ee9df3d0d38fd356b5c6ab4dc2c44f03574375eca6873c79c2c0833"
     },
     {
       "path": "docs/ARCHITECTURE.md",
-      "bytes": 10111,
-      "sha256": "34586ca57eb32fc4319d149588e6776e67171c7d621838d78ee7b2a4ba9acc07"
-    },
-    {
-      "path": "docs/BACKEND-V2.md",
-      "bytes": 13611,
-      "sha256": "7e648c3cbbf337f33090f766d14ac5dadb0450d5ef35560c1ff2b980183131c7"
-    },
-    {
-      "path": "docs/DEMO-SCRIPT.md",
-      "bytes": 10032,
-      "sha256": "6499807bedd04509dbce1e43a81552aaae1c3c5c72c4ee341d7f9eac9deb9f19"
+      "bytes": 4313,
+      "sha256": "b1e25c37ec701e524ede2aeb53cd89b1d4a8ac5c50fb917177b6e85e1569cb4f"
     },
     {
       "path": "docs/DEPLOYMENT.md",
-      "bytes": 22221,
-      "sha256": "ae175c2b0f1766f9b736a9fea24172a841bfd4fe37c08f6db13d44a30e78b3fc"
-    },
-    {
-      "path": "docs/HANDBOOK.md",
-      "bytes": 3453,
-      "sha256": "1393d8697b7d6aaa83c9e939857d67cfed6886da846f9672fe90600f6e703d07"
-    },
-    {
-      "path": "docs/PROGRESS.md",
-      "bytes": 10372,
-      "sha256": "463c01809b4645d4ef3875154cbb3ffdba7ab53ae0abeed5a7e56ec0775e28ef"
-    },
-    {
-      "path": "docs/QUALITY-CLOSEOUT.md",
-      "bytes": 6686,
-      "sha256": "863d19f8d50302369f4c2cda1c03aa456ea372460f20562935f2c36ce5b594e6"
-    },
-    {
-      "path": "docs/REAL-MODEL-ACCEPTANCE.md",
-      "bytes": 3318,
-      "sha256": "f0334df5dbb51fe82800dd74dd9c35829d7a84c009a71dc7b76320ac13cb4bde"
+      "bytes": 6375,
+      "sha256": "cc0ec87731e59ef5b4e4eea3dd0f1b5239d81ec889d2e1bae0a94736f851917b"
     },
     {
       "path": "docs/REAL-MODEL-RESULTS.md",
@@ -92,49 +62,19 @@
       "sha256": "0247448b28816389d9df2f20e5a410e78caa11d50c96ec647ce2a7bf4e07f8ac"
     },
     {
-      "path": "docs/RELEASE-2026-10-21.md",
-      "bytes": 2889,
-      "sha256": "ac9e1714c1402996801acc777495e4d527d64083c1008f1eb3064de491d0c044"
-    },
-    {
-      "path": "docs/REQUIREMENTS.md",
-      "bytes": 5710,
-      "sha256": "cb0aaec52f631712c3fb6e3b81253b615808589e8103547d4558b43cdbd598b4"
-    },
-    {
       "path": "docs/SECURITY.md",
-      "bytes": 11134,
-      "sha256": "65f9598a4c3758f988e54aa89ed10ed6acf9ef9e2805889089ee761a333b6171"
-    },
-    {
-      "path": "docs/SEMIFINAL-LOCAL.md",
-      "bytes": 18547,
-      "sha256": "6157d5bdf7155a42e0c99b93aab01825d3123570390b097c786fbfb8506cbbe0"
+      "bytes": 10967,
+      "sha256": "8a13c3b760f943f12a8b46fdbe0fa6df28ef947dc97f471261575759c3ab3ae8"
     },
     {
       "path": "docs/SOURCE-POLICY.md",
-      "bytes": 5950,
-      "sha256": "5a593537b91b36c9e151ac632451a5f93653e1ff3cd61f6ead685e5bdec11c46"
+      "bytes": 2010,
+      "sha256": "6a47ddba082b0b24c905ee5b3e3e907a5b6570e7696ce3756be4b27c24fd3f10"
     },
     {
       "path": "docs/TEST-REPORT.md",
-      "bytes": 22771,
-      "sha256": "e141a095b4fa9f385ef2f8ca09c8902335571af1ebd9f554b2c1a261802439a6"
-    },
-    {
-      "path": "docs/WORK-SUBMISSION-DRAFT.md",
-      "bytes": 11709,
-      "sha256": "42422a6b31d9f60c6aae0ea9405b73ad269f17328009bc69218591cf69b78c85"
-    },
-    {
-      "path": "docs/handbook-status.json",
-      "bytes": 1672,
-      "sha256": "0f24be5d40207881594cdf346ebbd744a7771dc471009ad19db425f8c225ca92"
-    },
-    {
-      "path": "docs/semifinal-status.json",
-      "bytes": 1768,
-      "sha256": "6b01dc72a858897913bd7bb2bc5874ab65aca80191827de99b67340a7fe183b4"
+      "bytes": 1548,
+      "sha256": "68b059a138a39433111a237ac03fc7a569648a314f0b60e6cf5a9bace534afb1"
     },
     {
       "path": "index.html",
@@ -172,11 +112,6 @@
       "sha256": "d6bcf402786104f07d3cbf4740f4ebf2cc4623860268a599093d84a8b7ecbdd1"
     },
     {
-      "path": "scripts/build-handbook.py",
-      "bytes": 21542,
-      "sha256": "aafdac4016b653034af8431d00a464dd483cbe16559c1d256c9605f3300c1fc3"
-    },
-    {
       "path": "scripts/build-semifinal-handbook.py",
       "bytes": 20794,
       "sha256": "02a62de8a0afae5352557e9c9b9cd4ed6ac480be64f6aa5aadb250f06902a2c9"
@@ -208,8 +143,8 @@
     },
     {
       "path": "scripts/package-preview.ts",
-      "bytes": 3861,
-      "sha256": "876c4ad2bfd8e185dfaefbff489b7714f9781bd8e0f92f9938694f2e70533009"
+      "bytes": 3539,
+      "sha256": "b52309c1d7659ef2519846629ddd013198308b14ec893cbcf37dac61527a741e"
     },
     {
       "path": "scripts/prepare-offline-demo.ts",
@@ -228,13 +163,8 @@
     },
     {
       "path": "scripts/stage-demo.ts",
-      "bytes": 3936,
-      "sha256": "2a331619168db8c3450c7df8c06ae5eb44775996deb4fd5f337f0e46b5015bba"
-    },
-    {
-      "path": "scripts/theme/apple-light.py",
-      "bytes": 3136,
-      "sha256": "91dcd9d38ef85ae8e1c0d6e4f5f4dd71a7fa012ffb4920d13fa91b9df4c80db7"
+      "bytes": 4056,
+      "sha256": "cbdd09a09158d23f604a460095b14864fd357c0c3ee2a01b9dabf7f0495185af"
     },
     {
       "path": "scripts/verify-ecosystem-snapshot.ts",
@@ -308,8 +238,8 @@
     },
     {
       "path": "server/director.ts",
-      "bytes": 24650,
-      "sha256": "515a6a3fca98662a96841392586893cefe954534d0063164b791f2b77b04b8ce"
+      "bytes": 19721,
+      "sha256": "719b9549668d1409aa3e5dc2c7f6cab8bc98e3a2669b8caee6ae835ee73d0634"
     },
     {
       "path": "server/ecosystem-agent.ts",
@@ -412,6 +342,11 @@
       "sha256": "64aaf44aa71472a75ae8de2c89488d58fcb7ff389f5ca595524507741643a8f3"
     },
     {
+      "path": "shared/director-rules.ts",
+      "bytes": 5393,
+      "sha256": "f8d4e94aa3045ffe121847f0d654016e4d78d6715209359490f1a9ec9b2f12cb"
+    },
+    {
       "path": "shared/director.ts",
       "bytes": 1975,
       "sha256": "2333b74a55bedbb97e70a2cd837859bc2acf7d584b7bcdbed7ceb4333499aa5e"
@@ -463,8 +398,8 @@
     },
     {
       "path": "src/BriefChoice.tsx",
-      "bytes": 5780,
-      "sha256": "d0a64423bd7e03129c20b002088708559af14806f5e208e9ea55835615594131"
+      "bytes": 5831,
+      "sha256": "666ceabcf48e06958063343e73c6907fae661658b1d98b1f2ba17129a4b0f0c2"
     },
     {
       "path": "src/CampaignPanel.tsx",
@@ -478,8 +413,8 @@
     },
     {
       "path": "src/DirectorStudio.tsx",
-      "bytes": 14812,
-      "sha256": "067db52825dc50b46c903b68c21a1efda84bc22ffb5734c17cc624846162af52"
+      "bytes": 15265,
+      "sha256": "c732ce57883f5a0a29bdf051e877d1a76eef6ba7b407023a7596b713c626d52d"
     },
     {
       "path": "src/EcosystemStudio.tsx",
@@ -518,8 +453,8 @@
     },
     {
       "path": "src/Studio.tsx",
-      "bytes": 17222,
-      "sha256": "eba1eb5ad97d41bc3eb67270be244386106caa51e80af6d13a973cfdc4a24bc2"
+      "bytes": 17259,
+      "sha256": "bcf8adafa35af7345a0fa0074c86847ff45712ba96c9a23884abef13729b2b2c"
     },
     {
       "path": "src/WorkspacePages.tsx",
@@ -543,13 +478,18 @@
     },
     {
       "path": "src/demo-adapter.ts",
-      "bytes": 14990,
-      "sha256": "9370c07d85ad91bce918539aa82045a8b0851c6a4af095d41a7035588b6edbe3"
+      "bytes": 15407,
+      "sha256": "967e7ecfd260894042a5df27d1c46825cdcfe89ed184fcd287d772e4caaa33ad"
+    },
+    {
+      "path": "src/demo-director.ts",
+      "bytes": 9874,
+      "sha256": "5729616ccd466314f81f28149cd0d56184ba6c8b80cbbcdfe1ece7850973a53a"
     },
     {
       "path": "src/demo-evidence.ts",
-      "bytes": 3695,
-      "sha256": "637d78d296f61222fa8b28ccaa3c8a3a9155578d6b0970d282e8b0af778dbf4c"
+      "bytes": 3717,
+      "sha256": "391b53f0e9061af950f253949500efa82fbc140d559d3da7c872daec3e296296"
     },
     {
       "path": "src/demo-mode.ts",
@@ -563,8 +503,8 @@
     },
     {
       "path": "src/display-covers.ts",
-      "bytes": 1851,
-      "sha256": "bc8720796a0556ee355d220ef6b7265a99e5b0a0e01275b716dfbed22aada6aa"
+      "bytes": 1925,
+      "sha256": "e8905d5cf19eb4e0e644ca850a786523e7f085b4d0a5487adb80104dee04edb8"
     },
     {
       "path": "src/finishing.css",
@@ -642,6 +582,11 @@
       "sha256": "a75fbb799768f2d862cafc287c3b0cf855086c95c323cd936d9667b895714254"
     },
     {
+      "path": "tests/demo-director.test.ts",
+      "bytes": 4566,
+      "sha256": "3b9aa7bf8639be520c3df5942abb7a0570b583e066a295b40dc48c1a3e295605"
+    },
+    {
       "path": "tests/demo-package.test.ts",
       "bytes": 2279,
       "sha256": "3b42b22c9563ca44b276820b9ed7c68f7dae8b83c252a421f72460d82def7806"
@@ -658,8 +603,8 @@
     },
     {
       "path": "tests/e2e/demo.config.ts",
-      "bytes": 1057,
-      "sha256": "45e239e4d86589f97266c401ff9363b34e81e2ff54fdda1578702becd744fbb1"
+      "bytes": 1085,
+      "sha256": "934437c2eab2fa833c7a6e6dcd74398189f265fc908be7578922a7db2869ddd9"
     },
     {
       "path": "tests/e2e/director.spec.ts",
@@ -683,8 +628,8 @@
     },
     {
       "path": "tests/e2e/static-demo.spec.ts",
-      "bytes": 4680,
-      "sha256": "91fa719047786cb4dffaa60aa10d5ecc50a27e7259604e536a701b2a9af72bfb"
+      "bytes": 7171,
+      "sha256": "f4733b73823a8cf8c5b2b98a771a7320817dc7bc3953366f7ba1a040c183235a"
     },
     {
       "path": "tests/e2e/visual.spec.ts",
@@ -808,13 +753,13 @@
     },
     {
       "path": "tests/package.test.ts",
-      "bytes": 6234,
-      "sha256": "5fda8db8a20fc3a12ef3b8fa09baa2dee6b3c8550af094e6660943a40acc8025"
+      "bytes": 6238,
+      "sha256": "ea8fbf89e8e233cb933ada7f3a3306e31c98088bb1b2d066c1d5765861e78229"
     },
     {
       "path": "tests/public-demo-live.ts",
-      "bytes": 8519,
-      "sha256": "4a68a26a54dbec097b1ec8f69d4dc0475efceb33fd81f1d922099ea2a493a22a"
+      "bytes": 9595,
+      "sha256": "059d584d465efcca610edc6ffd32dc46f0e2a423aca44f340ef14ec5769c19ef"
     },
     {
       "path": "tests/public.test.ts",

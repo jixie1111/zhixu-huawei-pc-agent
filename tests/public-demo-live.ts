@@ -29,13 +29,23 @@ try {
     // ModelScope may wrap the real app in its public studio iframe.
     await expect.poll(() => rootPage.frames().some(frame => frame.url().startsWith(address.origin)), { timeout: 60000 }).toBe(true);
     let page: Page | Frame = rootPage.frames().find(frame => frame.url().startsWith(address.origin))!;
-    await page.getByRole('button', { name: '开始创作', exact: true }).waitFor();
+    await expect(page.getByRole('heading', { name: /让真实产品，\s*一句话变成\s*能发的图文/ })).toBeVisible();
+    await expect(page.getByRole('button', { name: '创意导演', exact: true })).toHaveAttribute('aria-pressed', 'true');
+    const hero = page.locator('.hero-stage img');
+    await expect(hero).toHaveCount(1);
+    await expect.poll(() => hero.evaluate(node => (node as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
     await rootPage.screenshot({ path: path.join(directory, `workspace-${viewport.name}.png`), fullPage: false });
     for (const scenario of [{ scene: '开学季', sceneId: 'school', platform: 'xiaohongshu', images: 3 }, { scene: '职场办公', sceneId: 'office', platform: 'wechat', images: 2 }, { scene: '门店到访', sceneId: 'store', platform: 'moments', images: 1 }]) {
-      await page.locator(`input[name="platform"][value="${scenario.platform}"]`).check({ force: true });
-      await page.getByRole('button', { name: scenario.scene, exact: true }).click();
+      const audience = scenario.sceneId === 'school' ? '大学新生' : scenario.sceneId === 'office' ? '商务人士' : '有产品选购需求的顾客';
+      const platform = scenario.platform === 'xiaohongshu' ? '小红书' : scenario.platform === 'wechat' ? '公众号' : '朋友圈';
+      await page.getByLabel('创作想法', { exact: true }).fill(`${scenario.scene}，给${audience}写一篇${platform}，邀请到店体验。`);
+      await page.locator('.model-card').first().click();
+      await page.getByRole('button', { name: '整理创作方向' }).click();
+      await page.getByRole('button', { name: '确认方向，开始策划' }).click();
+      await expect(page.locator('.concept-card')).toHaveCount(3);
+      await page.locator('.concept-card').nth(scenario.sceneId === 'school' ? 0 : scenario.sceneId === 'office' ? 1 : 2).click();
       const oldId = (await readRecords(page))[0]?.id;
-      await page.getByRole('button', { name: '开始创作', exact: true }).click();
+      await page.getByRole('button', { name: '生成规则体验稿' }).click();
       await page.waitForFunction(id => JSON.parse(localStorage.getItem('zhixu-public-demo-v1') || '[]')[0]?.id !== id, oldId);
       const current: Awaited<ReturnType<typeof readRecords>>[number] = (await readRecords(page))[0];
       assert.equal(current.brief.scene, scenario.sceneId); assert.equal(current.brief.platform, scenario.platform); assert.equal(current.brief.generation, 'rules');
@@ -57,7 +67,7 @@ try {
           const content = await fs.readFile(output, 'utf8');
           assert.ok(content.includes('公开官网摘录'));
           if (format === 'html') assert.equal((content.match(/<img src="data:image\//g) || []).length, 3);
-          if (format === 'json') { const run = JSON.parse(content); assert.equal(run.demo, true); assert.equal(run.engine, 'local-composer'); assert.equal(run.audit.releaseReady, false); }
+          if (format === 'json') { const run = JSON.parse(content); assert.equal(run.demo, true); assert.equal(run.engine, 'local-composer'); assert.equal(run.audit.releaseReady, false); assert.equal(run.director.conceptName, '一天的任务线'); }
         }
       }
     }
@@ -80,7 +90,7 @@ try {
     await rootPage.reload({ waitUntil: 'domcontentloaded' });
     await expect.poll(() => rootPage.frames().some(frame => frame.url().startsWith(address.origin)), { timeout: 60000 }).toBe(true);
     page = rootPage.frames().find(frame => frame.url().startsWith(address.origin))!;
-    await page.getByRole('button', { name: '开始创作', exact: true }).waitFor();
+    await page.getByLabel('创作想法', { exact: true }).waitFor();
     assert.deepEqual((await readRecords(page)).map(record => record.id), before.map(record => record.id));
     await page.evaluate(() => { location.hash = 'settings'; });
     await page.getByRole('heading', { name: '打开就能创作，无需配置密钥。' }).waitFor();
