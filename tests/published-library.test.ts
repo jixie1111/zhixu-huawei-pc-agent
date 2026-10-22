@@ -28,6 +28,7 @@ fs.writeFileSync(path.join(data,'manifest.json'),JSON.stringify({format:'wuyan-a
 Object.assign(process.env,{PUBLIC_DEPLOYMENT:'true',PUBLISHED_DATA_DIR:data,DATA_DIR:path.join(root,'runtime'),PUBLIC_ORIGIN:'https://qa-full.ms.show',FRAME_ANCESTORS:'https://www.modelscope.cn',LLM_API_KEY:'qa-operator-key-must-not-be-shared',LLM_MODEL:'qa-operator-model'});
 const {createApp}=await import('../server/app');
 const {RunStore}=await import('../server/store');
+const {knowledgeAssetId}=await import('../server/knowledge');
 const store=new RunStore(':memory:');
 let server:Server,base='';
 before(async()=>{server=await new Promise<Server>(resolve=>{const value=createApp({store}).listen(0,'127.0.0.1',()=>resolve(value));});base=`http://127.0.0.1:${(server.address() as AddressInfo).port}`;});
@@ -35,6 +36,10 @@ after(async()=>{await new Promise<void>(resolve=>server.close(()=>resolve()));st
 const a=randomUUID(),b=randomUUID();
 const read=(url:string,visitor=a)=>fetch(base+url,{headers:{'X-Workspace-Id':visitor}});
 const post=(url:string,payload:unknown,visitor=a,origin='https://qa-full.ms.show')=>fetch(base+url,{method:'POST',headers:{'Content-Type':'application/json','X-Workspace-Id':visitor,Origin:origin},body:JSON.stringify(payload)});
+
+test('Windows与Linux为原图生成同一编号，已发布作品的旧图片链接继续有效',()=>{
+  assert.equal(knowledgeAssetId('资料/型号/图片/a.png'),knowledgeAssetId('资料\\型号\\图片\\a.png'));
+});
 
 test('已授权发布展示完整机型、原文、原图和原稿，不需要管理员令牌',async()=>{
   const bootstrap=await (await read('/api/bootstrap')).json();

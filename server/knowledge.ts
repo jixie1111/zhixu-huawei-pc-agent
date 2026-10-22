@@ -10,6 +10,8 @@ import { imageType } from './network';
 import { reviewedImage, coverPreference, imageDescription } from './image-editorial';
 
 export const digest=(value:string)=>createHash('sha256').update(value).digest('hex').slice(0,16);
+/** Preserve the existing Windows-issued image IDs on Linux deployments too. */
+export const knowledgeAssetId=(relative:string)=>digest(relative.replaceAll('/','\\'));
 const normal=(text:string)=>text.normalize('NFKC').replace(/\s+/g,' ').trim();
 const modelKey=(text:string)=>text.normalize('NFKC').replace(/^HUAWEI\s*/i,'').replace(/\s+/g,'').toLowerCase();
 const safeSource=(raw:string)=>{try{const u=new URL(raw);return u.protocol==='https:'&&!u.username&&!u.password&&(u.hostname==='consumer.huawei.com'||u.hostname==='e.huawei.com'||u.hostname==='www.vmall.com'||u.hostname==='vmall.com')?u.toString():'';}catch{return '';}};
@@ -80,7 +82,7 @@ export class KnowledgeStore {
             const stat=fs.lstatSync(actual),relativeAsset=path.relative(fs.realpathSync(directory),fs.realpathSync(actual));
             if(!stat.isFile()||stat.isSymbolicLink()||stat.size>=8000000||relativeAsset.startsWith('..'+path.sep)||path.isAbsolute(relativeAsset)||imageType(fs.readFileSync(actual))!==expectedType)throw new Error('invalid bitmap');
           } catch {warnings.push(`已排除内容签名或路径未通过校验的图片：${filename}`);continue;}
-          const assetId=digest(path.relative(root,actual)); this.assets.set(assetId,actual);
+          const assetId=knowledgeAssetId(path.relative(root,actual)); this.assets.set(assetId,actual);
           if(images.some(i=>i.id===assetId)) continue;
           const editorial=reviewedImage({productId:id},fs.readFileSync(actual));
           images.push({id:assetId,name:filename,productId:id,productName:row['产品型号']||name,url:`/api/assets/${assetId}`,sourceUrl:safeSource(row['来源页面']||''),...imageDescription(row['官网图片说明']||filename,editorial),sourceTitle:path.relative(root,index).replaceAll('\\','/'),width:Number(row['宽度'])||undefined,height:Number(row['高度'])||undefined,sourceMode:'local',editorial});

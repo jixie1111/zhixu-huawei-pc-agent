@@ -1,6 +1,6 @@
 {
   "status": "SOURCE_PREVIEW_ONLY",
-  "createdAt": "2026-10-22T00:26:47.310Z",
+  "createdAt": "2026-10-22T00:38:30.371Z",
   "notice": "仅准备本地源码预览包；未上传、未正式提交。原始知识库、图片、凭证、会话记录与供应商插件不在包中。",
   "excluded": [
     "private/",
@@ -313,8 +313,8 @@
     },
     {
       "path": "server/knowledge.ts",
-      "bytes": 10234,
-      "sha256": "f79cdb639e212a1b4e27c6690d84c4fe0b8221ca1c3c7d150591ea0df589dd8f"
+      "bytes": 10412,
+      "sha256": "5cf81c46cd6778fb38b7bddf6ed1fa2f2726cfb8e85fa0c8f6e62bf44986691b"
     },
     {
       "path": "server/llm.ts",
@@ -788,8 +788,8 @@
     },
     {
       "path": "tests/published-library.test.ts",
-      "bytes": 7892,
-      "sha256": "e20c2fdb4681b532b22c74d30d0262421bace97013851f6938280de189c9dc98"
+      "bytes": 8177,
+      "sha256": "704efb238e5e56d61548bfd4bc814ae42d01165d1dd7e4d134ee26e5b32654ef"
     },
     {
       "path": "tests/real-delivery-live.ts",
