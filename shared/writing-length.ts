@@ -1,7 +1,7 @@
 import type { Article, Brief, Finding, Platform } from './types';
 
 export const WRITING_LENGTH: Record<Platform, readonly [number, number]> = {
-  xiaohongshu: [500, 750], wechat: [800, 1200], moments: [120, 260], poster: [80, 180],
+  xiaohongshu: [500, 900], wechat: [800, 1200], moments: [120, 260], poster: [80, 180],
 };
 export const lengthLabel = (platform: Platform) => `${WRITING_LENGTH[platform][0]}–${WRITING_LENGTH[platform][1]} 字`;
 export const shortRevision = (revision: string) => /^(?:请)?(?:把(?:内容|正文))?(?:更)?(?:精简|缩短|删减|简短)(?:正文|内容|篇幅)?(?:一点|一些)?[。！!]?$/u.test(revision.trim());
@@ -11,7 +11,7 @@ export const bodyLength = (parts: readonly string[]) => Array.from(parts.join(''
 export const articleBody = (article: Pick<Article, 'lead' | 'sections' | 'cta'>) => [article.lead, ...article.sections.map(s => s.text), article.cta];
 export function lengthInstruction(brief: LengthBrief): string {
   if (shortRevision(brief.revision || '')) return '本次明确要求精简：在原稿基础上缩短正文，保留产品事实、必要适用条件与行动引导，不为默认篇幅扩写。';
-  return `正文篇幅要求：${lengthLabel(brief.platform)}。只计算导语、各段正文和行动引导的非空白字符（含标点），不计标题、小标题、话题、图片说明、来源和免责声明。以区间中部为目标，完整展开具体处境、产品事实、选择理由与体验动作；人设只改变语气和单段节奏，不覆盖本篇幅要求。保持真实依据，不新增无依据效果，不重复参数或用空话凑字；资料不足时保留短稿供复核。`;
+  return `正文篇幅要求：${lengthLabel(brief.platform)}。只计算导语、各段正文和行动引导的非空白字符（含标点），不计标题、小标题、话题、图片说明、来源和免责声明。用足够的信息讲清一个主题，落在区间内即可，不追求上限。段落自然承接，展开与产品有关的具体处境和选择理由；体验邀请集中在结尾。人设控制语气和单段节奏，总篇幅按平台执行。事实取自本次依据，保持原有限定；资料不足时保留短稿供复核。`;
 }
 export function lengthFinding(parts: readonly string[], brief: LengthBrief): Finding | undefined {
   if (shortRevision(brief.revision || '')) return;

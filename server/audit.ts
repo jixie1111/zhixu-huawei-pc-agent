@@ -25,7 +25,21 @@ export function scanCompliance(text:string):Finding[] {
 }
 const norm=(s:string)=>s.normalize('NFKC').replace(/\s+/g,'').replace(/×/g,'x').toLowerCase();
 const numberUnits=/(\d+(?:\.\d+)?\s*(?:GHz|MHz|GB|TB|Wh|W|kg|mm|英寸|Hz|nits|尼特|小时|%|g\b))/gi;
-const quantities=(text:string)=>new Set([...text.matchAll(numberUnits)].map(m=>norm(m[0])));
+// Compare decimal spellings exactly, without floating-point rounding or changing
+// units. Capacity alternatives may share a unit: "128/256 GB" means both sizes.
+const quantityKey=(value:string)=>{
+  const normalized=norm(value),parts=/^(\d+)(?:\.(\d+))?(.*)$/.exec(normalized)!;
+  const integer=parts[1].replace(/^0+(?=\d)/,''),fraction=(parts[2]||'').replace(/0+$/,'');
+  return integer+(fraction?'.'+fraction:'')+parts[3];
+};
+const quantities=(text:string)=>{
+  const found=new Set([...text.matchAll(numberUnits)].map(m=>quantityKey(m[0])));
+  // Restricted to storage units, so camera fractions or dimension ratios do not
+  // become standalone measurements. Conditions still require semantic review.
+  for(const match of text.matchAll(/((?:\d+(?:\.\d+)?\s*[/／]\s*)+\d+(?:\.\d+)?)\s*(GB|TB)\b/gi))
+    for(const size of match[1].split(/[/／]/))found.add(quantityKey(size+match[2]));
+  return found;
+};
 export function articleText(a:Article) {return [a.title,a.lead,...a.sections.flatMap(s=>[s.heading,s.text]),a.cta,...a.tags,a.disclaimer,...a.images.flatMap(i=>[i.description,i.reason||''])].join('\n');}
 export function auditArticle(article:Article,evidence:Evidence,brief:Brief,engine:'local-composer'|'llm'):Audit {
   const findings:Finding[]=scanCompliance(articleText(article));
@@ -54,10 +68,10 @@ export function auditArticle(article:Article,evidence:Evidence,brief:Brief,engin
       if(!f||f.productId!==brief.productId) add(`ref-${id}`,'fact','block','事实引用不存在或与型号不一致。','重新检索当前具体型号。');
     }
     const context=quantities(matched.filter(Boolean).map(f=>f!.text).join(' '));
-    for(const match of (section.heading+' '+section.text).matchAll(numberUnits)) if(!context.has(norm(match[0]))) add(`quantity-${i}-${match.index}`,'fact','block','数值或单位不在本段引用事实中。','删除无依据数值，或从正确型号重新取证。',match[0]);
+    for(const match of (section.heading+' '+section.text).matchAll(numberUnits)) if(!context.has(quantityKey(match[0]))) add(`quantity-${i}-${match.index}`,'fact','block','数值或单位不在本段引用事实中。','删除无依据数值，或从正确型号重新取证。',match[0]);
   }
   const allFacts=quantities(evidence.facts.map(f=>f.text).join(' '));
-  for(const match of [article.title,article.lead,article.cta].join('\n').matchAll(numberUnits)) if(!allFacts.has(norm(match[0]))) add(`quantity-global-${match.index}`,'fact','block','标题、导语或引导语包含未经证实的数值。','删除或核对原始事实。',match[0]);
+  for(const match of [article.title,article.lead,article.cta].join('\n').matchAll(numberUnits)) if(!allFacts.has(quantityKey(match[0]))) add(`quantity-global-${match.index}`,'fact','block','标题、导语或引导语包含未经证实的数值。','删除或核对原始事实。',match[0]);
   const [min,max]=PLATFORMS[brief.platform].range;
   if(article.images.length<min||article.images.length>max) add('image-count','platform','block',`平台需要 ${min}–${max} 张图片，当前为 ${article.images.length} 张。`,'补充当前型号的合规来源图片，不使用其他型号凑数。');
   if(new Set(article.images.map(i=>i.id)).size!==article.images.length) add('duplicate-images','image','block','同一张图片被重复计数。','选择不同的真实素材。');

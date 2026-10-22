@@ -1,19 +1,17 @@
 import type { Brief } from '../shared/types';
+import { WRITING_CRAFT } from '../shared/writing-style';
 
 export type ModelStage = 'intent' | 'plan' | 'compose' | 'verify' | 'repair' | 'connection';
 export interface ModelTask { stage: ModelStage; platform?: Brief['platform'] }
 
-// Sampling is a writing preference, never a substitute for evidence or review.
-// These are server-owned defaults, not instructions extracted from user text.
-export const MODEL_POLICY_VERSION = 'wuyan-stage-voice-v6';
-// v6: platform length takes priority over persona paragraph limits. Expand useful
-// scenes and decision reasons; independent review still checks every claim.
-export const PRODUCT_STORY_GUIDE = '产品关联要求：每篇只讲一个读者真的会遇到的任务，再让一至三个事实正面回答它。写法是“处境—事实—这意味着什么—去店里试一下”：事实用肯定句直接说出来，紧接着把它放进读者的具体画面或一个能亲手验证的动作里（比如“1.31 kg 的机身，放进每天背的通勤包”“3:2 的屏幕，到店打开一页你常看的文档”）。不要替读者断言身体感受、效率提升或无基准的比较（如“不压肩”“一屏多看几行”“更省力”“更流畅”）；没有证据的性能、续航、兼容或体验效果不得推导。不要在正文里替读者怀疑参数，不写“参数不能替你判断”“合不合适要自己试”“仅供参考”这类自我否定的话；适用条件照原文保留在对应事实旁即可，存储容量不等于文件整理能力、尺寸不等于效率这类边界由核验把关。选主线事实时，优先选这类人群一眼就能感知、最有吸引力的卖点（如屏幕、重量与厚度、处理器、电池容量、摄像头、特色应用），冷门细节和版本差异不作主线，只在必要时作为一句限定带过。同一个参数只解释一次，不换个说法重复；按平台篇幅完整展开具体任务、选择理由和体验动作，各段都有信息增量，不以空话凑字。不要用教科书口吻解释参数是什么（如“3:2是横向三份纵向两份”“分辨率是横向2880个像素”），写出参数后直接接读者场景里的画面或动作。同一条适用条件全文只写一次，放在第一次出现该参数的地方。标题不要套“选电脑先看X”“X前先想想Y”的格式，用产品最打动人的点或一个具体画面做标题。每段正文都要服务主线，开头铺垫最多一段两句；后文可从不同具体任务展开已有事实，补充选择理由与体验安排，达到平台篇幅。邀请读者做一个承接正文的体验动作，不列到店核对清单。选图优先已标记的整机原图和相关细节，屏幕演示画面仅作补充，不用多张风景图凑数。这些是内部创作要求，不写入成品。';
+// Sampling is an expression preference. Evidence and review stay separate.
+export const MODEL_POLICY_VERSION = 'wuyan-stage-voice-v8';
+export const PRODUCT_STORY_GUIDE = '产品关联要求：一篇围绕一个具体需要展开，先让读者知道这是什么产品、哪一点和自己有关。朋友圈和海报聚焦一两个特点；小红书和公众号可选择几个相关事实维度，同一维度里有用的信息可以充分介绍。产品信息占主体，场景只是开场或穿插的细节。每段给读者新的产品信息或一个明确观点，避免扩写成收纳、学习方法或生活态度教程。参数说清一次，含义以资料支持的范围为限。写清产品有什么，观点可用“我更在意屏幕”这类真实可表达的偏好，不虚构使用经历；已有特点不换算成未经证实的体验或效率。必要条件紧跟相关事实说明一次。段落有详有略，不逐段重复参数、选购指导或试机动作。体验或咨询邀请留在结尾，只提一个行动。配图按产品原图的整机、细节和演示用途安排。这些是内部创作要求，不写入成品。';
 const voices: Record<Brief['platform'], { temperature: number; instruction: string }> = {
-  xiaohongshu: { temperature: 0.8, instruction: '标题是一句有态度的话或一个具体问题，带一个数字或画面更好。开头一两句直接进入处境，短段落，每段二至三句，可以有少量有意义的emoji。观点要鲜明：直接说这台机器适合谁、哪一点最值得看。结尾抛一个读者愿意回答的问题。像懂行的朋友在分享，不假扮买家，不使用“亲测”“用了一个月”等虚构经历，不套用爆款原句。' },
-  wechat: { temperature: 0.65, instruction: '像克制但有观点的科技编辑。导语用一个具体场景或问题开场，正文按“问题—事实—意义”的决策逻辑层层推进，结尾回应开头。可以直接给出判断（适合谁、为什么），段落之间有承接。避免参数堆砌、空泛排比和朋友圈式口号。' },
-  moments: { temperature: 0.7, instruction: '门店顾问发朋友圈：lead写一句开场场景（不能为空），一个有依据的亮点和它对读者意味着什么，一句轻量邀请。短句，手机一屏读完。避免长篇攻略、刷屏标签、虚构顾客反馈或紧迫库存。' },
-  poster: { temperature: 0.7, instruction: '视觉文案：一句鲜明主张、一句副标题、最多三个有依据的卖点（每个卖点“参数+一句含义”）、一个行动引导。主副层次明确，删去套话，保留每项参数的必要限定，不靠缩小字号容纳长文。' },
+  xiaohongshu: { temperature: 0.8, instruction: '像门店里懂产品的朋友认真聊一件事。标题简短、具体，读者能认出产品或自己的问题；开头直接入题。短段落，长短句穿插，观点、日常细节和事实自然衔接；小标题可有可无，有时承载信息，有时保留一句有意思的话。emoji按语气少量使用，话题选择相关的人群、场景与品类。结尾选一个具体提问或轻量邀请。' },
+  wechat: { temperature: 0.65, instruction: '有观点的产品编辑。标题讲清读者关心的问题，导语开门见山，按读者的决策逻辑推进。小标题有信息，段间有承接，事实和解释有详有略，读完能记住这款产品的一个特点。结尾回应主题，留一个轻量邀请。' },
+  moments: { temperature: 0.7, instruction: '店员发给熟人看的朋友圈。lead一句生活场景，正文围绕一个亮点说人话，最后一句轻量邀请；称呼自然、短句有停顿，段落可长可短。时间、样机到店、值班与服务安排仅用已确认的信息。' },
+  poster: { temperature: 0.7, instruction: '路过的人一眼能读懂的视觉文案。主副层次清楚，主标题说一个主题，副标题补充一个具体理由，正文最多三个有依据的亮点，再留一个行动。短句和留白承载信息。' },
 };
 export function modelPolicy(task: ModelTask = { stage: 'connection' }) {
   const temperatures: Record<ModelStage, number> = { intent: 0.15, plan: 0.7, compose: 0.7, verify: 0.1, repair: 0.2, connection: 0 };
@@ -21,11 +19,9 @@ export function modelPolicy(task: ModelTask = { stage: 'connection' }) {
   if (!Object.hasOwn(temperatures, task.stage) || (task.platform && !Object.hasOwn(voices, task.platform))) throw new Error('Unknown model task');
   if ((task.stage === 'plan' || task.stage === 'compose') && !voice) throw new Error('Creative model task requires platform');
   return {
-    version: MODEL_POLICY_VERSION,
-    stage: task.stage,
-    platform: task.platform,
+    version: MODEL_POLICY_VERSION, stage: task.stage, platform: task.platform,
     temperature: task.stage === 'compose' ? voice!.temperature : temperatures[task.stage],
     instruction: task.stage === 'plan' || task.stage === 'compose'
-      ? `平台表达要求：${voice!.instruction}\n${PRODUCT_STORY_GUIDE}\n表达自由仅用于切入点、节奏、标题和场景设问。型号、参数、价格、功能、比较结论及适用条件必须遵守原有证据约束。不得模仿受保护文章的独特原句，不把想象场景说成已发生的真实体验。场景优先用面向读者的设问或未来计划表达，成品不混入“以下是假设”“不是买家经历”等写作自我解释；不删事实的必要条件。` : '',
+      ? `平台表达要求：${voice!.instruction}\n${PRODUCT_STORY_GUIDE}\n${WRITING_CRAFT}\n型号、参数、功能、比较结论及适用条件遵守本次证据约束。不得虚构亲身使用、顾客反馈与已发生的门店故事。面向读者的设问或未来计划可以自然叙述，不混入创作说明，不删事实的必要条件。` : '',
   };
 }

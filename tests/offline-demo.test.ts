@@ -29,6 +29,9 @@ test('三场景三平台离线草稿完全内嵌图片、永久本地标识并�
   const result = prepareOfflineDemo(options);
   assert.equal(path.dirname(result.directory), path.join(taskRoot, 'private'));
   const manifest = JSON.parse(fs.readFileSync(path.join(result.directory, 'MANIFEST.json'), 'utf8'));
+  const indexHtml = fs.readFileSync(result.index, 'utf8');
+  assert.ok(indexHtml.includes('<title>物有言 · 本机离线规则草稿</title>'));
+  assert.ok(!/知序|ZHIXU/.test(indexHtml));
   assert.equal(result.cases, 3); assert.equal(result.files, 9);
   assert.equal(manifest.networkUsed, false); assert.equal(manifest.formalOnlineAcceptance, false); assert.equal(manifest.publicReleaseAuthorized, false);
   assert.deepEqual(manifest.cases.map((value: { scene: string; platform: string }) => [value.scene, value.platform]), [['school', 'xiaohongshu'], ['office', 'wechat'], ['store', 'moments']]);

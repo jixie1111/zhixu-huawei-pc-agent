@@ -41,8 +41,8 @@ export function localConcepts(brief: Brief, evidence: Evidence) {
   });
   const ids = ordered.slice(0, 3).map(f => f.id);
   return { concepts: [
-    { name:'一天的任务线', angle:`从${brief.audience}一天中的真实任务切入`, problem:'怎样把选购关注点放回自己的日常任务？', factIds:ids, structure:['一个日常任务开场','按任务解释可核实的配置','到店验证清单'], visualDirection:'原始产品图作封面；任务卡与事实卡交替，不更改产品外观。', tone:'具体、轻松，不虚构亲身体验', cta:base.cta, reason:'先让读者认出自己的场景，再用事实回应；这是预设规则方向。' },
-    { name:'带着问题做选择', angle:'用一份选择清单拆解购买决定', problem:'哪些问题应该先核实，而不是先被参数打动？', factIds:[...ids].reverse(), structure:['提出选购分歧','逐项列出事实和适用边界','整理需要现场确认的问题'], visualDirection:'真实产品图配对照清单；每张卡只承载一个判断维度。', tone:'清晰、客观、便于收藏', cta:'保存问题清单，带着常用任务到店逐项确认。', reason:'让事实服务于购买判断，避免把参数罗列当结论；这是预设规则方向。' },
-    { name:'从一个小困扰开始', angle:'先回应一种生活感受，再介绍可以核实的产品信息', problem:'怎样让内容引起共鸣，又不虚构使用体验和效果？', factIds:ids.length > 1 ? [...ids.slice(1),ids[0]] : ids, structure:['用设问引出日常感受','将困扰转为选购关注点','用资料回答并邀请体验'], visualDirection:'留白封面配一行场景设问；后续使用原图与简短证据注释。', tone:'温和、有共鸣，不作效果承诺', cta:'说说你最在意的使用场景，一起核对适用条件。', reason:'情绪只来自场景设问，不冒充真实用户见证；这是预设规则方向。' },
+    { name:'一天里的一个片段', angle:`聊聊${brief.audience}平常使用产品的一件小事`, problem:'这件日常小事，会用到产品的哪个特点？', factIds:ids, structure:['一个和产品有关的日常片段','自然展开相关特点和使用需要','一句回应主题的邀请'], visualDirection:'整机原图作封面，细节图跟随相应内容排布。', tone:'具体、轻松，不虚构亲身体验', cta:base.cta, reason:'从日常场景介绍相关特点；这是预设规则方向。' },
+    { name:'一个选择的理由', angle:'挑一个具体疑问，聊产品的相关特点', problem:'这款产品的哪一点会影响你的选择？', factIds:[...ids].reverse(), structure:['一个购买时会问的问题','从相关事实展开选择理由','给一句明确建议'], visualDirection:'产品整机图与相关细节图相互补充。', tone:'清晰、有观点、便于阅读', cta:'选这类产品，你还会问什么？', reason:'围绕一个具体问题给出依据；这是预设规则方向。' },
+    { name:'从一个小困扰开始', angle:'从生活里的一件小麻烦聊起，介绍相关产品特点', problem:'平时哪件小事让你想换一台设备？', factIds:ids.length > 1 ? [...ids.slice(1),ids[0]] : ids, structure:['聊一个日常小困扰','展开相关产品特点','一句自然的回应'], visualDirection:'整机图作封面，后续原图呼应相邻段落。', tone:'轻松、具体、有共鸣', cta:'平常用电脑，你最在意的细节是什么？', reason:'用生活问题引出产品特点；这是预设规则方向。' },
   ], recommendedIndex:0, reason:'规则预览默认推荐任务线，帮助确认方向；未执行模型推理，不代表质量排序。' };
 }

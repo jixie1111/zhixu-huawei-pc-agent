@@ -13,10 +13,10 @@ const fields=[{field:'lead',text:'合成导语'},{field:'sections.0.text',text:'
 const response=(value:unknown)=>new Response(JSON.stringify({choices:[{message:{content:JSON.stringify(value)}}]}));
 
 test('四平台统一篇幅；正文计数排除空白/标题/话题/说明，标点和emoji按码点计数',()=>{
-  assert.deepEqual(WRITING_LENGTH,{xiaohongshu:[500,750],wechat:[800,1200],moments:[120,260],poster:[80,180]});
+  assert.deepEqual(WRITING_LENGTH,{xiaohongshu:[500,900],wechat:[800,1200],moments:[120,260],poster:[80,180]});
   assert.equal(bodyLength(['甲 \n乙。','\u200b😀']),4);
   assert.equal(bodyLength(articleBody({lead:'导语',sections:[{heading:'不计入',text:'正文',factIds:[]}],cta:'行动'})),6);
-  assert.equal(PLATFORMS.xiaohongshu.length,'500–750 字');
+  assert.equal(PLATFORMS.xiaohongshu.length,'500–900 字');
   assert.ok(PERSONAS.minimal.voice.includes('平台篇幅'));assert.ok(!PERSONAS.minimal.voice.includes('正文最多两段'));
   for(const platform of Object.keys(WRITING_LENGTH) as (keyof typeof WRITING_LENGTH)[]){
     const min:number=WRITING_LENGTH[platform][0],max:number=WRITING_LENGTH[platform][1];
@@ -36,14 +36,14 @@ test('达标稿和明确精简稿不增加调用；策划保留精简例外',asy
   assert.equal(lengthFinding(['短稿'],shorter),undefined);
   assert.ok(lengthInstruction(shorter).includes('不为默认篇幅扩写'));
   assert.ok(buildStrategy(shorter).targetLength.includes('按原稿精简'));
-  assert.equal(buildStrategy(brief).targetLength,'500–750 字');
+  assert.equal(buildStrategy(brief).targetLength,'500–900 字');
 });
 
 test('短稿或过长稿只做一次正文补丁，不改输入、标题、事实引用及图片',async()=>{
-  for(const original of [fields,[{field:'sections.0.text',text:syntheticText(900)}]]){
+  for(const original of [fields,[{field:'sections.0.text',text:syntheticText(1000)}]]){
     let calls=0;const before=structuredClone(original);
     const chat:Chat=async(system,data,_signal,task)=>{
-      calls++;assert.equal(task?.stage,'repair');assert.ok(system.includes('500–750 字'));
+      calls++;assert.equal(task?.stage,'repair');assert.ok(system.includes('500–900 字'));
       assert.ok(system.includes('不能增加产品事实'));assert.deepEqual((data as any).fields,original);
       return {patches:[{field:'sections.0.text',before:original.find(f=>f.field==='sections.0.text')!.text,after:syntheticText(600)}]};
     };
@@ -56,7 +56,7 @@ test('越权/前值错误/重复/未知字段/仍不达标的篇幅补丁均整�
   const valid={field:'sections.0.text',before:fields[1].text,after:syntheticText(600)};
   const cases=[{patches:[{...valid,field:'title'}]},{patches:[{...valid,field:'images.0.id'}]},
     {patches:[{...valid,field:'sections.0.factIds'}]},{patches:[{...valid,before:'wrong'}]},
-    {patches:[valid,valid]},{patches:[{...valid,after:'仍然短'}]},{patches:[{...valid,after:syntheticText(800)}]},
+    {patches:[valid,valid]},{patches:[{...valid,after:'仍然短'}]},{patches:[{...valid,after:syntheticText(1000)}]},
     {patches:[{...valid,after:valid.before}]},{patches:[{...valid,factIds:['unknown']}]},{patches:[valid],approved:true}];
   for(const raw of cases){let calls=0;const result=await adjustBodyLength(brief,fields,{},async()=>{calls++;return raw;});
     assert.equal(calls,1);assert.deepEqual([...result],fields.map(f=>[f.field,f.text]));assert.ok(lengthFinding([...result.values()],brief));
@@ -80,7 +80,7 @@ test('篇幅整理后仍完整核验，模型新编参数被拦截；长度告�
     const payload=JSON.parse(String(init.body)),system=payload.messages[0].content;
     if(system.includes('正文篇幅编辑')){edits++;return response({patches:[{field:'sections.0.text',before:short.sections[0].text,after:'续航99小时。'+syntheticText(600)}]});}
     if(system.includes('独立事实核验员')){reviews++;return response({supported:false,issues:[{excerpt:'续航99小时',reason:'无依据',suggestion:'删除'}]});}
-    assert.ok(system.includes('500–750 字'));return response(short);
+    assert.ok(system.includes('500–900 字'));return response(short);
   });
   const article=await composeModel(brief,data,buildStrategy(brief));assert.equal(edits,1);
   assert.equal(article.title,short.title);assert.deepEqual(article.sections[0].factIds,short.sections[0].factIds);assert.deepEqual(article.images.map(i=>i.id),short.images.map(i=>i.id));

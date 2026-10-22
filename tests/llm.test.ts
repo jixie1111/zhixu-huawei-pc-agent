@@ -188,8 +188,9 @@ test('产品关联要求只进入策划与写作，核验和局部修订不被�
     const policy=modelPolicy({stage,platform:'xiaohongshu'});
     assert.equal(policy.instruction.includes(PRODUCT_STORY_GUIDE),stage==='plan'||stage==='compose');
   }
-  assert.ok(PRODUCT_STORY_GUIDE.includes('存储容量不等于文件整理能力'));
-  assert.ok(PRODUCT_STORY_GUIDE.includes('没有证据'));
+  assert.ok(PRODUCT_STORY_GUIDE.includes('产品信息占主体'));
+  assert.ok(PRODUCT_STORY_GUIDE.includes('未经证实的体验或效率'));
+  assert.ok(!PRODUCT_STORY_GUIDE.includes('存储容量不等于文件整理能力'),'drafting instructions do not prime defensive wording');
   assert.ok(PRODUCT_STORY_GUIDE.includes('不写入成品'));
 });
 

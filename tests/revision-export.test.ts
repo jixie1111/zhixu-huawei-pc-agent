@@ -26,7 +26,7 @@ test('改写请求包含原稿且不携带旧图片地址，要求重新绑定�
     assert.equal(data.previous.article.title,'需要保留的原稿主题');
     assert.equal(data.previous.version,1);
     assert.equal(data.previous.article.images[0].url,undefined);
-    assert.ok(payload.messages[0].content.includes('以其中的原稿为修改起点'));
+    assert.ok(payload.messages[0].content.includes('以原稿为修改起点'));
     assert.ok(!JSON.stringify(data).includes('qa-revision-model-secret'));
     return response(output);
   });

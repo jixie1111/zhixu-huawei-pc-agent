@@ -12,6 +12,7 @@ import { restrictedPublic, secrets } from './config';
 import { scanCompliance } from './audit';
 import { lengthFinding, lengthInstruction, type LengthBrief } from '../shared/writing-length';
 import { adjustBodyLength } from './length-adjustment';
+import { polishWriting } from './style-editing';
 import { verifyImageAvailability, type ImageReader } from './image-verification';
 
 const text=(max:number)=>z.string().trim().min(1).max(max);
@@ -145,6 +146,11 @@ export async function generateEcosystem(input:unknown,deps:EcosystemAgentDeps):P
   const next=structuredClone(article),nextFields=ecosystemFields(next);
   for(const [field,value] of adjusted)nextFields.get(field)!.text=value;
   if(ecosystemContentSchema.safeParse(contentOnly(next)).success)article=next;
+  const editableFields=[...ecosystemFields(article)].filter(([field])=>!field.startsWith('tags.')).map(([field,b])=>({field,text:b.text}));
+  const polished=await polishWriting(brief,editableFields,{evidence:evidenceInput(evidence),references:[...ecosystemFields(article)].map(([field,b])=>({field,facts:b.facts,relationIds:b.relationIds}))},chat,deps.signal);
+  const styled=structuredClone(article),styledFields=ecosystemFields(styled);
+  for(const [field,value] of polished)styledFields.get(field)!.text=value;
+  if(ecosystemContentSchema.safeParse(contentOnly(styled)).success)article=styled;
   let audit=await check(article,evidence,brief,deps);const repairHistory:EcosystemRun['repairHistory']=[];
   if(brief.autoRepair)for(let i=0;i<2&&audit.status!=='passed';i++){
     if(audit.findings.some(f=>f.id==='semantic-failed'||(f.severity==='block'&&(f.category==='image'||f.category==='source'))))break;

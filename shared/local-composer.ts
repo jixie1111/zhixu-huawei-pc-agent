@@ -11,18 +11,19 @@ function sceneFor(brief:Brief,category:ProductCategory='computer') {
 }
 export function buildStrategy(brief:Brief,category:ProductCategory='computer'):Strategy {
   const scene=sceneFor(brief,category),platform=PLATFORMS[brief.platform];
-  const phase=/到店|体验/.test(brief.stage)?{focus:'把关注点转成可现场验证的体验步骤',priorities:['屏幕','键盘和触控板','接口']}:
-    /购买|决策|下单/.test(brief.stage)?{focus:'先确认具体销售版本、必需软件与配置条件，再给出决策检查单',priorities:['操作系统','内存','存储']}:
-    /换新|升级/.test(brief.stage)?{focus:'先梳理旧设备资料迁移、常用软件与新增任务，避免只看参数升级',priorities:['操作系统','存储','接口']}:
-    /比较|考虑|选型/.test(brief.stage)?{focus:'用任务与配置对应清单解释适用边界，不作无依据的品牌对比',priorities:[]}:
-    {focus:'先从日常问题建立产品认知，解释事实价值，不催促购买',priorities:[]};
+  const phase=/到店|体验/.test(brief.stage)?{focus:'讲清一个可现场体验的具体特点',priorities:['屏幕','键盘和触控板','接口']}:
+    /购买|决策|下单/.test(brief.stage)?{focus:'回答具体销售版本、常用软件和配置的问题',priorities:['操作系统','内存','存储']}:
+    /换新|升级/.test(brief.stage)?{focus:'聊旧资料、常用软件和换机后准备做的事',priorities:['操作系统','存储','接口']}:
+    /比较|考虑|选型/.test(brief.stage)?{focus:'解释和日常任务有关的配置特点',priorities:[]}:
+    {focus:'从日常问题介绍相关产品特点',priorities:[]};
   const priorities=[...new Set([...phase.priorities,...scene.priorities])];
-  const goalAction=/收藏|兴趣/.test(brief.goal)?'先收藏这份任务清单，想清楚自己最常用的场景':
-    /私信|咨询/.test(brief.goal)?'私信说明常用软件、外设和任务，逐项核对适用配置':
-    /配置|决策/.test(brief.goal)?'核对具体销售版本、软件适配与使用条件后，再做配置决定':
-    /理解/.test(brief.goal)?'对照资料逐项理解配置与限制，记录仍需确认的问题':
-    /活动/.test(brief.goal)?'咨询门店核实活动时间和参与条件，不预设优惠权益':'';
-  const base=goalAction?(brief.platform==='poster'?`${goalAction} · 以实际核实为准`:brief.platform==='moments'?`${goalAction}，欢迎带着问题到店体验。`:`${goalAction}。${platform.cta}`):platform.cta;
+  const goalAction=/收藏/.test(brief.goal)?'可以收藏，选电脑时再翻回来看看。':
+    /兴趣/.test(brief.goal)?'你平常用电脑最多的那件事是什么？':
+    /私信|咨询/.test(brief.goal)?'想聊具体配置，私信说说你的日常用法。':
+    /配置|决策/.test(brief.goal)?'想确定具体版本，可以私信我聊聊配置。':
+    /理解/.test(brief.goal)?'关于这款产品，你还想了解哪一点？':
+    /活动/.test(brief.goal)?'当期活动安排，可以向门店咨询。':'';
+  const base=goalAction||platform.cta;
   // A store name makes thousands of identical rule drafts at least locally distinct.
   const store=brief.voice?.store?.trim();
   const cta=store?base.replace(/到店/u,`到${store}`):base;

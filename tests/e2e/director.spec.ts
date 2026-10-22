@@ -14,7 +14,7 @@ test('本地导演规则体验完整链路与可读字号（合成资料，无�
   await page.getByRole('button', { name: '确认方向，开始策划' }).click();
   const concepts = page.getByRole('region', { name: '创意方案' });
   await expect(concepts.getByRole('button', { name: /方向 0/ })).toHaveCount(3);
-  await expect(concepts.locator('.concept-card p').first()).toHaveText('怎样把选购关注点放回自己的日常任务？');
+  await expect(concepts.locator('.concept-card p').first()).toHaveText('这件日常小事，会用到产品的哪个特点？');
   await expect(concepts.locator('.concept-card').first()).not.toContainText('这是预设规则方向');
   await concepts.getByRole('button', { name: /方向 02/ }).click();
   await expect(concepts.getByRole('button', { name: /方向 02/ })).toHaveAttribute('aria-pressed', 'true');

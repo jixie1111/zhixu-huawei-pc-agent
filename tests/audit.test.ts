@@ -67,6 +67,25 @@ test('数值支撑必须完整匹配，不能把16GB支持成6GB或70Wh支持成
   assert.ok(audit.findings.some(item => item.id.startsWith('quantity-1-')));
 });
 
+test('等值小数和容量共用单位可自然表述，精度与单位仍精确匹配',()=>{
+  const data=evidence(),article=composeLocal(brief,data,buildStrategy(brief));
+  data.facts.push(fact('尺寸选项','310.0 mm；222.00 mm；厚度13.50 mm。'),fact('容量选项','存储128/256 GB；内存8/12 GB；另一选项1／2 TB。'));
+  article.sections=[
+    {heading:'310mm',text:'宽310mm、深222mm，厚13.5mm。',factIds:['qa-尺寸选项']},
+    {heading:'128GB与256GB',text:'内存8GB、12GB，存储128GB、256GB，另有1TB、2TB。',factIds:['qa-容量选项']},
+  ];article.title='310mm机身';article.lead='128GB存储';
+  assert.deepEqual(auditArticle(article,data,brief,'llm').findings.filter(f=>f.id.startsWith('quantity-')),[]);
+  for(const sample of ['310.1mm','22mm','13.51mm','13.5kg','64GB','28GB','6GB','3TB']){
+    article.sections[0]={heading:'',text:sample,factIds:['qa-尺寸选项','qa-容量选项']};
+    assert.ok(auditArticle(article,data,brief,'llm').findings.some(f=>f.id.startsWith('quantity-0-')),sample);
+  }
+  article.sections[0]={heading:'',text:'310.0000000000000001mm',factIds:['qa-尺寸选项']};
+  assert.ok(auditArticle(article,data,brief,'llm').findings.some(f=>f.id.startsWith('quantity-0-')),'no floating-point rounding');
+  data.facts.push(fact('镜头比例','1/2.3英寸传感器。'));
+  article.sections[0]={heading:'',text:'1英寸',factIds:['qa-镜头比例']};
+  assert.ok(auditArticle(article,data,brief,'llm').findings.some(f=>f.id.startsWith('quantity-0-')),'fraction is not a capacity option');
+});
+
 test('同型号、独立图片、受控地址、编排信息与平台数量统一核验', () => {
   const data = evidence(); const article = composeLocal(brief, data, buildStrategy(brief));
   article.images[0].url = 'https://attacker.example/image.png';
