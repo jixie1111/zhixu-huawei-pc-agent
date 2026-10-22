@@ -68,6 +68,8 @@ export interface Run {
 export interface Settings {
   imaConfigured: boolean; llmConfigured: boolean; accountLabel: string;
   kbName: string; llmBaseUrl: string; llmModel: string; publicDeployment: boolean;
+  /** An explicitly authorized, manifest-verified knowledge/history release. */
+  publishedLibrary?: boolean;
   /** Requested setting only; a compatible bridge may not echo its execution profile. */
   llmReasoningEffort?: string;
   connected: boolean; connectionCheckedAt?: string; connectionMessage?: string;

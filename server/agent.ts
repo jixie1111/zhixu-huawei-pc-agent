@@ -7,7 +7,7 @@ import { AppError } from './errors';
 import { auditArticle, scanCompliance } from './audit';
 import { composeModel, repairModel, repairTargets, verifySemantic } from './llm';
 import { resolveDirectorPlan, validateDirectorEvidence } from './director';
-import { secrets, publicDeployment, validateLlmUrl } from './config';
+import { secrets, restrictedPublic, validateLlmUrl } from './config';
 import { publicCatalog } from './catalog';
 import { hasPublicOnlineLineage } from './public-history';
 import type { KnowledgeStore } from './knowledge';
@@ -30,13 +30,13 @@ export interface GenerateDeps { knowledge:KnowledgeStore; store:RunStore; ima:Im
 export async function generate(input:unknown,deps:GenerateDeps):Promise<Run> {
   const started=Date.now(),brief=validateBrief(input);
   const engine=brief.mode==='ima'||brief.generation==='model'?'llm':'local-composer';
-  if(publicDeployment&&brief.mode!=='ima')throw new AppError('PRIVATE_SNAPSHOT','公开部署禁止本地快照生成。请使用已获授权的 ima 接入。',403);
+  if(restrictedPublic&&brief.mode!=='ima')throw new AppError('PRIVATE_SNAPSHOT','公开部署禁止未授权快照生成。',403);
   const stage=(step:number,name:string,detail:string)=>{deps.signal?.throwIfAborted();deps.onStage?.({step,name,detail});};
   stage(0,'理解创作需求',`${SCENES[brief.scene].name} · ${PLATFORMS[brief.platform].name}`);
-  const product=(publicDeployment?publicCatalog:deps.knowledge.products).find(p=>p.id===brief.productId);if(!product)throw new AppError('PRODUCT_UNKNOWN','无法确认具体产品型号，请从产品清单中选择。',422);
+  const product=(restrictedPublic?publicCatalog:deps.knowledge.products).find(p=>p.id===brief.productId);if(!product)throw new AppError('PRODUCT_UNKNOWN','无法确认具体产品型号，请从产品清单中选择。',422);
   const parent=brief.parentId?deps.store.get(brief.parentId):undefined;
   if(brief.parentId&&!parent)throw new AppError('PARENT_MISSING','原稿不存在，无法建立修改版本。',404);
-  if(publicDeployment&&parent&&!hasPublicOnlineLineage(parent,id=>deps.store.get(id)))throw new AppError('PRIVATE_RUN','公开部署不能读取或改写本地、混合来源或来源链不完整的历史稿。请从明确型号重新进行 ima 在线创作。',403);
+  if(restrictedPublic&&parent&&!hasPublicOnlineLineage(parent,id=>deps.store.get(id)))throw new AppError('PRIVATE_RUN','公开部署不能读取未授权的历史稿。',403);
   if(parent&&parent.brief.productId!==brief.productId)throw new AppError('REVISION_PRODUCT','修改版本不能更换产品型号。请选择新型号并作为新作品创作。',422);
   if(engine==='local-composer'&&brief.revision?.trim()) {
     const platformConversion=parent&&parent.brief.platform!==brief.platform&&brief.revision.trim()===`保持产品与场景，将内容改写为${PLATFORMS[brief.platform].name}版本。`;

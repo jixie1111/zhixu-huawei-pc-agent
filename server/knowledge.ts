@@ -3,7 +3,7 @@ import path from 'node:path';
 import { createHash } from 'node:crypto';
 import { parse } from 'csv-parse/sync';
 import type { Evidence, Fact, Product, ProductCategory, ProductImage, SourceMode } from '../shared/types';
-import { privateDir, publicDeployment } from './config';
+import { privateDir, restrictedPublic, releasedData } from './config';
 import { AppError } from './errors';
 import { publicCatalog } from './catalog';
 import { imageType } from './network';
@@ -50,9 +50,9 @@ export function classifyProduct(name:string,directory:string):ProductCategory {
 export class KnowledgeStore {
   products:Product[]=[]; evidence=new Map<string,Evidence>(); assets=new Map<string,string>(); docs:Doc[]=[];
   stats={documents:0,images:0,products:0,categories:0};
-  constructor(root=process.env.KNOWLEDGE_DIR||path.join(privateDir,'knowledge')) {
+  constructor(root=releasedData?path.join(releasedData.root,'knowledge'):process.env.KNOWLEDGE_DIR||path.join(privateDir,'knowledge')) {
     // Even an accidentally mounted local archive must not be read in public mode.
-    if(publicDeployment){this.products=structuredClone(publicCatalog);this.stats.products=this.products.length;return;}
+    if(restrictedPublic){this.products=structuredClone(publicCatalog);this.stats.products=this.products.length;return;}
     const inventory=files(root); const permitted=inventory.filter(p=>!excluded.test(p));
     for(const file of permitted.filter(f=>f.endsWith('.md'))) {
       const text=fs.readFileSync(file,'utf8'); const relative=path.relative(root,file).replaceAll('\\','/');
@@ -98,12 +98,12 @@ export class KnowledgeStore {
     if(!this.products.length)this.products=structuredClone(publicCatalog);
   }
   get(productId:string):Evidence {
-    if(publicDeployment) throw new AppError('PRIVATE_SNAPSHOT','公开部署禁止读取本地知识库快照。请使用已获授权的 ima 接入。',403);
+    if(restrictedPublic) throw new AppError('PRIVATE_SNAPSHOT','公开部署禁止读取未授权的知识库快照。',403);
     const data=this.evidence.get(productId); if(!data) throw new AppError('PRODUCT_UNKNOWN','请选择一个明确的产品型号；相近系列不可混用。',422);
     return structuredClone(data);
   }
   search(query:string,category?:string,page=1) {
-    if(publicDeployment) throw new AppError('PRIVATE_SNAPSHOT','公开部署禁止检索本地知识库快照。请使用已获授权的 ima 接入。',403);
+    if(restrictedPublic) throw new AppError('PRIVATE_SNAPSHOT','公开部署禁止检索未授权的知识库快照。',403);
     const q=query.slice(0,100).toLowerCase(); const tokens=q.split(/\s+/).filter(Boolean);
     const matches=this.docs.filter(d=>(!category||d.category===category)&&tokens.every(t=>(d.title+' '+d.text).toLowerCase().includes(t)));
     const start=(page-1)*20;

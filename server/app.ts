@@ -8,7 +8,7 @@ import { z } from 'zod';
 import { KnowledgeStore } from './knowledge';
 import { RunStore } from './store';
 import { ImaAdapter } from './ima';
-import { configure, clearSession, settings, publicDeployment, safeError, deploymentSecurity, allowsWriteOrigin } from './config';
+import { configure, clearSession, settings, publicDeployment, restrictedPublic, releasedData, withVisitorSession, safeError, deploymentSecurity, allowsWriteOrigin } from './config';
 import { AppError } from './errors';
 import { generate } from './agent';
 import { auditArticle, scanCompliance } from './audit';
@@ -46,7 +46,7 @@ export function createApp(options:{knowledge?:KnowledgeStore;store?:RunStore;ima
   };
   app.disable('x-powered-by');
   app.set('trust proxy',false);
-  const products=()=>publicDeployment?publicCatalog:knowledge.products;
+  const products=()=>restrictedPublic?publicCatalog:knowledge.products;
   const development=!publicDeployment&&process.env.NODE_ENV!=='production'&&!process.argv.includes('--production');
   // The local Vite React refresh preamble is inline. Production keeps strict script-src.
   app.use(helmet({contentSecurityPolicy:{directives:{defaultSrc:["'self'"],scriptSrc:development?["'self'","'unsafe-inline'"]:["'self'"],styleSrc:["'self'","'unsafe-inline'"],imgSrc:["'self'",'data:','blob:'],connectSrc:development?["'self'",'ws://127.0.0.1:*','ws://localhost:*']:["'self'"],fontSrc:["'self'"],objectSrc:["'none'"],baseUri:["'self'"],frameAncestors:security.frameAncestors,upgradeInsecureRequests:null}},xFrameOptions:security.frameAncestors[0]==="'none'"?{action:'deny'}:false,crossOriginEmbedderPolicy:false}));
@@ -64,6 +64,12 @@ export function createApp(options:{knowledge?:KnowledgeStore;store?:RunStore;ima
   app.use(express.json({limit:'128kb'}));
   const requireAdmin=(req:Request,res:Response,next:NextFunction)=>{
     if(!publicDeployment)return next();
+    // Published data is explicitly authorized. Service credentials and private
+    // ima access still require the operator, regardless of publication status.
+    if(releasedData&&!/^\/(?:retrieve|ima-assets)(?:\/|$)/.test(req.path)) {
+      if(!['GET','HEAD','OPTIONS'].includes(req.method)&&!z.string().uuid().safeParse(req.get('x-workspace-id')).success)return res.status(401).json({code:'WORKSPACE_REQUIRED',message:'请刷新页面以建立创作空间。'});
+      return next();
+    }
     const expected=process.env.ADMIN_TOKEN||'',given=req.get('x-admin-token')||'';
     if(!expected||Buffer.byteLength(given)!==Buffer.byteLength(expected)||!timingSafeEqual(Buffer.from(given),Buffer.from(expected)))return res.status(401).json({code:'ADMIN_REQUIRED',message:'公开预览仅展示界面；访问私人知识库和生成需管理员授权。'});
     next();
@@ -76,27 +82,33 @@ export function createApp(options:{knowledge?:KnowledgeStore;store?:RunStore;ima
     if(rate.size>1000)for(const [key,v]of rate)if(now-v.start>60000)rate.delete(key);
     next();
   });
-  app.get('/api/status',(_req,res)=>res.json({name:'物有言',version:'0.1.0',mode:publicDeployment?'public-preview':'local',ready:true}));
-  app.get('/api/bootstrap',(_req,res)=>res.json({products:publicDeployment?publicCatalog:knowledge.products,stats:publicDeployment?{documents:0,images:0,products:publicCatalog.length,categories:0}:knowledge.stats,settings:settings(),runs:publicDeployment?[]:store.list()}));
+  app.use('/api',(req,_res,next)=>{
+    if(!publicDeployment||!releasedData)return next();
+    const workspace=z.string().uuid().safeParse(req.get('x-workspace-id'));
+    const id=workspace.success?workspace.data:'';
+    withVisitorSession(id,()=>store.inWorkspace(id,next));
+  });
+  app.get('/api/status',(_req,res)=>res.json({name:'物有言',version:'0.1.0',mode:publicDeployment?(releasedData?'published-library':'public-preview'):'local',ready:true}));
+  app.get('/api/bootstrap',(_req,res)=>res.json({products:products(),stats:restrictedPublic?{documents:0,images:0,products:publicCatalog.length,categories:0}:knowledge.stats,settings:settings(),runs:restrictedPublic?[]:store.list()}));
   app.use('/api',requireAdmin);
   app.get('/api/products/:id',(req,res)=>{
-    if(publicDeployment){const product=publicCatalog.find(p=>p.id===req.params.id);if(!product)throw new AppError('PRODUCT_UNKNOWN','未知型号。',404);return res.json({product,facts:[],images:[],warnings:['公开预览只包含型号名称。生成时需从已授权的 ima 知识库取证。'],trace:[]});}
+    if(restrictedPublic){const product=publicCatalog.find(p=>p.id===req.params.id);if(!product)throw new AppError('PRODUCT_UNKNOWN','未知型号。',404);return res.json({product,facts:[],images:[],warnings:['公开预览只包含型号名称。生成时需从已授权的 ima 知识库取证。'],trace:[]});}
     res.json(knowledge.get(req.params.id));
   });
   app.get('/api/knowledge',(req,res)=>{
-    if(publicDeployment)throw new AppError('PRIVATE_SNAPSHOT','本地知识库不在公开部署中展示。',403);
+    if(restrictedPublic)throw new AppError('PRIVATE_SNAPSHOT','未授权知识库不在公开部署中展示。',403);
     const q=String(req.query.q||''),category=String(req.query.category||''),page=Math.max(1,Math.min(10000,Number(req.query.page)||1));
     res.json(knowledge.search(q,category,page));
   });
   app.get('/api/ecosystem',(_req,res)=>{
-    if(publicDeployment)throw new AppError('ECOSYSTEM_LOCAL_ONLY','生态资料目前仅在本地开放。',403);
+    if(restrictedPublic)throw new AppError('ECOSYSTEM_LOCAL_ONLY','生态资料需要发布授权。',403);
     res.json({relations:ecosystem.list(),products:knowledge.products.map(p=>({id:p.id,name:p.name,category:p.category??'computer',factCount:p.factCount,imageCount:p.imageCount}))});
   });
   app.post('/api/ecosystem/resolve',(req,res)=>{
-    if(publicDeployment)throw new AppError('ECOSYSTEM_LOCAL_ONLY','生态资料目前仅在本地开放。',403);
+    if(restrictedPublic)throw new AppError('ECOSYSTEM_LOCAL_ONLY','生态资料需要发布授权。',403);
     res.json(ecosystem.resolve(req.body,knowledge));
   });
-  const ecosystemLocal=()=>{if(publicDeployment)throw new AppError('ECOSYSTEM_LOCAL_ONLY','生态创作目前仅在本地开放。',403);};
+  const ecosystemLocal=()=>{if(restrictedPublic)throw new AppError('ECOSYSTEM_LOCAL_ONLY','生态创作需要已授权资料。',403);};
   const ecoDeps=(signal?:AbortSignal)=>({knowledge,ecosystem,store,images:createEvidenceImageReader(knowledge,ima,'local'),signal});
   const getEcosystem=(id:string)=>{ecosystemLocal();const run=store.getEcosystem(id);if(!run)throw new AppError('ECOSYSTEM_NOT_FOUND','生态作品不存在。',404);return presentEcosystem(run,{knowledge,ecosystem});};
   app.get('/api/ecosystem/campaigns',(_req,res)=>{ecosystemLocal();res.json(store.listEcosystemCampaigns().map(c=>presentEcosystemCampaign(c,{knowledge,ecosystem,store})));});
@@ -137,19 +149,19 @@ export function createApp(options:{knowledge?:KnowledgeStore;store?:RunStore;ima
     });
   });
   app.get('/api/knowledge/:id',(req,res)=>{
-    if(publicDeployment)throw new AppError('PRIVATE_SNAPSHOT','本地知识库不在公开部署中展示。',403);
+    if(restrictedPublic)throw new AppError('PRIVATE_SNAPSHOT','未授权知识库不在公开部署中展示。',403);
     const doc=knowledge.docs.find(d=>d.id===req.params.id);if(!doc)throw new AppError('DOC_NOT_FOUND','资料不存在。',404);res.json(doc);
   });
   app.get('/api/assets/:id',(req,res)=>{
-    if(publicDeployment)throw new AppError('PRIVATE_ASSET','本地知识素材不公开传播。',403);
+    if(restrictedPublic)throw new AppError('PRIVATE_ASSET','未授权知识素材不公开传播。',403);
     const filename=knowledge.assets.get(req.params.id);if(!filename)throw new AppError('ASSET_NOT_FOUND','图片不存在。',404);
     res.sendFile(filename);
   });
   app.get('/api/ima-assets/:id',async(req,res)=>{
     await withRequest(req,res,false,async signal=>{const asset=await ima.asset(req.params.id,signal);signal.throwIfAborted();if(!asset)throw new AppError('ASSET_NOT_FOUND','ima 图片记录不可用，请重新检索。',404);res.type(asset.type).send(asset.body);});
   });
-  app.get('/api/runs',(_req,res)=>res.json(publicDeployment?store.list().filter(summary=>{const run=store.get(summary.id);return !!run&&hasPublicOnlineLineage(run,id=>store.get(id));}):store.list()));
-  const getRun=(id:string)=>{const run=store.get(id);if(!run)throw new AppError('RUN_NOT_FOUND','作品不存在。',404);if(publicDeployment&&!hasPublicOnlineLineage(run,key=>store.get(key)))throw new AppError('PRIVATE_RUN','公开部署不读取本地、混合来源或来源链不完整的历史作品。请在本地查看原稿，或重新进行 ima 在线创作。',403);return run;};
+  app.get('/api/runs',(_req,res)=>res.json(restrictedPublic?store.list().filter(summary=>{const run=store.get(summary.id);return !!run&&hasPublicOnlineLineage(run,id=>store.get(id));}):store.list()));
+  const getRun=(id:string)=>{const run=store.get(id);if(!run)throw new AppError('RUN_NOT_FOUND','作品不存在。',404);if(restrictedPublic&&!hasPublicOnlineLineage(run,key=>store.get(key)))throw new AppError('PRIVATE_RUN','公开部署不读取未授权的历史作品。',403);return run;};
   app.get('/api/runs/:id',(req,res)=>res.json(getRun(req.params.id)));
   app.post('/api/retrieve',async(req,res)=>{
     const {productId}=z.object({productId:z.string().min(1),mode:z.literal('ima')}).strict().parse(req.body);
@@ -167,23 +179,23 @@ export function createApp(options:{knowledge?:KnowledgeStore;store?:RunStore;ima
     });
   });
   app.post('/api/director/interpret',async(req,res)=>{
-    if(publicDeployment)throw new AppError('DIRECTOR_LOCAL_ONLY','复赛策划室目前仅在本地开放。',403);
+    if(restrictedPublic)throw new AppError('DIRECTOR_LOCAL_ONLY','策划室需要已授权资料。',403);
     await withRequest(req,res,true,async signal=>{const proposal=await interpretIntent(req.body,knowledge.products,signal,knowledge);signal.throwIfAborted();res.json(proposal);});
   });
   app.post('/api/director/plan',async(req,res)=>{
-    if(publicDeployment)throw new AppError('DIRECTOR_LOCAL_ONLY','复赛策划室目前仅在本地开放。',403);
+    if(restrictedPublic)throw new AppError('DIRECTOR_LOCAL_ONLY','策划室需要已授权资料。',403);
     await withRequest(req,res,true,async signal=>{const history=store.list().map(summary=>store.get(summary.id)!).filter(Boolean);const plan=await planCreative(req.body,knowledge,signal,history);signal.throwIfAborted();res.json(plan);});
   });
   app.get('/api/campaigns',(_req,res)=>{
-    if(publicDeployment)throw new AppError('CAMPAIGN_LOCAL_ONLY','内容包目前仅在本地开放。',403);
+    if(restrictedPublic)throw new AppError('CAMPAIGN_LOCAL_ONLY','内容包需要已授权资料。',403);
     res.json(store.listCampaigns());
   });
   app.get('/api/campaigns/:id',(req,res)=>{
-    if(publicDeployment)throw new AppError('CAMPAIGN_LOCAL_ONLY','内容包目前仅在本地开放。',403);
+    if(restrictedPublic)throw new AppError('CAMPAIGN_LOCAL_ONLY','内容包需要已授权资料。',403);
     const campaign=store.getCampaign(req.params.id);if(!campaign)throw new AppError('CAMPAIGN_NOT_FOUND','内容包不存在。',404);res.json(campaign);
   });
   app.post('/api/campaigns',async(req,res)=>{
-    if(publicDeployment)throw new AppError('CAMPAIGN_LOCAL_ONLY','内容包目前仅在本地开放。',403);
+    if(restrictedPublic)throw new AppError('CAMPAIGN_LOCAL_ONLY','内容包需要已授权资料。',403);
     await withRequest(req,res,true,async signal=>{
       const campaign=await createCampaign(req.body,{knowledge,store,ima,signal});
       signal.throwIfAborted();res.json(campaign);
@@ -218,7 +230,7 @@ export function createApp(options:{knowledge?:KnowledgeStore;store?:RunStore;ima
       signal.throwIfAborted();
       try{
         let body:Buffer|undefined,type='image/png';
-        if(image.sourceMode==='local'&&!publicDeployment){const filename=knowledge.assets.get(image.id);if(filename){body=await fs.promises.readFile(filename,{signal});type=path.extname(filename).toLowerCase()==='.jpg'?'image/jpeg':path.extname(filename).toLowerCase()==='.webp'?'image/webp':'image/png';}}
+        if(image.sourceMode==='local'&&!restrictedPublic){const filename=knowledge.assets.get(image.id);if(filename){body=await fs.promises.readFile(filename,{signal});type=path.extname(filename).toLowerCase()==='.jpg'?'image/jpeg':path.extname(filename).toLowerCase()==='.webp'?'image/webp':'image/png';}}
         else if(image.sourceMode==='ima'){const asset=await ima.asset(image.id,signal);body=asset?.body;type=asset?.type||type;}
         signal.throwIfAborted();
         if(body&&body.length<8000000)imageData.set(image.id,`data:${type};base64,${body.toString('base64')}`);
@@ -237,9 +249,10 @@ export function createApp(options:{knowledge?:KnowledgeStore;store?:RunStore;ima
     res.json({findings});
   });
   app.post('/api/settings',(req,res)=>res.json(configure(req.body)));
-  app.post('/api/settings/clear',(_req,res)=>{clearSession();res.json(settings());});
+  app.post('/api/settings/clear',(_req,res)=>{if(restrictedPublic)throw new AppError('LOCAL_ONLY','请通过部署平台管理服务配置。',403);clearSession();res.json(settings());});
   app.post('/api/settings/test',async(req,res)=>{
     const {target}=z.object({target:z.enum(['ima','llm'])}).parse(req.body);
+    if(publicDeployment&&releasedData&&target!=='llm')throw new AppError('LOCAL_ONLY','在线工作台使用已授权资料库，此处仅测试个人模型服务。',403);
     const result=target==='ima'?await ima.connect():{message:await testModel()};
     res.json({ok:true,message:result.message,settings:settings()});
   });

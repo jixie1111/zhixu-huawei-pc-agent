@@ -1,0 +1,32 @@
+[
+  {
+    "id": "pura80-matepad115-2026-network-hos51",
+    "capability": "手机移动网络共享给平板",
+    "statement": "在已确认的设备配置和 HarmonyOS 5.1 下，完成通信共享设置后，附近的 HUAWEI MatePad 11.5 2026 Wi-Fi 版可共享 HUAWEI Pura 80 的移动网络。一对一共享，使用手机默认移动数据卡；不能由此推导三设备同时共享、平板自带蜂窝通信或其他生态能力。",
+    "participants": [
+      { "productId": "8eac271997def7b9", "role": "提供移动网络的手机", "systems": ["HarmonyOS 5.1"] },
+      { "productId": "89b845fb87a4c142", "role": "连接共享网络的平板", "systems": ["HarmonyOS 5.1"] }
+    ],
+    "conditions": [
+      { "key": "phone-variant", "label": "手机配置", "value": "Pura 80 全网通 12GB+512GB" },
+      { "key": "tablet-variant", "label": "平板配置", "value": "MatePad 11.5 2026 标准版 Wi-Fi 8GB+128GB" },
+      { "key": "same-account", "label": "账号", "value": "两台设备登录同一华为账号" },
+      { "key": "nearby", "label": "设备位置", "value": "手机和平板相互靠近" },
+      { "key": "radios", "label": "连接开关", "value": "两台设备开启 WLAN 和蓝牙，手机开启移动数据" },
+      { "key": "sim", "label": "移动数据卡", "value": "手机默认移动数据卡支持语音和短信功能" },
+      { "key": "phone-wlan", "label": "HarmonyOS 5.1 网络条件", "value": "删除手机当前连接的 WLAN 网络，保留 WLAN 开关开启" },
+      { "key": "sharing", "label": "共享设置", "value": "手机开启通信共享中的网络共享；平板在通信共享中选择连接网络" },
+      { "key": "authentication", "label": "首次连接", "value": "在平板 WLAN 共享网络列表中手动认证，确认共享连接成功" },
+      { "key": "one-to-one", "label": "共享范围", "value": "仅此手机与平板一对一通信共享" }
+    ],
+    "sourceTitle": "华为官网：手机通信能力共享平板",
+    "sourceUrl": "https://consumer.huawei.com/cn/support/content/zh-cn16064113/",
+    "excerpt": "适用产品列明 Pura 80 全网通 12+512GB、MatePad 11.5 2026 Wi-Fi 8GB+128GB；适用版本 HarmonyOS 5.1。共享网络需同账号、两端 WLAN 与蓝牙开启、手机移动数据开启。5.1 及以下需删除手机当前连接的 WLAN。按通信共享设置连接；首次自动连接需在平板共享网络列表认证。仅支持一对一，使用支持语音短信的默认移动数据卡。",
+    "supportingSources": [
+      { "title": "华为手机多设备移动通信共享功能支持清单", "url": "https://consumer.huawei.com/cn/support/content/zh-cn15989769/", "excerpt": "支持列表列有 HUAWEI Pura 80 系列；HarmonyOS 5.0 及以上需参考对应版本通信共享说明。" },
+      { "title": "华为平板多设备移动通信共享功能支持清单", "url": "https://consumer.huawei.com/cn/support/content/zh-cn15908149/", "excerpt": "支持列表列有 HUAWEI MatePad 11.5 2026，型号 TXZ，版本要求为上市版本；HarmonyOS 5 及以上操作参考手机通信能力共享平板。" }
+    ],
+    "reviewedAt": "2026-10-19T00:00:00Z",
+    "expiresAt": "2026-10-24T00:00:00Z"
+  }
+]

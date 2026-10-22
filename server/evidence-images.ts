@@ -2,7 +2,7 @@ import fs from 'node:fs/promises';
 import type { KnowledgeStore } from './knowledge';
 import type { ImageReader } from './image-verification';
 import type { SourceMode } from '../shared/types';
-import { publicDeployment } from './config';
+import { restrictedPublic } from './config';
 import { AppError } from './errors';
 import { imageType } from './network';
 
@@ -11,7 +11,7 @@ export function createEvidenceImageReader(knowledge: KnowledgeStore, ima: ImageR
   if (mode === 'ima') return ima;
   return { async asset(id, signal) {
     signal?.throwIfAborted();
-    if (publicDeployment) throw new AppError('PRIVATE_ASSET', '公开部署不读取本地知识库图片。', 403);
+    if (restrictedPublic) throw new AppError('PRIVATE_ASSET', '公开部署不读取未授权的知识库图片。', 403);
     const filename = knowledge.assets.get(id);
     if (!filename) return undefined;
     const stat = await fs.lstat(filename);

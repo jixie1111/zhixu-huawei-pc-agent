@@ -1,0 +1,86 @@
+import test, { after, before } from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
+import { createHash, randomUUID } from 'node:crypto';
+import type { Server } from 'node:http';
+import type { AddressInfo } from 'node:net';
+import type { Run } from '../shared/types';
+import { knowledgeFixture, evidence, brief } from './fixtures';
+import { buildStrategy, composeLocal } from '../shared/local-composer';
+import { loadReleasedData } from '../server/release-data';
+
+const fixture=knowledgeFixture();
+const root=fs.mkdtempSync(path.join(os.tmpdir(),'wuyan-published-'));
+const data=path.join(root,'published');
+fs.mkdirSync(data);
+fs.cpSync(fixture.root,path.join(data,'knowledge'),{recursive:true});
+const proof=evidence(),strategy=buildStrategy(brief),stamp=new Date().toISOString();
+const original:Run={id:randomUUID(),createdAt:stamp,updatedAt:stamp,version:1,brief,strategy,evidence:proof,article:composeLocal(brief,proof,strategy),audit:{status:'review',releaseReady:false,findings:[],factChecks:[],checkedAt:stamp},engine:'local-composer',durationMs:1,trace:[]};
+const history={runs:[original],campaigns:[],ecosystem_runs:[],ecosystem_campaigns:[]};
+fs.writeFileSync(path.join(data,'history.json'),JSON.stringify(history));
+fs.writeFileSync(path.join(data,'ecosystem-relations.json'),'[]');
+const files:{path:string;bytes:number;sha256:string}[]=[];
+const collect=(dir:string,prefix='')=>{for(const file of fs.readdirSync(dir,{withFileTypes:true})){const relative=prefix+file.name,actual=path.join(dir,file.name);if(file.isDirectory())collect(actual,relative+'/');else {const bytes=fs.readFileSync(actual);files.push({path:relative,bytes:bytes.length,sha256:createHash('sha256').update(bytes).digest('hex')});}}};
+collect(data);
+fs.writeFileSync(path.join(data,'manifest.json'),JSON.stringify({format:'wuyan-authorized-data-v1',authorization:'Synthetic QA authorization only',counts:{runs:1,campaigns:0,ecosystem_runs:0,ecosystem_campaigns:0},files}));
+Object.assign(process.env,{PUBLIC_DEPLOYMENT:'true',PUBLISHED_DATA_DIR:data,DATA_DIR:path.join(root,'runtime'),PUBLIC_ORIGIN:'https://qa-full.ms.show',FRAME_ANCESTORS:'https://www.modelscope.cn',LLM_API_KEY:'qa-operator-key-must-not-be-shared',LLM_MODEL:'qa-operator-model'});
+const {createApp}=await import('../server/app');
+const {RunStore}=await import('../server/store');
+const store=new RunStore(':memory:');
+let server:Server,base='';
+before(async()=>{server=await new Promise<Server>(resolve=>{const value=createApp({store}).listen(0,'127.0.0.1',()=>resolve(value));});base=`http://127.0.0.1:${(server.address() as AddressInfo).port}`;});
+after(async()=>{await new Promise<void>(resolve=>server.close(()=>resolve()));store.close();fixture.cleanup();assert.equal(path.dirname(root),fs.realpathSync(os.tmpdir()));assert.ok(path.basename(root).startsWith('wuyan-published-'));fs.rmSync(root,{recursive:true,force:true});});
+const a=randomUUID(),b=randomUUID();
+const read=(url:string,visitor=a)=>fetch(base+url,{headers:{'X-Workspace-Id':visitor}});
+const post=(url:string,payload:unknown,visitor=a,origin='https://qa-full.ms.show')=>fetch(base+url,{method:'POST',headers:{'Content-Type':'application/json','X-Workspace-Id':visitor,Origin:origin},body:JSON.stringify(payload)});
+
+test('已授权发布展示完整机型、原文、原图和原稿，不需要管理员令牌',async()=>{
+  const bootstrap=await (await read('/api/bootstrap')).json();
+  assert.equal(bootstrap.settings.publishedLibrary,true);assert.equal(bootstrap.settings.publicDeployment,true);
+  assert.equal(bootstrap.products.length,1);assert.equal(bootstrap.stats.documents,1);assert.equal(bootstrap.stats.images,6);assert.equal(bootstrap.runs.length,1);
+  assert.equal(bootstrap.settings.llmConfigured,false);assert.equal(bootstrap.settings.llmBaseUrl,'');assert.equal(bootstrap.settings.llmModel,'');
+  const library=await (await read('/api/knowledge')).json();assert.equal(library.total,1);
+  assert.equal((await read('/api/knowledge/'+library.items[0].id)).status,200);
+  const product=await (await read('/api/products/'+bootstrap.products[0].id)).json();assert.equal(product.images.length,6);
+  const image=await read(product.images[0].url);assert.equal(image.status,200);assert.match(image.headers.get('content-type')||'',/image\/png/);
+  assert.deepEqual(await (await read('/api/runs/'+original.id)).json(),original);
+  assert.equal((await read('/api/runs/'+original.id+'/export?format=json&draft=true')).status,200);
+});
+test('工作人员自行输入模型配置，仅作用于自己的访问空间，且不继承运营方密钥',async()=>{
+  const secret='qa-visitor-credential-never-publish';
+  const response=await post('/api/settings',{llmKey:secret,llmModel:'qa-model',llmBaseUrl:'https://api.siliconflow.cn/v1'});
+  assert.equal(response.status,200);const config=await response.json();assert.equal(config.llmConfigured,true);assert.ok(!JSON.stringify(config).includes(secret));
+  assert.equal((await (await read('/api/bootstrap',b)).json()).settings.llmConfigured,false);
+  assert.equal((await post('/api/settings/clear',{},b)).status,200);
+  assert.equal((await (await read('/api/bootstrap',a)).json()).settings.llmConfigured,true);
+  assert.equal((await post('/api/settings',{llmBaseUrl:'http://127.0.0.1:55460/v1'})).status,400);
+  assert.equal((await post('/api/settings',{llmBaseUrl:'https://attacker.example/v1'})).status,400);
+  assert.equal((await post('/api/settings',{imaKey:secret})).status,403);
+  assert.equal((await post('/api/settings/clear',{},a)).status,200);
+  assert.equal((await (await read('/api/bootstrap',a)).json()).settings.llmConfigured,false);
+});
+test('发布原稿不可覆盖，新版本仅对创建者可见，包括异步请求上下文',async()=>{
+  const response=await post(`/api/runs/${original.id}/edit`,{title:'访客甲的独立草稿',lead:original.article.lead,sections:original.article.sections,cta:original.article.cta,tags:original.article.tags});
+  assert.equal(response.status,200);const copy=await response.json();assert.equal(copy.parentId,original.id);
+  assert.equal((await read('/api/runs/'+copy.id,a)).status,200);
+  assert.equal((await read('/api/runs/'+copy.id,b)).status,404);
+  assert.equal((await (await read('/api/bootstrap',b)).json()).runs.length,1);
+  assert.deepEqual(await (await read('/api/runs/'+original.id,b)).json(),original);
+  assert.throws(()=>store.inWorkspace(a,()=>store.save({...original,article:{...original.article,title:'overwrite'}})),/原稿/);
+});
+test('导演规则接口和生态读取在完整发布可用，原有跨站及身份保护保持生效',async()=>{
+  assert.equal((await post('/api/director/interpret',{message:'给大学生写小红书',engine:'rules'})).status,200);
+  assert.equal((await read('/api/ecosystem')).status,200);
+  assert.equal((await read('/api/campaigns')).status,200);
+  assert.equal((await post('/api/audit',{text:'QA'},a,'https://attacker.example')).status,403);
+  assert.equal((await fetch(base+'/api/settings',{method:'POST',headers:{'Content-Type':'application/json'},body:'{}'})).status,401);
+});
+test('发布清单对篡改、额外文件和路径穿越关闭访问',()=>{
+  const changed=path.join(root,'tampered');fs.cpSync(data,changed,{recursive:true});
+  fs.appendFileSync(path.join(changed,'history.json'),' ');assert.throws(()=>loadReleasedData(changed),/校验/);
+  fs.copyFileSync(path.join(data,'history.json'),path.join(changed,'history.json'));
+  fs.writeFileSync(path.join(changed,'secret.env'),'synthetic');assert.throws(()=>loadReleasedData(changed),/清单/);
+  const manifest=JSON.parse(fs.readFileSync(path.join(data,'manifest.json'),'utf8'));manifest.files[0].path='../outside.md';fs.writeFileSync(path.join(changed,'manifest.json'),JSON.stringify(manifest));assert.throws(()=>loadReleasedData(changed),/路径/);
+});

@@ -4,7 +4,7 @@ import type { EcosystemBrief, EcosystemRun } from '../shared/ecosystem';
 import type { EcosystemCampaign, EcosystemCampaignRequest } from '../shared/ecosystem-campaign';
 import type { Platform } from '../shared/types';
 import { assertCurrentEcosystem, generateEcosystem, presentEcosystem, type EcosystemAgentDeps } from './ecosystem-agent';
-import { publicDeployment, safeError } from './config';
+import { restrictedPublic, safeError } from './config';
 import { AppError } from './errors';
 
 const platform=z.enum(['xiaohongshu','wechat','moments','poster']);
@@ -14,7 +14,7 @@ const instructions=z.string().trim().max(1200);
 const createSchema=z.object({sourceRunId:z.string().uuid(),platforms:z.array(platform).min(1).max(4),audience,goal,instructions:instructions.optional()}).strict().refine(r=>new Set(r.platforms).size===r.platforms.length,{message:'平台不能重复'});
 const reviseSchema=z.object({audience,goal,instructions:instructions.min(1),editedRunIds:z.partialRecord(platform,z.string().uuid()).optional()}).strict();
 type Deps=EcosystemAgentDeps&{generateRun?:typeof generateEcosystem;onCampaign?:(campaign:EcosystemCampaign)=>void};
-function localOnly(){if(publicDeployment)throw new AppError('ECOSYSTEM_LOCAL_ONLY','生态内容包目前仅在本地开放。',403);}
+function localOnly(){if(restrictedPublic)throw new AppError('ECOSYSTEM_LOCAL_ONLY','生态内容包需要已授权资料。',403);}
 function sourceRun(id:string,deps:Deps){const source=deps.store.getEcosystem(id);if(!source)throw new AppError('ECOSYSTEM_NOT_FOUND','生态原稿不存在。',404);assertCurrentEcosystem(source,deps);return source;}
 function combined(source:EcosystemRun,instruction?:string){const value=[source.brief.requirements,instruction].filter(Boolean).join('\n');if(value.length>3000)throw new AppError('CAMPAIGN_INPUT','原稿要求与本次修改合计超过3000字，请精简要求后重试。',422);return value;}
 function sameSelection(a:EcosystemRun,b:EcosystemRun){

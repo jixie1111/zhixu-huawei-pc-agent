@@ -1,0 +1,42 @@
+{
+  "product": "HUAWEI Pura 80",
+  "sourceUrl": "https://consumer.huawei.com/cn/phones/pura80/specs/",
+  "retrievedAt": "2026-10-19T09:45:25.564Z",
+  "sha256": "31ba4d583de3198caae4e980ac9e1017688ca84af71bfd0091342287073b62f2",
+  "scope": "中国大陆官方规格页；保留全部规格限定。不同配置不能混合为一个具体SKU。",
+  "rights": "仅本地研发及来源核对。官方公开页面不等于获得素材再分发许可。",
+  "images": [
+    {
+      "filename": "velvet-gold.png",
+      "description": "HUAWEI Pura 80 官方规格页配色图：丝绒金；外观示意，以实物为准。",
+      "source": "https://consumer.huawei.com/content/dam/huawei-cbg-site/cn/mkt/pdp/phones/pura80/specs/velvet-gold.png",
+      "width": 290,
+      "height": 800,
+      "sha256": "7cb704fd9245a4e1b7509ff64ad7b37fd0e0ba0e6e201ce935071c77af01392c"
+    },
+    {
+      "filename": "velvet-green.png",
+      "description": "HUAWEI Pura 80 官方规格页配色图：丝绒绿；外观示意，以实物为准。",
+      "source": "https://consumer.huawei.com/content/dam/huawei-cbg-site/cn/mkt/pdp/phones/pura80/specs/velvet-green.png",
+      "width": 290,
+      "height": 800,
+      "sha256": "c4f33ed92e4a949f02911665ab3020997526cb6f37781dbdd90bc76d5ead8783"
+    },
+    {
+      "filename": "velvet-white.png",
+      "description": "HUAWEI Pura 80 官方规格页配色图：丝绒白；外观示意，以实物为准。",
+      "source": "https://consumer.huawei.com/content/dam/huawei-cbg-site/cn/mkt/pdp/phones/pura80/specs/velvet-white.png",
+      "width": 290,
+      "height": 800,
+      "sha256": "d41338626b415878a9e1d618f9ff86c613df3b6851e8b51d7199b6cfbf031994"
+    },
+    {
+      "filename": "velvet-black.png",
+      "description": "HUAWEI Pura 80 官方规格页配色图：丝绒黑；外观示意，以实物为准。",
+      "source": "https://consumer.huawei.com/content/dam/huawei-cbg-site/cn/mkt/pdp/phones/pura80/specs/velvet-black.png",
+      "width": 290,
+      "height": 800,
+      "sha256": "837a1bc9f51d8ef73d12b9131cae72b6a80ec8b9d72088ff338abd52737abc05"
+    }
+  ]
+}

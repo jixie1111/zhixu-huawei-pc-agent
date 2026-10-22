@@ -1,0 +1,42 @@
+{
+  "product": "HUAWEI MatePad 11.5 2026",
+  "sourceUrl": "https://consumer.huawei.com/cn/tablets/matepad-11-5-2026/specs/",
+  "retrievedAt": "2026-10-19T09:45:26.397Z",
+  "sha256": "558eba188ec5e67dc192c1ffac179232294ae4a1a2ca91f2f90cbaa5ae5583f9",
+  "scope": "中国大陆官方规格页；保留全部规格限定。不同配置不能混合为一个具体SKU。",
+  "rights": "仅本地研发及来源核对。官方公开页面不等于获得素材再分发许可。",
+  "images": [
+    {
+      "filename": "purple.png",
+      "description": "HUAWEI MatePad 11.5 2026 官方规格页配色图：羽砂紫；外观示意，以实物为准。",
+      "source": "https://consumer.huawei.com/content/dam/huawei-cbg-site/cn/mkt/pdp/tablets/matepad-11-5-2026/specs/purple.png",
+      "width": 800,
+      "height": 700,
+      "sha256": "64b072f1361f3a51c610b82142b45d8bf93b644de093a0ca02db530382ee4f81"
+    },
+    {
+      "filename": "blue.png",
+      "description": "HUAWEI MatePad 11.5 2026 官方规格页配色图：海岛蓝；外观示意，以实物为准。",
+      "source": "https://consumer.huawei.com/content/dam/huawei-cbg-site/cn/mkt/pdp/tablets/matepad-11-5-2026/specs/blue.png",
+      "width": 800,
+      "height": 700,
+      "sha256": "fec54d260f9a71023d267f3360d9e64330f5055503d7e24e1d165216a5bafc40"
+    },
+    {
+      "filename": "silver.png",
+      "description": "HUAWEI MatePad 11.5 2026 官方规格页配色图：冰霜银；外观示意，以实物为准。",
+      "source": "https://consumer.huawei.com/content/dam/huawei-cbg-site/cn/mkt/pdp/tablets/matepad-11-5-2026/specs/silver.png",
+      "width": 800,
+      "height": 700,
+      "sha256": "36b14064736374fb798866be888b4e2a357a418dab434ef7d895b35bf86cf5e2"
+    },
+    {
+      "filename": "grey.png",
+      "description": "HUAWEI MatePad 11.5 2026 官方规格页配色图：深空灰；外观示意，以实物为准。",
+      "source": "https://consumer.huawei.com/content/dam/huawei-cbg-site/cn/mkt/pdp/tablets/matepad-11-5-2026/specs/grey.png",
+      "width": 800,
+      "height": 700,
+      "sha256": "3fbe952b4f16e12600bb29ce102d3fd61ef743f1d3d34851943feb07a6c9ba6d"
+    }
+  ]
+}

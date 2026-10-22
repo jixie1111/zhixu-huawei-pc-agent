@@ -3,16 +3,36 @@ import fs from 'node:fs';
 import path from 'node:path';
 import os from 'node:os';
 import { createHash } from 'node:crypto';
+import { AsyncLocalStorage } from 'node:async_hooks';
 import { z } from 'zod';
 import type { Settings } from '../shared/types';
 import { AppError } from './errors';
+import { loadReleasedData } from './release-data';
 
 export const privateDir = path.resolve(process.env.DATA_DIR || 'private');
 fs.mkdirSync(privateDir, { recursive: true });
 const readSecret = (file: string) => { try { return fs.readFileSync(file,'utf8').trim(); } catch { return ''; } };
-let session: Record<string,string> = {};
-let connection: Pick<Settings,'connected'|'connectionCheckedAt'|'connectionMessage'> = { connected:false };
+type ConnectionState = { session: Record<string,string>; connection: Pick<Settings,'connected'|'connectionCheckedAt'|'connectionMessage'>; touched: number };
+const emptyConnection=():ConnectionState=>({session:{},connection:{connected:false},touched:Date.now()});
+let localConnection=emptyConnection();
+const visitorScope=new AsyncLocalStorage<string>();
+const visitorConnections=new Map<string,ConnectionState>();
 export const publicDeployment = process.env.PUBLIC_DEPLOYMENT === 'true';
+const releasedDirectory = process.env.PUBLISHED_DATA_DIR || '';
+export const releasedData = releasedDirectory ? loadReleasedData(releasedDirectory) : undefined;
+export const restrictedPublic = publicDeployment && !releasedData;
+export function withVisitorSession<T>(id:string,work:()=>T):T {return visitorScope.run(id,work);}
+function connectionState(create=false):ConnectionState {
+  if(!publicDeployment||!releasedData)return localConnection;
+  const id=visitorScope.getStore();
+  if(!id){if(create)throw new AppError('WORKSPACE_REQUIRED','请刷新页面以建立创作空间。',401);return emptyConnection();}
+  const now=Date.now();
+  for(const [key,value] of visitorConnections)if(now-value.touched>2*60*60*1000)visitorConnections.delete(key);
+  let value=visitorConnections.get(id);
+  if(!value&&create){if(visitorConnections.size>=200)throw new AppError('BUSY','当前连接较多，请稍后再试。',429);value=emptyConnection();visitorConnections.set(id,value);}
+  if(value)value.touched=now;
+  return value??emptyConnection();
+}
 export interface DeploymentSecurity {
   publicOrigin?: string;
   frameAncestors: string[];
@@ -60,13 +80,15 @@ export function allowsWriteOrigin(origin: string, host: string | undefined, prot
 }
 
 export function secrets() {
+  const session=connectionState().session;
+  const visitor=publicDeployment&&!!releasedData;
   return {
-    clientId: session.clientId || process.env.IMA_OPENAPI_CLIENTID || process.env.IMA_CLIENT_ID || readSecret(path.join(os.homedir(),'.config/ima/client_id')),
-    imaKey: session.imaKey || process.env.IMA_OPENAPI_APIKEY || process.env.IMA_API_KEY || readSecret(path.join(os.homedir(),'.config/ima/api_key')),
-    llmKey: session.llmKey || process.env.LLM_API_KEY || '',
-    llmBaseUrl: session.llmBaseUrl || process.env.LLM_BASE_URL || 'https://api.siliconflow.cn/v1',
-    llmModel: session.llmModel || process.env.LLM_MODEL || '',
-    llmReasoningEffort: session.llmReasoningEffort ?? process.env.LLM_REASONING_EFFORT ?? '',
+    clientId: visitor?'':session.clientId || process.env.IMA_OPENAPI_CLIENTID || process.env.IMA_CLIENT_ID || readSecret(path.join(os.homedir(),'.config/ima/client_id')),
+    imaKey: visitor?'':session.imaKey || process.env.IMA_OPENAPI_APIKEY || process.env.IMA_API_KEY || readSecret(path.join(os.homedir(),'.config/ima/api_key')),
+    llmKey: session.llmKey || (visitor?'':process.env.LLM_API_KEY) || '',
+    llmBaseUrl: session.llmBaseUrl || (visitor?'':process.env.LLM_BASE_URL) || (visitor?'':'https://api.siliconflow.cn/v1'),
+    llmModel: session.llmModel || (visitor?'':process.env.LLM_MODEL) || '',
+    llmReasoningEffort: session.llmReasoningEffort ?? (visitor?'':process.env.LLM_REASONING_EFFORT) ?? '',
     kbName: process.env.IMA_KB_NAME || '任德耀新建华为PC知识库',
   };
 }
@@ -74,19 +96,21 @@ export function settings(): Settings {
   const s=secrets();
   return { imaConfigured:!!(s.clientId&&s.imaKey),llmConfigured:!!(s.llmKey&&s.llmModel),
     accountLabel:s.clientId?`凭证账户 · ${createHash('sha256').update(s.clientId).digest('hex').slice(0,8)}`:'尚未连接账号',
-    kbName:s.kbName,llmBaseUrl:s.llmBaseUrl,llmModel:s.llmModel,llmReasoningEffort:s.llmReasoningEffort,publicDeployment,...connection };
+    kbName:s.kbName,llmBaseUrl:s.llmBaseUrl,llmModel:s.llmModel,llmReasoningEffort:s.llmReasoningEffort,publicDeployment,publishedLibrary:!!releasedData,...connectionState().connection };
 }
 const configSchema=z.object({clientId:z.string().max(500).optional(),imaKey:z.string().max(1000).optional(),llmKey:z.string().max(1000).optional(),llmBaseUrl:z.string().url().optional(),llmModel:z.string().max(200).optional(),llmReasoningEffort:z.enum(['','low','medium','high','xhigh','max']).optional()}).strict();
 export function configure(input:unknown) {
-  if(publicDeployment) throw new AppError('LOCAL_ONLY','公开部署不允许通过网页修改服务凭证。请使用部署平台的 Secret。',403);
+  if(restrictedPublic) throw new AppError('LOCAL_ONLY','公开预览不允许通过网页修改服务凭证。',403);
   const data=configSchema.parse(input);
+  if(publicDeployment&&(data.clientId?.trim()||data.imaKey?.trim()))throw new AppError('LOCAL_ONLY','在线工作台使用已授权资料库，此处仅连接个人模型服务。',403);
   if(data.llmBaseUrl) validateLlmUrl(data.llmBaseUrl);
+  const state=connectionState(true),session=state.session;
   for(const [k,v] of Object.entries(data)) if(typeof v==='string'&&(v.trim()||k==='llmReasoningEffort')) session[k]=v.trim();
-  connection={connected:false};
+  state.connection={connected:false};
   return settings();
 }
-export function clearSession() { session={}; connection={connected:false}; }
-export function setConnection(connected:boolean,message:string) {connection={connected,connectionCheckedAt:new Date().toISOString(),connectionMessage:message};}
+export function clearSession() { if(publicDeployment&&releasedData){const id=visitorScope.getStore();if(id)visitorConnections.delete(id);}else localConnection=emptyConnection(); }
+export function setConnection(connected:boolean,message:string) {connectionState(true).connection={connected,connectionCheckedAt:new Date().toISOString(),connectionMessage:message};}
 export function validateLlmUrl(raw:string, localEndpoint=process.env.LOCAL_LLM_BASE_URL, isPublic=publicDeployment) {
   const u=new URL(raw);
   // Only an operator-selected exact loopback endpoint, never arbitrary LAN/SSRF.

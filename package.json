@@ -11,6 +11,8 @@
     "preview:demo": "vite preview --outDir dist-demo --host 127.0.0.1 --port 4174 --strictPort",
     "package:demo": "tsx scripts/stage-demo.ts",
     "start": "tsx server/index.ts --production",
+    "start:published": "tsx scripts/start-published.ts",
+    "package:authorized": "tsx scripts/package-authorized-data.ts --authorized",
     "start:local": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/local-recording.ps1 -Mode Start",
     "check:local": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/local-recording.ps1 -Mode Check",
     "test": "tsx --test tests/*.test.ts",

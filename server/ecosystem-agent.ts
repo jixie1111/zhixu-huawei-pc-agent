@@ -8,7 +8,7 @@ import type { KnowledgeStore } from './knowledge';
 import type { RunStore } from './store';
 import { chatStructured } from './llm';
 import { AppError } from './errors';
-import { publicDeployment, secrets } from './config';
+import { restrictedPublic, secrets } from './config';
 import { scanCompliance } from './audit';
 import { verifyImageAvailability, type ImageReader } from './image-verification';
 
@@ -121,7 +121,7 @@ async function repair(article:EcosystemArticle,audit:Audit,evidence:EcosystemEvi
   return {article:next,changedFields};
 }
 function contentOnly(article:EcosystemArticle):EcosystemContent {const {title,lead,sections,cta,tags}=article;return {title,lead,sections,cta,tags};}
-function localOnly(){if(publicDeployment)throw new AppError('ECOSYSTEM_LOCAL_ONLY','生态创作目前仅在本地开放。',403);}
+function localOnly(){if(restrictedPublic)throw new AppError('ECOSYSTEM_LOCAL_ONLY','生态创作需要已授权资料。',403);}
 function current(brief:EcosystemBrief,deps:EcosystemAgentDeps){const evidence=deps.ecosystem.resolve(brief.selection,deps.knowledge);usable(evidence);return evidence;}
 function sameDevices(a:EcosystemBrief,b:EcosystemBrief){return a.selection.devices.map(d=>d.productId).sort().join('|')===b.selection.devices.map(d=>d.productId).sort().join('|');}
 

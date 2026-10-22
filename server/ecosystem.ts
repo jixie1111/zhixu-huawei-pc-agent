@@ -3,7 +3,7 @@ import path from 'node:path';
 import { z } from 'zod';
 import type { EcosystemEvidence, EcosystemRelation } from '../shared/ecosystem';
 import type { KnowledgeStore } from './knowledge';
-import { privateDir, publicDeployment } from './config';
+import { privateDir, restrictedPublic, releasedData } from './config';
 import { AppError } from './errors';
 
 const text=(max=1000)=>z.string().trim().min(1).max(max);
@@ -36,8 +36,8 @@ export class EcosystemStore {
   constructor(records:unknown[]=[],private now:()=>number=Date.now) {
     for(const raw of records){const parsed=relationSchema.safeParse(raw);if(!parsed.success)throw new AppError('ECOSYSTEM_RECORD','生态证据记录格式或来源无效，请核对本地资料。',422);if(this.relations.has(parsed.data.id))throw new AppError('ECOSYSTEM_RECORD','生态证据编号重复。',422);this.relations.set(parsed.data.id,structuredClone(parsed.data));}
   }
-  static fromLocal(filename=path.join(privateDir,'ecosystem-relations.json')) {
-    if(publicDeployment||!fs.existsSync(filename))return new EcosystemStore();
+  static fromLocal(filename=path.join(releasedData?.root||privateDir,'ecosystem-relations.json')) {
+    if(restrictedPublic||!fs.existsSync(filename))return new EcosystemStore();
     const stat=fs.lstatSync(filename);
     if(!stat.isFile()||stat.isSymbolicLink()||stat.size>2_000_000)throw new AppError('ECOSYSTEM_RECORD','生态证据文件格式或大小不符合要求。',422);
     let parsed:unknown;try{parsed=JSON.parse(fs.readFileSync(filename,'utf8'));}catch{throw new AppError('ECOSYSTEM_RECORD','生态证据文件需要有效JSON。',422);}

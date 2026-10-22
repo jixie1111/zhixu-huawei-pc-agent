@@ -2,8 +2,17 @@ import type { Brief, Run } from '../shared/types';
 import { isDemo } from './demo-mode';
 
 let adminToken = '';
+let workspaceId = '';
+function workspaceHeaders(): Record<string,string> {
+  if (isDemo) return {};
+  if (!workspaceId) {
+    try { const saved=localStorage.getItem('wuyan-workspace-id');workspaceId=saved&&/^[0-9a-f-]{36}$/i.test(saved)?saved:crypto.randomUUID();localStorage.setItem('wuyan-workspace-id',workspaceId); }
+    catch { workspaceId=crypto.randomUUID(); }
+  }
+  return { 'X-Workspace-Id':workspaceId };
+}
 export const setAdminToken = (token: string) => { adminToken = token; window.dispatchEvent(new Event('zhixu:credentials-change')); };
-export const getAdminHeaders = (): Record<string, string> => adminToken ? { 'X-Admin-Token': adminToken } : {};
+export const getAdminHeaders = (): Record<string, string> => ({...workspaceHeaders(),...(adminToken ? { 'X-Admin-Token': adminToken } : {})});
 export const hasAdminToken = () => !!adminToken;
 export class ApiError extends Error {
   code?: string;
@@ -23,7 +32,7 @@ export async function request<T>(url: string, init: RequestInit = {}): Promise<T
 export interface StageEvent { step: number; name: string; detail: string }
 export async function generate(brief: Brief, onStage: (event: StageEvent) => void, signal: AbortSignal): Promise<Run> {
   if (isDemo) return (await import('./demo-adapter')).demoGenerate(brief, onStage, signal);
-  const response = await fetch('/api/generate', { method: 'POST', body: JSON.stringify(brief), signal, headers: { 'Content-Type': 'application/json', ...(adminToken ? { 'X-Admin-Token': adminToken } : {}) } });
+  const response = await fetch('/api/generate', { method: 'POST', body: JSON.stringify(brief), signal, headers: { 'Content-Type': 'application/json', ...getAdminHeaders() } });
   if (!response.ok || !response.body) {
     const data = await response.json().catch(() => ({}));
     throw new ApiError(data.message || data.error?.message || (typeof data.error === 'string' ? data.error : '') || '生成请求失败', data.code, data.details);
@@ -55,7 +64,7 @@ export async function generate(brief: Brief, onStage: (event: StageEvent) => voi
 }
 export async function downloadRun(id: string, format: 'md' | 'html' | 'json' | 'png-pack', draft: boolean): Promise<void> {
   if (isDemo) { if(format==='png-pack')throw new Error('图文配图包在本地创作版提供。');saveDownload(await (await import('./demo-adapter')).demoExport(id, format), id, format, true); return; }
-  const response = await fetch(`/api/runs/${encodeURIComponent(id)}/export?format=${format}&draft=${draft}`, { headers: adminToken ? { 'X-Admin-Token': adminToken } : {} });
+  const response = await fetch(`/api/runs/${encodeURIComponent(id)}/export?format=${format}&draft=${draft}`, { headers: getAdminHeaders() });
   if (!response.ok) { const data = await response.json().catch(() => ({})); throw new Error(data.message || data.error?.message || '导出失败，请先处理核验问题。'); }
   const blob = await response.blob();
   saveDownload(blob, id, format==='png-pack'?'zip':format, draft);
