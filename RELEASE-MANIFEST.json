@@ -1,9 +1,9 @@
 {
   "format": "wuyan-full-release-v1",
-  "createdAt": "2026-10-22T00:52:13.325Z",
+  "createdAt": "2026-10-22T01:49:10.949Z",
   "counts": {
     "knowledgeFiles": 1538,
-    "runs": 52,
+    "runs": 55,
     "campaigns": 4,
     "ecosystem_runs": 2,
     "ecosystem_campaigns": 0
@@ -31,8 +31,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 4043,
-      "sha256": "d06bb6bfcbcc93ab3a2a59f2dc14f444482735f0c49e31249c53d11fee5ce4fc"
+      "bytes": 4782,
+      "sha256": "dfc58b21bfb772bb0da013edb164537a74ec5458ec30780ebf903c74c380a728"
     },
     {
       "path": "docs/ACCEPTANCE.md",
@@ -41,18 +41,18 @@
     },
     {
       "path": "docs/ARCHITECTURE.md",
-      "bytes": 4544,
-      "sha256": "35f48f51e94e88dfdec4bc5152884535567360fe000a92624e968eafd36aaea0"
+      "bytes": 5140,
+      "sha256": "90051c10992213f244ccce1e29fa6bbdd324caf45110760bb1a3e7055cd6b09d"
     },
     {
       "path": "docs/DEPLOYMENT.md",
       "bytes": 3841,
-      "sha256": "96ec86ea424b6014e61176045f067e014319d2eee580f629d86a49e468201cd4"
+      "sha256": "f849eb89197110abffa9f7e5059abd5dacff6d6555ce8b37c3c28cba0649a328"
     },
     {
       "path": "docs/REAL-MODEL-RESULTS.md",
-      "bytes": 10670,
-      "sha256": "0247448b28816389d9df2f20e5a410e78caa11d50c96ec647ce2a7bf4e07f8ac"
+      "bytes": 11638,
+      "sha256": "3bc81f88dcafa6fdef0db56f4a1b60f3b4973375c89acacf335acf84c5b1a4d3"
     },
     {
       "path": "docs/SECURITY.md",
@@ -60,14 +60,34 @@
       "sha256": "0569e12428a4612e866df2169315a1e7cae9937bf9c15b74608939d7374670eb"
     },
     {
+      "path": "docs/SHOWCASE.md",
+      "bytes": 882,
+      "sha256": "c1b1d5a36c4ff8c0981e7a40d2186b59242dbf7f7905a20705570a90ef11783f"
+    },
+    {
       "path": "docs/SOURCE-POLICY.md",
       "bytes": 1768,
-      "sha256": "7a88ca575d0f7f32cd113de606a6e5f5767b6aefd017b96f0014b2ee9c1e7208"
+      "sha256": "7dbc41e2ab6fbdd7502f2cff2aee665b8d4bca006e31dfb8c45dbc040c222742"
     },
     {
       "path": "docs/TEST-REPORT.md",
-      "bytes": 8276,
-      "sha256": "18ccdcdb8760faaa020f4307968241c2f5b2c6a4d192e5799a835c534090f002"
+      "bytes": 9725,
+      "sha256": "45f7cd443454f33853c57b96f559fff30ac7b6d44241df1d16d783b8da08e9a8"
+    },
+    {
+      "path": "docs/examples/moments.md",
+      "bytes": 1375,
+      "sha256": "a3f8d4b56655027f714aa950ebd77aacb23e5cd5563700e58e2f9ee36932a6ec"
+    },
+    {
+      "path": "docs/examples/wechat.md",
+      "bytes": 4137,
+      "sha256": "1a4f3b56f88c96c0b98e437864b44f3f2c7f300cf4f9aad604992fe44d9b6487"
+    },
+    {
+      "path": "docs/examples/xiaohongshu.md",
+      "bytes": 3660,
+      "sha256": "ab78362d807480ef82c0b2170769c653413e72a8d64747458a6995caff16ed8f"
     },
     {
       "path": "index.html",
@@ -91,8 +111,8 @@
     },
     {
       "path": "prompts/system.md",
-      "bytes": 6111,
-      "sha256": "d71bff158a578424678553fff9b6726b68d3ac77c346cb33515df055ea8fb9e5"
+      "bytes": 6481,
+      "sha256": "0e1f7dfc4c262fd7d2f44af2a61a81153dceafb08946f2e85973bc3aaa5c1067"
     },
     {
       "path": "public/favicon.svg",
@@ -216,8 +236,8 @@
     },
     {
       "path": "server/audit.ts",
-      "bytes": 11025,
-      "sha256": "fa402f6e9e1b1db244a2aa8115d8dd3f3446546670e6c993dfa4a59f69cdba30"
+      "bytes": 11204,
+      "sha256": "eb6e0e224675179b4b901f3cbd585269939c319069772a0d0140319a7c598df4"
     },
     {
       "path": "server/brief-advisor.ts",
@@ -246,13 +266,13 @@
     },
     {
       "path": "server/director.ts",
-      "bytes": 19721,
-      "sha256": "719b9549668d1409aa3e5dc2c7f6cab8bc98e3a2669b8caee6ae835ee73d0634"
+      "bytes": 19843,
+      "sha256": "23f621b3cfd895b79a7adf11555c98e97b8682e7022feab4b54c249d4b50e997"
     },
     {
       "path": "server/ecosystem-agent.ts",
-      "bytes": 22394,
-      "sha256": "b4c098bc14e56a8c41a1b32d0564e7cf75fe328e4a904e1e139c106d127c834f"
+      "bytes": 23507,
+      "sha256": "a948bc3ddcaa6ad77ae653cd5f983fe44dccc204833b75cda33675857258ecea"
     },
     {
       "path": "server/ecosystem-campaign.ts",
@@ -310,14 +330,19 @@
       "sha256": "5cf81c46cd6778fb38b7bddf6ed1fa2f2726cfb8e85fa0c8f6e62bf44986691b"
     },
     {
+      "path": "server/length-adjustment.ts",
+      "bytes": 2331,
+      "sha256": "b21c323d189e2f080b20126284fb6fba0ac48e4f0656bc711fdef9871890cca4"
+    },
+    {
       "path": "server/llm.ts",
-      "bytes": 15491,
-      "sha256": "18fd7dd862b6457b84c40694c812801802d379c01eec0b18f036d31b9da90434"
+      "bytes": 16270,
+      "sha256": "dedae4c0ab26edb72ef26ae4083d206d8fd9a1689d97f49e1e31a7ca36ad9f32"
     },
     {
       "path": "server/model-policy.ts",
-      "bytes": 5659,
-      "sha256": "c49530bd8fe543861a419bc9709c5d47f63d6a170da6431c6fa02ca94fb2f62d"
+      "bytes": 5730,
+      "sha256": "662fd934b753962fe551d464472d9d9df8e82bbefea54c092afd516043e41247"
     },
     {
       "path": "server/network.ts",
@@ -381,13 +406,13 @@
     },
     {
       "path": "shared/local-composer.ts",
-      "bytes": 8896,
-      "sha256": "71547e9c259aab0fcc7159f5db05b8671124d1558167da904a6efed58ddad06a"
+      "bytes": 8873,
+      "sha256": "5f594d48ab3848c1c4fbdb7472291a053fabf6ee812e6f5c7d2ae085b75919a4"
     },
     {
       "path": "shared/rules.ts",
-      "bytes": 6726,
-      "sha256": "c56e6e44f3902562f057c95c687819606b76c8d6da588452d1b628c87661160b"
+      "bytes": 6951,
+      "sha256": "150bb398dcc00c69a80c119d74e3e81563eb417015f48285395e8d591bcebec6"
     },
     {
       "path": "shared/types.ts",
@@ -398,6 +423,11 @@
       "path": "shared/visual-export.ts",
       "bytes": 1172,
       "sha256": "35e6aa7f39701043acf74aa653c2966304e5ead6da8ae1405dd00837e41b0038"
+    },
+    {
+      "path": "shared/writing-length.ts",
+      "bytes": 2462,
+      "sha256": "4dc58169c091f6a6716bb9543bd151b982ca66acd6fa9b43a6eb638c533ebe20"
     },
     {
       "path": "src/AgentPipeline.tsx",
@@ -656,13 +686,13 @@
     },
     {
       "path": "tests/ecosystem-agent.test.ts",
-      "bytes": 16335,
-      "sha256": "d9a19e4c8e53781fc30d996a00446016a5daccb260a4410dee823e7ac9e0cd38"
+      "bytes": 17794,
+      "sha256": "8b4ae4b5f65435608892ef6be6397db11b86b515b5489ad6d6d7a0419f5e21e4"
     },
     {
       "path": "tests/ecosystem-campaign.test.ts",
-      "bytes": 14274,
-      "sha256": "3c46cea365f4ff27bc441901cc9590dfe3f8c8ab53ea4d4203c71902ff1a8b2b"
+      "bytes": 14405,
+      "sha256": "69577ab8238f6211cc6d86d524c059e3e2f323ea3480ae0ed92390494f134b4d"
     },
     {
       "path": "tests/ecosystem.test.ts",
@@ -671,8 +701,8 @@
     },
     {
       "path": "tests/fixtures.ts",
-      "bytes": 4607,
-      "sha256": "0084a9b9dd9262d5b59f53fe0214d5cfdd8d353296a8577280da1168bbf5c120"
+      "bytes": 4786,
+      "sha256": "4494af5dd70145b4893b75efe4715d9e472a9b1a48dc60f44c2678bd1eb64f1f"
     },
     {
       "path": "tests/ima-asset-concurrency.test.ts",
@@ -721,8 +751,8 @@
     },
     {
       "path": "tests/llm.test.ts",
-      "bytes": 17259,
-      "sha256": "14593ee89f40abb5562b4e04463bf2bad5b26f9e620a16a107957e6db83de5f9"
+      "bytes": 17739,
+      "sha256": "3e696931b60e602137823d23ef6f23e349a378a29cf004d5c93e5af68779a6ac"
     },
     {
       "path": "tests/local-export-resume.ts",
@@ -731,8 +761,8 @@
     },
     {
       "path": "tests/local-model.test.ts",
-      "bytes": 6351,
-      "sha256": "48f5eb69c77f5594386f61e4252fa40c02396d023e521270bb4336feed7818fd"
+      "bytes": 6527,
+      "sha256": "242ed8f1463ae1c3f7af04fa89819f5ff7bd5c9b34722c101c787922e5f76c23"
     },
     {
       "path": "tests/local-origin-security.test.ts",
@@ -835,6 +865,11 @@
       "sha256": "38ccf69cb71027bbfdccf120d389f495600483c2409b470ef7f931136b1dd0e0"
     },
     {
+      "path": "tests/writing-length.test.ts",
+      "bytes": 8292,
+      "sha256": "7882d05f4c343422ff1279157ec3a9c5910b1e5a0f5faa087dd6782f9fab6189"
+    },
+    {
       "path": "tsconfig.json",
       "bytes": 476,
       "sha256": "7ce1c970a4d9f351e348e3853285f195439b1b3fa7777daffe2410856de3a553"
@@ -846,8 +881,8 @@
     },
     {
       "path": "PREVIEW-MANIFEST.json",
-      "bytes": 26721,
-      "sha256": "5ed09a38402fb7119d92b5be58b1f64843b125361bd730151af618eb1b33fda3"
+      "bytes": 27835,
+      "sha256": "70ffb5d788ff679490bc6a01c99fe10cdd7ce9d2d4eed0ac9a5740316a54c4ce"
     },
     {
       "path": "published-data/ecosystem-relations.json",
@@ -856,8 +891,8 @@
     },
     {
       "path": "published-data/history.json",
-      "bytes": 1830344,
-      "sha256": "2ec3ea88650eddd39c6837d7550ebefca74d75d8efb81e31369e118db531f80c"
+      "bytes": 1929145,
+      "sha256": "aa9a87e7350a9b54296e48d540a183eb652bba193ba1c8e051e85bc6a1097466"
     },
     {
       "path": "published-data/knowledge/华为PC全板块深度知识库_v7/00-建库规范/01-分类与命名规范/分类与命名规范.md",
@@ -8552,7 +8587,7 @@
     {
       "path": "published-data/manifest.json",
       "bytes": 413903,
-      "sha256": "4c40076e4a182f9e34a7427bdc18fc94f0dfba6def525c619014c272003d9334"
+      "sha256": "550911264fcddad81e55c1a60a14edf926926144f5e0ed202fe24bccbafb680c"
     },
     {
       "path": "docs/作品说明书.pdf",

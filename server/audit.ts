@@ -1,6 +1,7 @@
 import type { Article, Audit, Brief, Evidence, Finding } from '../shared/types';
 import { PLATFORMS } from '../shared/rules';
 import { imageSlot } from '../shared/layout';
+import { articleBody, lengthFinding } from '../shared/writing-length';
 
 const rules: {id:string;pattern:RegExp;message:string;suggestion:string}[] = [
   {id:'absolute',pattern:/(?:全网|行业|全球|宇宙|同价位)?(?:第一|唯一|最强|最好|最佳|最低|最便宜|顶级|极致性能)|百分之百|100%\s*(?:保证|安全|无故障)|零风险/g,message:'绝对化宣传或无依据排名',suggestion:'使用可验证的具体事实，删除绝对排名或保证。'},
@@ -28,6 +29,8 @@ const quantities=(text:string)=>new Set([...text.matchAll(numberUnits)].map(m=>n
 export function articleText(a:Article) {return [a.title,a.lead,...a.sections.flatMap(s=>[s.heading,s.text]),a.cta,...a.tags,a.disclaimer,...a.images.flatMap(i=>[i.description,i.reason||''])].join('\n');}
 export function auditArticle(article:Article,evidence:Evidence,brief:Brief,engine:'local-composer'|'llm'):Audit {
   const findings:Finding[]=scanCompliance(articleText(article));
+  const lengthIssue=lengthFinding(articleBody(article),brief);
+  if(lengthIssue)findings.push(lengthIssue);
   const add=(id:string,category:Finding['category'],severity:Finding['severity'],message:string,suggestion:string,excerpt?:string)=>findings.push({id,category,severity,message,suggestion,excerpt});
   for(const [field,label] of [['title','标题'],['lead','导语或海报副标题'],['cta','行动引导']] as const) {
     if(!article[field].trim())add(`structure-${field}`,'platform','block',`${label}为空，稿件结构不完整。`,`请补充${label}，再重新核验。`);

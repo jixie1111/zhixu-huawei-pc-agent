@@ -1,10 +1,11 @@
 import type { Platform, Scene } from './types';
+import { lengthLabel } from './writing-length';
 
 export const PLATFORMS: Record<Platform, { name: string; short: string; color: string; range: [number,number]; tone: string; structure: string[]; length: string; cta: string }> = {
-  xiaohongshu: { name:'小红书', short:'RED', color:'#df6972', range:[3,6], tone:'自然口语、短段落、具体问题；不伪造第一人称体验', structure:['问题切入','场景清单','选购提醒','互动与话题'], length:'350–650 字', cta:'收藏这份选购清单，带上常用软件到店体验，再决定是否适合自己。' },
-  wechat: { name:'微信公众号', short:'WX', color:'#5a9171', range:[2,4], tone:'专业、克制、逻辑清晰，解释适用条件', structure:['场景导语','问题拆解','事实与价值','适用边界','行动建议'], length:'650–1000 字', cta:'欢迎预约到店体验，带上你的工作流程与设备清单，一起确认适合的配置。' },
-  moments: { name:'门店朋友圈', short:'M', color:'#8a85b2', range:[1,3], tone:'简短亲切，围绕一个核心卖点和到店理由', structure:['一句场景','一个核心卖点','咨询或到店引导'], length:'100–220 字', cta:'想了解适合你的配置？私信说说使用需求，欢迎到店亲自体验。' },
-  poster: { name:'门店海报', short:'P', color:'#bc9559', range:[1,1], tone:'简明醒目，主副标题与不多于三个卖点', structure:['主标题','副标题','至多三个卖点','到店说明'], length:'60–150 字', cta:'欢迎到店体验 · 具体配置与活动以门店核实信息为准' },
+  xiaohongshu: { name:'小红书', short:'RED', color:'#df6972', range:[3,6], tone:'自然口语、短段落、具体问题；不伪造第一人称体验', structure:['问题切入','场景清单','选购提醒','互动与话题'], length:lengthLabel('xiaohongshu'), cta:'收藏这份选购清单，带上常用软件到店体验，再决定是否适合自己。' },
+  wechat: { name:'微信公众号', short:'WX', color:'#5a9171', range:[2,4], tone:'专业、克制、逻辑清晰，解释适用条件', structure:['场景导语','问题拆解','事实与价值','适用边界','行动建议'], length:lengthLabel('wechat'), cta:'欢迎预约到店体验，带上你的工作流程与设备清单，一起确认适合的配置。' },
+  moments: { name:'门店朋友圈', short:'M', color:'#8a85b2', range:[1,3], tone:'简短亲切，围绕一个核心卖点和到店理由', structure:['一句场景','一个核心卖点','咨询或到店引导'], length:lengthLabel('moments'), cta:'想了解适合你的配置？私信说说使用需求，欢迎到店亲自体验。' },
+  poster: { name:'门店海报', short:'P', color:'#bc9559', range:[1,1], tone:'简明醒目，主副标题与不多于三个卖点', structure:['主标题','副标题','至多三个卖点','到店说明'], length:lengthLabel('poster'), cta:'欢迎到店体验 · 具体配置与活动以门店核实信息为准' },
 };
 export const SCENES: Record<Scene, { name:string; audience:string; angle:string; problem:string; priorities:string[]; hook:string; }> = {
   school:{ name:'开学季',audience:'准备开学购机的大学新生',angle:'从第一堂课到图书馆，先把学习流程想清楚',problem:'携带负担、课堂笔记、专业软件与学习资料如何兼顾',priorities:['尺寸与重量','屏幕','电池','存储','操作系统'],hook:'新学期的装备清单，不妨先从你的一天开始。' },
@@ -24,5 +25,5 @@ export const PERSONAS: Record<import('./types').Persona, { name: string; hint: s
   friend: { name: '数码朋友', hint: '口语、轻松、像聊天', voice: '像懂数码的朋友发帖：口语化短句，可以用“说真的”“我跟你讲”这类口头语，适量 emoji（全文 2–4 个），段落每段一到两句。允许一点俏皮和夸张的语气词，但事实不夸大。结尾抛一个轻松的问题让人评论。' },
   editor: { name: '测评编辑', hint: '有观点、讲取舍', voice: '克制的科技编辑。标题是一个明确的判断句。正文按“观点—依据—适合谁—不适合谁”组织，必须写出一句“如果你更看重……，可以再看看别的配置/型号”这类取舍（只基于已给事实，不点名竞品）。不用 emoji、不用感叹号。' },
   story: { name: '场景故事', hint: '用一个画面带出产品', voice: '写一个具体的未来画面：开头一句交代时间和地点（如“周三晚上十点，宿舍书桌前”），用第二人称和动作推进，产品事实在动作里出现。不用“我建议”“值得”这类推荐口吻，结尾停在画面里，再接一句邀请。不虚构已发生的经历。' },
-  minimal: { name: '极简种草', hint: '一句亮点、大量留白', voice: '极简种草：标题不超过 14 个字；正文最多 2 段，每段不超过 2 句；只讲一个事实；不用“我建议”；结尾一句邀请，不提问。宁可短，不凑字。' },
+  minimal: { name: '极简种草', hint: '短句、聚焦、留白', voice: '极简种草：标题不超过 14 个字；用短句和留白组织内容，每段一至两句，围绕一个核心亮点展开场景、已有事实和选择理由；总段数随平台篇幅安排，不限制整篇只写两段。不用“我建议”；结尾一句邀请，不提问。达到平台篇幅，内容聚焦，不重复凑字。' },
 };

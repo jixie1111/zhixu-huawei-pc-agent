@@ -1,5 +1,6 @@
 import type { Article, Brief, Evidence, Fact, ProductCategory, Strategy } from './types';
 import { PLATFORMS, SCENES } from './rules';
+import { shortRevision } from './writing-length';
 
 function sceneFor(brief:Brief,category:ProductCategory='computer') {
   const base=SCENES[brief.scene];
@@ -25,9 +26,9 @@ export function buildStrategy(brief:Brief,category:ProductCategory='computer'):S
   // A store name makes thousands of identical rule drafts at least locally distinct.
   const store=brief.voice?.store?.trim();
   const cta=store?base.replace(/到店/u,`到${store}`):base;
-  return {angle:scene.angle,problem:scene.problem,priorities,tone:platform.tone,structure:platform.structure,cta,imageMin:platform.range[0],imageMax:platform.range[1],targetLength:platform.length,stage:brief.stage,goal:brief.goal,rationale:`面向${brief.audience}，处于“${brief.stage}”阶段：${phase.focus}。优先回答“${scene.problem}”，以${priorities.slice(0,3).join('、')}取证，采用${platform.name}的${platform.structure.join(' → ')}结构，服务于“${brief.goal}”。`};
+  return {angle:scene.angle,problem:scene.problem,priorities,tone:platform.tone,structure:platform.structure,cta,imageMin:platform.range[0],imageMax:platform.range[1],targetLength:shortRevision(brief.revision||'')?'按原稿精简，保留必要事实与条件':platform.length,stage:brief.stage,goal:brief.goal,rationale:`面向${brief.audience}，处于“${brief.stage}”阶段：${phase.focus}。优先回答“${scene.problem}”，以${priorities.slice(0,3).join('、')}取证，采用${platform.name}的${platform.structure.join(' → ')}结构，服务于“${brief.goal}”。`};
 }
-export const shortRevision = (revision: string) => /^(?:请)?(?:把(?:内容|正文))?(?:更)?(?:精简|缩短|删减|简短)(?:正文|内容|篇幅)?(?:一点|一些)?[。！!]?$/u.test(revision.trim());
+export { shortRevision } from './writing-length';
 function summary(f:Fact):string {
   const clean=f.text.replace(/\*+/g,'').split('\n').map(s=>s.trim().replace(/[。；，;,.]+$/u,'')).filter(Boolean);
   if(f.label==='尺寸与重量') {

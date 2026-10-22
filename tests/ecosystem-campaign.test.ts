@@ -15,7 +15,7 @@ import { configure, clearSession } from '../server/config';
 import { AppError } from '../server/errors';
 import type { KnowledgeStore } from '../server/knowledge';
 import type { EcosystemBrief, EcosystemContent, EcosystemRelation } from '../shared/ecosystem';
-import { evidence, syntheticPng } from './fixtures';
+import { evidence, syntheticPng, syntheticText } from './fixtures';
 
 // Synthetic devices/model transport; tests never establish real marketing quality.
 async function setup(t:TestContext){
@@ -30,7 +30,7 @@ async function setup(t:TestContext){
   const chat:EcosystemAgentDeps['chat']=async(system,data)=>{
     const input=data as any;
     if(system.includes('创意导演')){inputs.push({stage:'plan',data:structuredClone(data)});if(input.brief.platform===options.failPlatform)throw new AppError('QA_FAILURE','测试平台失败',502);return {angle:'同一核心场景',rationale:'测试策略',deviceRoles:records.map(d=>({productId:d.product.id,role:'设备角色',factIds:[d.facts[0].id]})),relationIds:[relation.id],structure:[input.brief.platform,'体验建议'],visualDirection:'真实原图'};}
-    if(system.includes('图文作者')){inputs.push({stage:'compose',data:structuredClone(data)});return {title:block(input.brief.platform+'测试作品'),lead:block(input.previous?.article?.lead.text??'测试导语'),sections:[{heading:block('协同场景'),body:{text:'按测试条件共享',facts:[],relationIds:[relation.id]}}],cta:block('到店了解'),tags:[],images:records.map(d=>({id:d.images[0].id,productId:d.product.id,position:'产品介绍',reason:'展示对应设备外观'}))};}
+    if(system.includes('图文作者')){inputs.push({stage:'compose',data:structuredClone(data)});return {title:block(input.brief.platform+'测试作品'),lead:block(input.previous?.article?.lead.text??'测试导语'),sections:[{heading:block('协同场景'),body:{text:'按测试条件共享'+syntheticText(({xiaohongshu:550,wechat:850,moments:150,poster:100} as Record<string,number>)[input.brief.platform]),facts:[],relationIds:[relation.id]}}],cta:block('到店了解'),tags:[],images:records.map(d=>({id:d.images[0].id,productId:d.product.id,position:'产品介绍',reason:'展示对应设备外观'}))};}
     if(system.includes('局部修订员'))throw new Error('Synthetic repair intentionally fails');
     inputs.push({stage:'verify',data:structuredClone(data)});
     return {checks:input.fields.map((f:any)=>({field:f.field,supported:!(options.blockedPlatform&&input.fields[0].text.startsWith(options.blockedPlatform)&&f.field==='title'),reason:'合成判定',suggestion:'测试修改'}))};

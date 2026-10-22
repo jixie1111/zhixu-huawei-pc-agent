@@ -10,7 +10,7 @@ import type { KnowledgeStore } from '../server/knowledge';
 import { RunStore } from '../server/store';
 import { createApp } from '../server/app';
 import { configure, clearSession } from '../server/config';
-import { evidence, syntheticPng } from './fixtures';
+import { evidence, syntheticPng, syntheticText } from './fixtures';
 
 // Entire test file uses invented products, relations, images and model responses.
 // Passing these contracts is NOT a real model / real device compatibility test.
@@ -24,6 +24,7 @@ function setup(t:TestContext){
   const brief:EcosystemBrief={selection:{devices:records.map(d=>({productId:d.product.id,system:'QA 1'})),relationIds:[relation.id],conditions:{account:'一致'}},audience:'合成测试受众',platform:'wechat',goal:'测试到店体验',requirements:'',generation:'model',autoRepair:false};
   const plan:EcosystemPlan={angle:'QA两设备故事',rationale:'测试规划',deviceRoles:records.map(d=>({productId:d.product.id,role:'QA专属角色',factIds:[d.facts[0].id]})),relationIds:[relation.id],structure:['场景','设备','关系'],visualDirection:'QA真实原图说明'};
   const output={title:block('一起安排一天'),lead:block('从日常任务开始'),sections:records.map(d=>({heading:block(d.product.name),body:block(d.product.name+' 的测试规格',[{productId:d.product.id,factId:d.facts[0].id}])})).concat([{heading:block('合成协同'),body:block('按已确认条件共享测试资料',[],[relation.id])}]),cta:block('到店了解需求'),tags:[],images:records.map(d=>({id:d.images[0].id,productId:d.product.id,position:'产品介绍后',reason:'说明对应设备的外观'}))};
+  output.sections[1].body.text+=syntheticText(850);
   const calls:string[]=[];
   const options={reviewFail:false,incomplete:false,wrongField:false,problem:false,repairBad:false,alwaysProblem:false};let repairs=0;
   const chat:EcosystemAgentDeps['chat']=async(system,data)=>{
@@ -52,6 +53,22 @@ test('生态生成分阶段决策和核验，保留设备归属并独立持久�
 test('生态输入拒绝规则冒充模型，缺条件在调用模型前阻断',async t=>{
   const s=setup(t);await assert.rejects(generateEcosystem({...s.brief,generation:'rules'},s.deps));
   s.brief.selection.conditions={};await assert.rejects(generateEcosystem(s.brief,s.deps),{code:'ECOSYSTEM_NOT_READY'});assert.equal(s.calls.length,0);
+});
+test('生态短稿一次补足篇幅后核验，设备引用、关系与图片保持原样',async t=>{
+  const s=setup(t);s.output.sections[1].body.text='合成设备正文';
+  const delegate=s.deps.chat!;let adjustments=0;
+  s.deps.chat=async(system,data,signal,task)=>{
+    if(system.includes('正文篇幅编辑')){adjustments++;assert.equal(task?.stage,'repair');assert.ok(system.includes('800–1200 字'));
+      return {patches:[{field:'sections.1.body',before:s.output.sections[1].body.text,after:syntheticText(900)}]};}
+    return delegate(system,data,signal,task);
+  };
+  const run=await generateEcosystem(s.brief,s.deps);assert.equal(adjustments,1);assert.equal(run.audit.releaseReady,true);
+  assert.deepEqual(run.article.sections[1].body.facts,s.output.sections[1].body.facts);
+  assert.deepEqual(run.article.sections[2].body.relationIds,s.output.sections[2].body.relationIds);
+  assert.deepEqual(run.article.images.map(i=>i.id),s.output.images.map(i=>i.id));assert.ok(s.calls.includes('verify'));
+  const edited=content(structuredClone(run.article));edited.sections[1].body.text='变短后的人工稿';
+  const short=await editEcosystem(run,edited,s.deps);assert.equal(adjustments,1);assert.equal(short.audit.releaseReady,false);
+  assert.ok(short.audit.findings.some(f=>f.id==='body-length'));assert.equal(s.store.getEcosystem(run.id)!.audit.releaseReady,true);
 });
 test('策划引用他设备事实、遗漏设备或发明关系不能进入生成',async t=>{
   for(const kind of ['fact','device','relation']){const s=setup(t);if(kind==='fact')s.plan.deviceRoles[0].factIds=[s.records[1].facts[0].id];if(kind==='device')s.plan.deviceRoles[1]=s.plan.deviceRoles[0];if(kind==='relation')s.plan.relationIds=['unknown'];await assert.rejects(generateEcosystem(s.brief,s.deps),{code:'ECOSYSTEM_PLAN'});assert.deepEqual(s.calls,['plan']);}
@@ -103,7 +120,7 @@ test('资料变化令历史版本需要复核，取消任务不保存假完成',
 });
 test('MD/HTML导出保留设备引用与适用条件，转义模型注入文本',async t=>{
   const s=setup(t),run=await generateEcosystem(s.brief,s.deps);run.article.title.text='<script>alert(1)</script> ![x](https://evil.test/x)';const html=ecosystemHtml(run,new Map()),md=ecosystemMarkdown(run);assert.ok(!html.includes('<script>'));assert.match(html,/default-src 'none'/);assert.match(html,/测试账号/);assert.match(md,/qa-phone/);assert.ok(!md.includes('![x]'));assert.match(md,/依据/);
-  run.article.disclosures=[];const audit=auditEcosystem(run.article,run.evidence);assert.equal(audit.releaseReady,false);assert.ok(audit.findings.some(f=>f.id==='disclosures'));
+  run.article.disclosures=[];const audit=auditEcosystem(run.article,run.evidence,run.brief);assert.equal(audit.releaseReady,false);assert.ok(audit.findings.some(f=>f.id==='disclosures'));
 });
 test('生态HTTP接口本地生成/读写/导出闭环与源过期状态（模型为合成响应）',async t=>{
   const s=setup(t);configure({llmKey:'qa-eco-key',llmModel:'qa-eco-model',llmBaseUrl:'https://api.siliconflow.cn/v1'});t.after(clearSession);

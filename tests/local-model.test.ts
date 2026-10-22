@@ -1,6 +1,7 @@
 import test, { type TestContext } from 'node:test';
 import assert from 'node:assert/strict';
-import { knowledgeFixture } from './fixtures';
+import { knowledgeFixture, syntheticText } from './fixtures';
+import { articleBody, bodyLength } from '../shared/writing-length';
 import { KnowledgeStore } from '../server/knowledge';
 import { RunStore } from '../server/store';
 import { generate, composeLocal, buildStrategy } from '../server/agent';
@@ -15,6 +16,7 @@ function fixture() {
   const brief: Brief = { productId: product.id, mode: 'local', generation: 'model', audience: '合成测试受众', scene: 'school', platform: 'xiaohongshu', stage: '比较选型', goal: '理解适用边界', requirements: '' };
   const data = knowledge.get(product.id);
   const article = composeLocal(brief, data, buildStrategy(brief));
+  article.sections[0].text+=syntheticText(Math.max(0,600-bodyLength(articleBody(article))));
   article.disclaimer = '具体配置与适用条件需结合原始资料核实。';
   const output = { ...article, images: article.images.map(({ id, position, reason }) => ({ id, position, reason })) };
   let imaCalls = 0;

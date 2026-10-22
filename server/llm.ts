@@ -6,6 +6,8 @@ import { AppError } from './errors';
 import { articleText } from './audit';
 import { modelPolicy, type ModelTask } from './model-policy';
 import { PERSONAS } from '../shared/rules';
+import { lengthInstruction } from '../shared/writing-length';
+import { adjustBodyLength } from './length-adjustment';
 /** Store voice as prompt data: persona style text plus the store name for the CTA. */
 export const voiceInput=(brief:Brief)=>brief.voice?{persona:PERSONAS[brief.voice.persona].name,style:PERSONAS[brief.voice.persona].voice,store:brief.voice.store||undefined}:undefined;
 
@@ -91,7 +93,7 @@ export async function repairModel(article:Article,evidence:Evidence,audit:Audit,
   return {article:next,changedFields};
 }
 export async function composeModel(brief:Brief,evidence:Evidence,strategy:Strategy,signal?:AbortSignal,previous?:Pick<Run,'article'|'brief'|'version'>):Promise<Article> {
-  const system=fs.readFileSync(new URL('../prompts/system.md',import.meta.url),'utf8');
+  const system=fs.readFileSync(new URL('../prompts/system.md',import.meta.url),'utf8')+'\n'+lengthInstruction(brief);
   const input={brief,voice:voiceInput(brief),strategy,previous:previous?{version:previous.version,brief:previous.brief,article:{...previous.article,images:previous.article.images.map(({id,description,position,reason})=>({id,description,position,reason}))}}:undefined,evidence:{product:evidence.product.name,facts:evidence.facts.map(({id,label,text})=>({id,label,text})),images:evidence.images.map(({id,description,productName,editorial})=>({id,description,productName,editorial}))}};
   const result=outputSchema.safeParse(await chat(system,input,signal,{stage:'compose',platform:brief.platform}));
   if(!result.success) throw new AppError('LLM_SCHEMA','模型输出结构不完整，未保存为可发布稿件。',502);
@@ -103,7 +105,11 @@ export async function composeModel(brief:Brief,evidence:Evidence,strategy:Strate
     if(!original) throw new AppError('IMAGE_UNKNOWN','模型选择了不在证据清单中的图片，已拦截。',422);
     return {...original,position:image.position,reason:image.reason};
   });
-  return {...parsed,images};
+  const article={...parsed,images};
+  const fields=[{field:'lead',text:article.lead},...article.sections.map((s,i)=>({field:`sections.${i}.text`,text:s.text})),{field:'cta',text:article.cta}];
+  const adjusted=await adjustBodyLength(brief,fields,{product:input.evidence.product,facts:input.evidence.facts,sections:article.sections.map((s,i)=>({field:`sections.${i}.text`,factIds:s.factIds}))},chat,signal);
+  const next={...article,lead:adjusted.get('lead')!,sections:article.sections.map((s,i)=>({...s,text:adjusted.get(`sections.${i}.text`)!})),cta:adjusted.get('cta')!};
+  return outputSchema.safeParse({...next,images:parsed.images}).success?next:article;
 }
 const sceneCheckSchema=z.object({sectionIndex:z.number().int().min(0).max(7),kind:z.enum(['scene-only','product-claim']),reason:z.string().trim().min(1).max(800)}).strict();
 const semanticSchema=z.object({supported:z.boolean(),issues:z.array(z.object({excerpt:z.string(),reason:z.string(),suggestion:z.string()})).max(30),unreferencedSections:z.array(sceneCheckSchema).max(8).optional()});

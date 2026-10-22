@@ -1,10 +1,10 @@
 {
   "format": "wuyan-authorized-data-v1",
-  "createdAt": "2026-10-22T00:11:53.441Z",
+  "createdAt": "2026-10-22T01:47:24.889Z",
   "authorization": "项目持有人于 2026-10-21 明确确认主办方允许公开完整知识库，并要求同步本地作品记录至原 GitHub 仓库和魔搭空间。此记录不将第三方素材改授开源许可。",
   "counts": {
     "knowledgeFiles": 1538,
-    "runs": 52,
+    "runs": 55,
     "campaigns": 4,
     "ecosystem_runs": 2,
     "ecosystem_campaigns": 0
@@ -17,8 +17,8 @@
     },
     {
       "path": "history.json",
-      "bytes": 1830344,
-      "sha256": "2ec3ea88650eddd39c6837d7550ebefca74d75d8efb81e31369e118db531f80c"
+      "bytes": 1929145,
+      "sha256": "aa9a87e7350a9b54296e48d540a183eb652bba193ba1c8e051e85bc6a1097466"
     },
     {
       "path": "knowledge/华为PC全板块深度知识库_v7/00-建库规范/01-分类与命名规范/分类与命名规范.md",

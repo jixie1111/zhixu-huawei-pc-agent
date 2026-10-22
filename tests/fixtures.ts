@@ -4,6 +4,7 @@ import path from 'node:path';
 import type { Brief, Evidence, Fact, ProductImage } from '../shared/types';
 
 /** All fixtures are invented for testing; they are not Huawei product claims. */
+export const syntheticText=(length:number)=>{const text='合成测试正文仅用于验证结构与篇幅。';return text.repeat(Math.ceil(length/text.length)).slice(0,length);};
 export const productId = 'qa-product-a';
 export const syntheticPng = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAusB9Wl6D2QAAAAASUVORK5CYII=', 'base64');
 export const brief: Brief = {
