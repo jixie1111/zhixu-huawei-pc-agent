@@ -1,6 +1,6 @@
 {
   "format": "wuyan-full-release-v1",
-  "createdAt": "2026-10-22T00:38:47.233Z",
+  "createdAt": "2026-10-22T00:52:13.325Z",
   "counts": {
     "knowledgeFiles": 1538,
     "runs": 52,
@@ -36,8 +36,8 @@
     },
     {
       "path": "docs/ACCEPTANCE.md",
-      "bytes": 2342,
-      "sha256": "3d8419775ee9df3d0d38fd356b5c6ab4dc2c44f03574375eca6873c79c2c0833"
+      "bytes": 3825,
+      "sha256": "8c86b2f07c8ac4b17fade50c9d3960e1760f1946e46424505b10045137b646ff"
     },
     {
       "path": "docs/ARCHITECTURE.md",
@@ -66,8 +66,8 @@
     },
     {
       "path": "docs/TEST-REPORT.md",
-      "bytes": 4976,
-      "sha256": "123af32053dee298047f7e54c98fd29e9837d7c0ae53932ea724b14f41fcb96f"
+      "bytes": 8276,
+      "sha256": "18ccdcdb8760faaa020f4307968241c2f5b2c6a4d192e5799a835c534090f002"
     },
     {
       "path": "index.html",
@@ -847,7 +847,7 @@
     {
       "path": "PREVIEW-MANIFEST.json",
       "bytes": 26721,
-      "sha256": "b08b8a27124cd455c5d3f726c0621fe77e5988683b754005432918d65705b259"
+      "sha256": "5ed09a38402fb7119d92b5be58b1f64843b125361bd730151af618eb1b33fda3"
     },
     {
       "path": "published-data/ecosystem-relations.json",
