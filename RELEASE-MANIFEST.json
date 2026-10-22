@@ -1,6 +1,6 @@
 {
   "format": "wuyan-full-release-v1",
-  "createdAt": "2026-10-22T08:57:10.810Z",
+  "createdAt": "2026-10-22T09:10:44.086Z",
   "counts": {
     "knowledgeFiles": 1538,
     "runs": 4,
@@ -451,8 +451,8 @@
     },
     {
       "path": "src/App.tsx",
-      "bytes": 17292,
-      "sha256": "f978e9a4bc0ddad5405bf9d47bb6e7abf062e4c6796ac3ebb668f94615682e76"
+      "bytes": 17294,
+      "sha256": "d97a3b1ad0003e2955b2b8d1d8021a4138e9ebc59123559ce023013fd34d8c41"
     },
     {
       "path": "src/BriefChoice.tsx",
@@ -902,7 +902,7 @@
     {
       "path": "PREVIEW-MANIFEST.json",
       "bytes": 28508,
-      "sha256": "d48024732b8e07ff0747678c5283a2b86ada000971d14171a6bef46484740425"
+      "sha256": "cd88ddff405d317e6b4f3552e0dd9d7a598e95a81a3494be3da3eb6afd5df788"
     },
     {
       "path": "published-data/ecosystem-relations.json",

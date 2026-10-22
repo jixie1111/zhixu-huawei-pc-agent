@@ -1,6 +1,6 @@
 {
   "status": "SOURCE_PREVIEW_ONLY",
-  "createdAt": "2026-10-22T08:56:03.473Z",
+  "createdAt": "2026-10-22T09:10:00.016Z",
   "notice": "仅准备本地源码预览包；未上传、未正式提交。原始知识库、图片、凭证、会话记录与供应商插件不在包中。",
   "excluded": [
     "private/",
@@ -458,8 +458,8 @@
     },
     {
       "path": "src/App.tsx",
-      "bytes": 17292,
-      "sha256": "f978e9a4bc0ddad5405bf9d47bb6e7abf062e4c6796ac3ebb668f94615682e76"
+      "bytes": 17294,
+      "sha256": "d97a3b1ad0003e2955b2b8d1d8021a4138e9ebc59123559ce023013fd34d8c41"
     },
     {
       "path": "src/BriefChoice.tsx",
