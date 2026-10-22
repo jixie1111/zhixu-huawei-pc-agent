@@ -35,7 +35,8 @@ test('8场景 × 4平台的策略、图文和图片编排完整可核验', () =>
       assert.ok(strategy.rationale.includes(input.stage)); assert.ok(strategy.rationale.includes(input.goal));
       assert.equal(strategy.angle, SCENES[scene].angle);
       assert.deepEqual(strategy.priorities, SCENES[scene].priorities);
-      assert.ok(article.title && article.lead && article.sections.length && article.cta && article.disclaimer);
+      assert.ok(article.title && article.lead && article.sections.length && article.disclaimer);
+      assert.equal(article.cta, '', '产品介绍不自动追加行动引导');
       assert.ok(article.images.length >= PLATFORMS[platform].range[0]);
       assert.ok(article.images.length <= PLATFORMS[platform].range[1]);
       assert.ok(article.images.every(image => image.productId === input.productId && image.position && image.reason));

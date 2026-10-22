@@ -17,7 +17,7 @@ export function singleVisualDocument(run:Run,explicitDraft=false):VisualDocument
   return {runId:run.id,version:run.version,platform:run.brief.platform,title:run.article.title,products:[{id:run.evidence.product.id,name:run.evidence.product.name}],images:structuredClone(run.article.images),draft:explicitDraft||!run.audit.releaseReady,engine:run.engine,titleReferences:[],blocks:([
     {id:'lead',heading:'',text:run.article.lead,references:[],kind:'lead'},
     ...run.article.sections.map((s,i):VisualText=>({id:`section-${i}`,heading:s.heading,text:s.text,references:ref(s.factIds),kind:'section'})),
-    {id:'cta',heading:'到店了解',text:run.article.cta,references:[],kind:'cta'},
+    {id:'cta',heading:'',text:run.article.cta,references:[],kind:'cta'},
     {id:'tags',heading:'',text:run.article.tags.join('  '),references:[],kind:'tags'},
     {id:'disclaimer',heading:'适用说明',text:run.article.disclaimer,references:[],kind:'conditions'},
   ] satisfies VisualText[]).filter(b=>b.text.trim())};
@@ -32,7 +32,7 @@ export function ecosystemVisualDocument(run:EcosystemRun,explicitDraft=false):Vi
   return {runId:run.id,version:run.version,platform:run.brief.platform,title:run.article.title.text,products:run.evidence.devices.map(d=>({id:d.product.id,name:d.product.name})),images:structuredClone(run.article.images),draft:explicitDraft||!run.audit.releaseReady,engine:'llm',titleReferences:refs(run.article.title),blocks:([
     {id:'lead',heading:'',text:run.article.lead.text,references:refs(run.article.lead),kind:'lead'},
     ...run.article.sections.map((s,i):VisualText=>({id:`section-${i}`,heading:s.heading.text,text:s.body.text,references:[...refs(s.heading),...refs(s.body)],kind:'section'})),
-    {id:'cta',heading:'到店了解',text:run.article.cta.text,references:refs(run.article.cta),kind:'cta'},
+    {id:'cta',heading:'',text:run.article.cta.text,references:refs(run.article.cta),kind:'cta'},
     {id:'tags',heading:'',text:run.article.tags.map(t=>t.text).join('  '),references:run.article.tags.flatMap(refs),kind:'tags'},
     ...run.article.disclosures.map((d,i):VisualText=>({id:`condition-${i}`,heading:d.capability+' · 适用条件',text:[...d.systems,...d.conditions].join('\n'),references:[{relationId:d.relationId,sourceUrl:d.sourceUrl}],kind:'conditions'})),
   ] satisfies VisualText[]).filter(b=>b.text.trim())};

@@ -79,14 +79,16 @@ test('规则编排不会把事实自带句号与模板拼成连续重复标点',
   assert.ok(!article.sections.some(section=>/[。；，]{2}/.test(section.text)));
 });
 
-test('购买阶段和内容目标影响事实优先级、决策理由与CTA',()=>{
+test('购买阶段影响事实优先级，内容目标不强制追加行动引导',()=>{
   const awareness=buildStrategy({...brief,stage:'了解产品',goal:'激发兴趣与收藏'});
   const decision=buildStrategy({...brief,stage:'准备购买',goal:'辅助配置决策'});
   const experience=buildStrategy({...brief,stage:'到店体验',goal:'引导私信咨询'});
   assert.notDeepEqual(awareness.priorities,decision.priorities);
   assert.notDeepEqual(experience.priorities,decision.priorities);
   assert.ok(decision.rationale.includes('具体销售版本'));
-  assert.ok(awareness.cta.includes('收藏'));assert.ok(experience.cta.includes('私信'));
+  assert.ok(awareness.rationale.includes('激发兴趣与收藏'));
+  assert.ok(experience.rationale.includes('引导私信咨询'));
+  for (const strategy of [awareness,decision,experience]) assert.equal(strategy.cta,'');
   assert.equal(composeLocal(brief,evidence(),experience).cta,experience.cta);
 });
 

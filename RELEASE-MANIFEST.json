@@ -1,6 +1,6 @@
 {
   "format": "wuyan-full-release-v1",
-  "createdAt": "2026-10-22T11:07:12.229Z",
+  "createdAt": "2026-10-22T16:52:08.237Z",
   "counts": {
     "knowledgeFiles": 1538,
     "runs": 4,
@@ -31,8 +31,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 5457,
-      "sha256": "05eba67add1747200d1be8bf66f0246d53e347380091b86ae12c57c2d313a2cc"
+      "bytes": 6165,
+      "sha256": "619e4270b4fa1858d4ca46e06645819236291694cc73c1f24983de3077dbe90c"
     },
     {
       "path": "docs/ACCEPTANCE.md",
@@ -41,8 +41,8 @@
     },
     {
       "path": "docs/ARCHITECTURE.md",
-      "bytes": 5394,
-      "sha256": "13afdaf2d0e69230b44424e693f506f1f6809de084da9ea772d16d329b3cd616"
+      "bytes": 5548,
+      "sha256": "cfa7c64653b41a1b09e0ac428847ee97bd310b52d1d57b1ef29a9a73bd2a46ac"
     },
     {
       "path": "docs/DEPLOYMENT.md",
@@ -51,8 +51,8 @@
     },
     {
       "path": "docs/REAL-MODEL-RESULTS.md",
-      "bytes": 4789,
-      "sha256": "bd68cdf7d2168ebc41b314370ac071ce6f9869bdaff32b3cf99ef4c47c76bcd3"
+      "bytes": 6280,
+      "sha256": "48b43e884013005128c551d14cffd76c06b3e9b92949770796fb6a9cf707f5f8"
     },
     {
       "path": "docs/SECURITY.md",
@@ -61,8 +61,8 @@
     },
     {
       "path": "docs/SHOWCASE.md",
-      "bytes": 2459,
-      "sha256": "debcf0978d736d7a66e4b8d1e219699089aa5db30ecc4b36206b24c365b01a99"
+      "bytes": 2751,
+      "sha256": "edcae678e6962c7fdf20fc005698af03b6fcbc31d7ce6e052cde6a50748e5db0"
     },
     {
       "path": "docs/SOURCE-POLICY.md",
@@ -71,28 +71,28 @@
     },
     {
       "path": "docs/TEST-REPORT.md",
-      "bytes": 3483,
-      "sha256": "efc89589baf050d2016bcce9070ca06528d9935ecb8f749c566e30bbc452357b"
+      "bytes": 3608,
+      "sha256": "0b74a149f4f90ec1f38ac5d5595b73b69d15408c4d766664ff10259f75f30db4"
     },
     {
       "path": "docs/examples/matebook-harmony-school.md",
-      "bytes": 3364,
-      "sha256": "9cef0b60a3bf89425964a70d94a6fbb3c575fbe52be62d6296c0d96004884bc0"
+      "bytes": 3532,
+      "sha256": "7bce7fdba7f6d7910f2649c95e96d8017b171c2a5ba22aba97ea733a720db0c0"
     },
     {
       "path": "docs/examples/matebook-pro-work.md",
-      "bytes": 4268,
-      "sha256": "6ca3cc2f6ecc01e50d0b2db08affb2c293a9d91981664e45a3b89c5582a87e84"
+      "bytes": 3496,
+      "sha256": "e32a64178bbecb09332e451c82d2410a899bf6ae5adc4b486476890216da002a"
     },
     {
       "path": "docs/examples/matepad-weekend.md",
-      "bytes": 2552,
-      "sha256": "1b078098ad82052470839115c294fee291511c180243c313a4dc95ef657b594c"
+      "bytes": 2836,
+      "sha256": "2c3ce187df9b79bcdae1319372639382f2abc0d5f9a62e84bc9b65043fe8794f"
     },
     {
       "path": "docs/examples/pura80-photo.md",
-      "bytes": 1034,
-      "sha256": "0aa50e8c09389525551a9b77afa5e9edee83d8f60b2c989886e0ab978f6f2fe1"
+      "bytes": 1171,
+      "sha256": "98407aa5657e308f51295c98f860ae0dc767bc8b4c872ba649ae6e26ec22e3eb"
     },
     {
       "path": "index.html",
@@ -116,8 +116,8 @@
     },
     {
       "path": "prompts/system.md",
-      "bytes": 6820,
-      "sha256": "e95ae5abb2e079ebd9db006d8f13769ca4465ac967c33f91a06be244e4d1501f"
+      "bytes": 6625,
+      "sha256": "b9e7e43babeccc4d8e654ae2dbdbf1487a6e294c4e279e35a58df8a08fdf42c4"
     },
     {
       "path": "public/favicon.svg",
@@ -241,8 +241,8 @@
     },
     {
       "path": "server/audit.ts",
-      "bytes": 12496,
-      "sha256": "56c3e898048ebecac27c928986cf5013779cee200b6c46cd7a2fd50be79efe31"
+      "bytes": 12947,
+      "sha256": "f6a42b2657704428472af64f3899866a140e1941845362dec24819945a7e76aa"
     },
     {
       "path": "server/brief-advisor.ts",
@@ -271,13 +271,13 @@
     },
     {
       "path": "server/director.ts",
-      "bytes": 20080,
-      "sha256": "8347362e83c21c5d1de38c82b96fa3c99e82ecad2f2a96d2e2e8cb4945ecea84"
+      "bytes": 20083,
+      "sha256": "15a530f9b2f6a68bd98a72d096e2663777a2463e6c4d131a4beb22a2a5cf059f"
     },
     {
       "path": "server/ecosystem-agent.ts",
-      "bytes": 24153,
-      "sha256": "5d8a5e5cd2a10e42991002687bbcab27aabb7a34775952180435033765900a5b"
+      "bytes": 24697,
+      "sha256": "5a9d2ff24f31dc7c4f2169fb05d6498e487f8f85a1fdfd7584c7b6b39092a0bd"
     },
     {
       "path": "server/ecosystem-campaign.ts",
@@ -306,8 +306,8 @@
     },
     {
       "path": "server/export.ts",
-      "bytes": 5407,
-      "sha256": "512d281f0685ddf2acf67226dee78ba8836a7615ac85ced837f6d2a1cf0c92df"
+      "bytes": 5421,
+      "sha256": "438e1f7023a5f881ddb63be3a22f9881e1e4b46f9838c09883d306b94d422870"
     },
     {
       "path": "server/ima.ts",
@@ -336,18 +336,18 @@
     },
     {
       "path": "server/length-adjustment.ts",
-      "bytes": 2406,
-      "sha256": "87edcdb813606e81046d44224de440f92092d838baed1cf0f5fb244167d349cb"
+      "bytes": 2436,
+      "sha256": "6f947ccbf5c026f15d50be397fdf538a74585d5f4d39c4271a5319f9af6a2630"
     },
     {
       "path": "server/llm.ts",
-      "bytes": 17021,
-      "sha256": "1cb5bc5d89387ec5fafce7b03ec197265749100cdb9e2d0121684b89cf116de7"
+      "bytes": 17338,
+      "sha256": "3780eda771750784173050ac1992443b01c7a527dce51ce6ab42730547a42bfa"
     },
     {
       "path": "server/model-policy.ts",
-      "bytes": 4055,
-      "sha256": "01b65cd64e037be6b1ff850d162c96b138fc95e6dffa46ede94abd7ef6be8ce5"
+      "bytes": 4578,
+      "sha256": "46268647c7a922a618cd968d477e67620a812f16b6e5c0e0110e19fb389fd7ce"
     },
     {
       "path": "server/network.ts",
@@ -371,18 +371,18 @@
     },
     {
       "path": "server/style-editing.ts",
-      "bytes": 3041,
-      "sha256": "fed24edc3847e1d33c6bbf1ead9ab934351b883240f45db89e0af824418cfd38"
+      "bytes": 3618,
+      "sha256": "4f41b1c8bcbb07caf6561910f9e18116fb5bfdb486abc694755b78ad7ae94476"
     },
     {
       "path": "server/visual-document.ts",
-      "bytes": 5467,
-      "sha256": "00e8f9590ea265a6cd7bdb1bf25f66457ca6215d61a4b3d1b30556fedd6d466d"
+      "bytes": 5443,
+      "sha256": "464d168134349e0acbf7c80459aceab046f23bafd2d7bcb380123088c087651f"
     },
     {
       "path": "server/visual-renderer.ts",
-      "bytes": 25521,
-      "sha256": "3c2230cfe9be08a64ff4edd592a77868c47bb38fb096233f0f414aa50be24356"
+      "bytes": 25938,
+      "sha256": "1a38319c84211f41458f3bb90da34a76cc4e78ef0b9743098e713e1c61a06924"
     },
     {
       "path": "shared/campaign.ts",
@@ -391,8 +391,8 @@
     },
     {
       "path": "shared/director-rules.ts",
-      "bytes": 5204,
-      "sha256": "22a75da583d8777533d209cca34546764be27ff87f4ad95710994befc6661ff2"
+      "bytes": 5036,
+      "sha256": "66c6e50ced9b74ecb237f5442eab6d9233906b8d38316dfe1f6f850ac4f8b641"
     },
     {
       "path": "shared/director.ts",
@@ -416,13 +416,13 @@
     },
     {
       "path": "shared/local-composer.ts",
-      "bytes": 8527,
-      "sha256": "14ed230ddcef9c21d7f515355a9ffe6b6c991d9c3db6d5752a6e9ef118352ce7"
+      "bytes": 6395,
+      "sha256": "3f716af79a5e6f92d52a579c8efb576b28ebe66e5922c4ecedb7c82b309cba68"
     },
     {
       "path": "shared/rules.ts",
-      "bytes": 6706,
-      "sha256": "9ff961223fa3546987354ea3669b889c9a3e1838b2107443286ea51e30c2ca9a"
+      "bytes": 6291,
+      "sha256": "817eca8ed5dc673ae3dc5cf5b6e86ac107b8755608b6e174c111058e75807eb3"
     },
     {
       "path": "shared/types.ts",
@@ -436,13 +436,13 @@
     },
     {
       "path": "shared/writing-length.ts",
-      "bytes": 2510,
-      "sha256": "4aef6def27ed1993133dac705e15f73275cc235bd870a8cd639f47f0e04d54ef"
+      "bytes": 2489,
+      "sha256": "25ba11de4df156b6515c6b8385681f82183ebc745a55fda8beed0f623679c77a"
     },
     {
       "path": "shared/writing-style.ts",
-      "bytes": 4811,
-      "sha256": "e051c964dfb4870de4f20bc0785e8a0084145ff83d2d4c5eea65c222703f8e68"
+      "bytes": 8552,
+      "sha256": "1d9912489ebe83b60f39428ca466cd334321b138d73ee269523b6ca35d78bec9"
     },
     {
       "path": "src/AgentPipeline.tsx",
@@ -471,13 +471,13 @@
     },
     {
       "path": "src/DirectorStudio.tsx",
-      "bytes": 15265,
-      "sha256": "c732ce57883f5a0a29bdf051e877d1a76eef6ba7b407023a7596b713c626d52d"
+      "bytes": 15278,
+      "sha256": "385850c5aab38672df9c36ce97a6a7b8fcd08f7c3923dd32e080daa4c83e120a"
     },
     {
       "path": "src/EcosystemStudio.tsx",
-      "bytes": 11374,
-      "sha256": "6b4ba77d95e5f7228fb8dc1d3b358f8a1df3b2c073600daf1363f6b96c1b90f4"
+      "bytes": 11367,
+      "sha256": "3161945b5b1c8ea0901dc298332f90c5be5f5f4ab51daf0c7c270983c9ce464b"
     },
     {
       "path": "src/EvidencePreview.tsx",
@@ -496,8 +496,8 @@
     },
     {
       "path": "src/Result.tsx",
-      "bytes": 22074,
-      "sha256": "eff56195be96038a0f152b605370be6db94052f14f270b3202dc24de1a508ee8"
+      "bytes": 22140,
+      "sha256": "6f8b2b29af525576680d967eb9c1887f6035945a1fb7553f1a6c5a1b332f26f4"
     },
     {
       "path": "src/ResultDetails.tsx",
@@ -601,8 +601,8 @@
     },
     {
       "path": "tests/agent.test.ts",
-      "bytes": 6426,
-      "sha256": "b76ef9c83eaa4f092480e8096bfd791d831cd8cd2e5e05438ae7cd54c1c7e2f5"
+      "bytes": 6491,
+      "sha256": "586b1be41ecd9e6fff34470f8c4ddd8dc4df42a042ea75336e74dfe54b4eada9"
     },
     {
       "path": "tests/app.test.ts",
@@ -611,8 +611,8 @@
     },
     {
       "path": "tests/audit.test.ts",
-      "bytes": 10631,
-      "sha256": "02f6d1319d0ceba9e6249e4e0c640d295adf14589f6cce7e0303b6a974716aca"
+      "bytes": 12199,
+      "sha256": "33c97b91f0937f571ba30e055e5229609770204106c9d8d96742b2065cc78b7c"
     },
     {
       "path": "tests/brief-advisor.test.ts",
@@ -701,13 +701,13 @@
     },
     {
       "path": "tests/ecosystem-agent.test.ts",
-      "bytes": 17794,
-      "sha256": "8b4ae4b5f65435608892ef6be6397db11b86b515b5489ad6d6d7a0419f5e21e4"
+      "bytes": 18377,
+      "sha256": "0151de16e11ad74b4e9f45031b783c079f7a4a5f0d8eee5e5323d2483e581713"
     },
     {
       "path": "tests/ecosystem-campaign.test.ts",
-      "bytes": 14405,
-      "sha256": "69577ab8238f6211cc6d86d524c059e3e2f323ea3480ae0ed92390494f134b4d"
+      "bytes": 14393,
+      "sha256": "7e1293ff208312870559eeab934fad4adca6791084a6d299320fb3fce6af976b"
     },
     {
       "path": "tests/ecosystem.test.ts",
@@ -766,8 +766,8 @@
     },
     {
       "path": "tests/llm.test.ts",
-      "bytes": 17881,
-      "sha256": "bf71a04352657d6c44a6667b7c07c251b6e33d8a61d422c899eab228525fde43"
+      "bytes": 17816,
+      "sha256": "df1b73864c7a4a76639e9a73d72b540793a58c301d4034f7e5d688e1635b5f1d"
     },
     {
       "path": "tests/local-export-resume.ts",
@@ -861,8 +861,8 @@
     },
     {
       "path": "tests/revision-export.test.ts",
-      "bytes": 7371,
-      "sha256": "424a9ad765c48b4cbad9e602b5b2adc5b3f64b188d2d09bca8ddaba083af96d0"
+      "bytes": 7508,
+      "sha256": "fb9bfbf3225567dc1010f39c0a76cd5b9113e56339498746213a7403abbe3934"
     },
     {
       "path": "tests/server-startup.test.ts",
@@ -876,18 +876,18 @@
     },
     {
       "path": "tests/visual-export.test.ts",
-      "bytes": 11339,
-      "sha256": "38ccf69cb71027bbfdccf120d389f495600483c2409b470ef7f931136b1dd0e0"
+      "bytes": 12064,
+      "sha256": "41fa73a131550a2d04828888a054daeac5ad62dd41f67cf6ec778e4f84782658"
     },
     {
       "path": "tests/writing-length.test.ts",
       "bytes": 8294,
-      "sha256": "72eb10e69b77e9880993d84425803d51bb9d4b5908bad18130d7e0fcdb5f1191"
+      "sha256": "e5f085713f175de29a5562346cbc57bb67eb474d5a794e741c6bd493592df5fa"
     },
     {
       "path": "tests/writing-style.test.ts",
-      "bytes": 9771,
-      "sha256": "29b2c0d4ed1af90806abdabba148a0cea579965bd76c0246c8e2020b38c5ff31"
+      "bytes": 19391,
+      "sha256": "be7d8cb79001ecf784c91d3a9563d1a3232e5d5348b301355fd8d509c450985a"
     },
     {
       "path": "tsconfig.json",
@@ -901,8 +901,8 @@
     },
     {
       "path": "PREVIEW-MANIFEST.json",
-      "bytes": 28509,
-      "sha256": "3c1d92c062ee0f854b48b429b5d0d34e6ce1cc1895b53b23ecc0f622824fff7e"
+      "bytes": 28510,
+      "sha256": "c2571b95ad975698ff72420e46e282cdc2833402c835358be01c54668b9573b9"
     },
     {
       "path": "published-data/ecosystem-relations.json",
@@ -911,8 +911,8 @@
     },
     {
       "path": "published-data/history.json",
-      "bytes": 116586,
-      "sha256": "7f59587cdd92f8d67c3d77a6bbe43e7ebd42760e761dcb2461a5941064392913"
+      "bytes": 112999,
+      "sha256": "764934c81e98a7254e0152c4828ac81a107f20ef7f10b528e592768be394a37e"
     },
     {
       "path": "published-data/knowledge/华为PC全板块深度知识库_v7/00-建库规范/01-分类与命名规范/分类与命名规范.md",
@@ -8607,7 +8607,7 @@
     {
       "path": "published-data/manifest.json",
       "bytes": 413901,
-      "sha256": "bb57103945eee9489a9bc8a5591159e7fd91b4f9765077410f928d92967bf6d4"
+      "sha256": "b1034a572711a3b74e6fb5129aab8d086336d8656b9d9450947d0403bcba96f5"
     },
     {
       "path": "docs/作品说明书.pdf",

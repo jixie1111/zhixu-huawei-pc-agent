@@ -5,7 +5,7 @@ import { WRITING_CRAFT } from '../shared/writing-style';
 
 export interface BodyField { field: string; text: string }
 const patchSchema=z.object({patches:z.array(z.object({
-  field:z.string().max(100),before:z.string().max(6000),after:z.string().trim().min(1).max(6000),
+  field:z.string().max(100),before:z.string().max(6000),after:z.string().trim().max(6000),
 }).strict()).min(1).max(10)}).strict();
 
 /** A single optional writing pass, before independent fact review. It can only
@@ -22,7 +22,7 @@ export async function adjustBodyLength(brief:LengthBrief,fields:readonly BodyFie
     if(!result.success)return original;
     const next=new Map(original),changed=new Set<string>();
     for(const patch of result.data.patches){
-      if(!original.has(patch.field)||changed.has(patch.field)||original.get(patch.field)!==patch.before||patch.before===patch.after)return original;
+      if(!original.has(patch.field)||changed.has(patch.field)||original.get(patch.field)!==patch.before||patch.before===patch.after||(!patch.after&&patch.field!=='cta'))return original;
       next.set(patch.field,patch.after);changed.add(patch.field);
     }
     return lengthFinding([...next.values()],brief)?original:next;

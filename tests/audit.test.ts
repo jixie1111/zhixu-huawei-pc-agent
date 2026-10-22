@@ -36,6 +36,13 @@ test('第一篇资料为阅读顺序，带全球或行业修饰的排名仍拦�
   }
 });
 
+test('方案第一稿是修订顺序，带排名修饰或独立排名仍拦截',()=>{
+  for(const text of ['方案的第一稿、会议后补上的几句话','第一稿写完，还要核对','文档第一稿'])assert.deepEqual(scanCompliance(text),[],text);
+  for(const text of ['全球第一稿','全网第一稿','行业第一稿','同价位第一稿','方案第一稿，性能第一']){
+    assert.ok(scanCompliance(text).some(finding=>finding.severity==='block'),text);
+  }
+});
+
 test('引用存在不等于支持：捏造数值、错型号、未知引用均拦截', () => {
   const data = evidence();
   const article = composeLocal(brief, data, buildStrategy(brief));
@@ -56,6 +63,19 @@ test('标题与导语的无依据参数也必须拦截', () => {
   article.title = '99 英寸，超大视野'; article.lead = '配备 999 GB 内存。';
   const audit = auditArticle(article, data, brief, 'local-composer');
   assert.ok(audit.findings.filter(finding => finding.id.startsWith('quantity-global-')).length >= 2);
+});
+
+test('第一人称按成品字段定位为风格要求，原始依据和图片索引不被改写',()=>{
+  const data=evidence(),article=composeLocal(brief,data,buildStrategy(brief));
+  data.facts[0].text+=' 原始资料引语：我喜欢。';
+  data.images[0].description='原始索引里有“我”的字样。';
+  assert.ok(!auditArticle(article,data,brief,'llm').findings.some(f=>f.id.startsWith('writing-person-')));
+  article.title='我想看的屏幕';article.lead='我们聊聊电脑';article.sections[0].heading='我的选择';article.sections[0].text='对我来说，屏幕很重要。';article.cta='私信我';article.tags=['我的电脑'];article.disclaimer='本店提供咨询';
+  const audit=auditArticle(article,data,brief,'llm');
+  for(const field of ['title','lead','sections.0.heading','sections.0.text','cta','tags','disclaimer']){
+    assert.ok(audit.findings.some(f=>f.id===`writing-person-${field}`&&f.field===field&&f.category==='platform'&&f.severity==='block'),field);
+  }
+  assert.ok(data.facts[0].text.includes('我喜欢'),'source remains unchanged');
 });
 
 test('数值支撑必须完整匹配，不能把16GB支持成6GB或70Wh支持成70W', () => {

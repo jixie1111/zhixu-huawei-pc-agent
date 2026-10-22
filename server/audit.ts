@@ -2,6 +2,7 @@ import type { Article, Audit, Brief, Evidence, Finding } from '../shared/types';
 import { PLATFORMS } from '../shared/rules';
 import { imageSlot } from '../shared/layout';
 import { articleBody, lengthFinding } from '../shared/writing-length';
+import { firstPersonFindings } from '../shared/writing-style';
 
 const rules: {id:string;pattern:RegExp;message:string;suggestion:string}[] = [
   {id:'absolute',pattern:/(?:全网|行业|全球|宇宙|同价位)?(?:第一|唯一|最强|最好|最佳|最低|最便宜|顶级|极致性能)|百分之百|100%\s*(?:保证|安全|无故障)|零风险/g,message:'绝对化宣传或无依据排名',suggestion:'使用可验证的具体事实，删除绝对排名或保证。'},
@@ -15,7 +16,7 @@ export function scanCompliance(text:string):Finding[] {
   for(const rule of rules) {
     rule.pattern.lastIndex=0;
     for(const match of text.matchAll(rule.pattern)) {
-      if(rule.id==='absolute'&&match[0]==='第一'&&/^(?:堂|次|个|步|天|课|页|篇|段|章|站|项|张|条|眼|本|节|份|年|门|轮|回|局|场|班|组|期|学期|学年|代|季|周|月|晚|趟|笔|行|列|格|封|套|句|栋|座|层|排|首|件|份|支|部|幅|格|帧|封|批|道|题|关|间|所|辆|顿|口|声|下|遍|拍|镜|屏|印象|台(?:电脑|笔记本|手机|平板|设备)|位(?:发言|家人|同学)|阶段)/.test(text.slice((match.index||0)+2))) continue;
+      if(rule.id==='absolute'&&match[0]==='第一'&&/^(?:堂|次|个|步|天|课|页|篇|段|章|稿|站|项|张|条|眼|本|节|份|年|门|轮|回|局|场|班|组|期|学期|学年|代|季|周|月|晚|趟|笔|行|列|格|封|套|句|栋|座|层|排|首|件|份|支|部|幅|格|帧|封|批|道|题|关|间|所|辆|顿|口|声|下|遍|拍|镜|屏|印象|台(?:电脑|笔记本|手机|平板|设备)|位(?:发言|家人|同学)|阶段)/.test(text.slice((match.index||0)+2))) continue;
       const before=text.slice(Math.max(0,(match.index||0)-10),match.index);
       if(/(?:不得|禁止|不承诺|不能|不要|避免|未核实|不使用)[^。！？\n]{0,5}$/.test(before)) continue;
       findings.push({id:`${rule.id}-${match.index}`,category:'compliance',severity:'block',message:rule.message,excerpt:match[0],suggestion:rule.suggestion});
@@ -52,10 +53,15 @@ const quantities=(text:string)=>{
 export function articleText(a:Article) {return [a.title,a.lead,...a.sections.flatMap(s=>[s.heading,s.text]),a.cta,...a.tags,a.disclaimer,...a.images.flatMap(i=>[i.description,i.reason||''])].join('\n');}
 export function auditArticle(article:Article,evidence:Evidence,brief:Brief,engine:'local-composer'|'llm'):Audit {
   const findings:Finding[]=scanCompliance(articleText(article));
+  findings.push(...firstPersonFindings([
+    {field:'title',text:article.title},{field:'lead',text:article.lead},
+    ...article.sections.flatMap((section,index)=>[{field:`sections.${index}.heading`,text:section.heading},{field:`sections.${index}.text`,text:section.text}]),
+    {field:'cta',text:article.cta},{field:'tags',text:article.tags.join('\n')},{field:'disclaimer',text:article.disclaimer},
+  ]));
   const lengthIssue=lengthFinding(articleBody(article),brief);
   if(lengthIssue)findings.push(lengthIssue);
   const add=(id:string,category:Finding['category'],severity:Finding['severity'],message:string,suggestion:string,excerpt?:string)=>findings.push({id,category,severity,message,suggestion,excerpt});
-  for(const [field,label] of [['title','标题'],['lead','导语或海报副标题'],['cta','行动引导']] as const) {
+  for(const [field,label] of [['title','标题'],['lead','导语或海报副标题']] as const) {
     if(!article[field].trim())add(`structure-${field}`,'platform','block',`${label}为空，稿件结构不完整。`,`请补充${label}，再重新核验。`);
   }
   if(!article.sections.length)add('structure-sections','platform','block','正文或海报卖点为空，稿件结构不完整。','至少保留一段正文或一个有依据的卖点。');

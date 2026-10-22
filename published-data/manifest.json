@@ -1,6 +1,6 @@
 {
   "format": "wuyan-authorized-data-v1",
-  "createdAt": "2026-10-22T11:06:44.271Z",
+  "createdAt": "2026-10-22T16:51:30.388Z",
   "authorization": "项目持有人于 2026-10-21 明确确认主办方允许公开完整知识库，并要求同步本地作品记录至原 GitHub 仓库和魔搭空间。此记录不将第三方素材改授开源许可。",
   "counts": {
     "knowledgeFiles": 1538,
@@ -17,8 +17,8 @@
     },
     {
       "path": "history.json",
-      "bytes": 116586,
-      "sha256": "7f59587cdd92f8d67c3d77a6bbe43e7ebd42760e761dcb2461a5941064392913"
+      "bytes": 112999,
+      "sha256": "764934c81e98a7254e0152c4828ac81a107f20ef7f10b528e592768be394a37e"
     },
     {
       "path": "knowledge/华为PC全板块深度知识库_v7/00-建库规范/01-分类与命名规范/分类与命名规范.md",

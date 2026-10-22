@@ -13,7 +13,7 @@ const fields=[{field:'lead',text:'合成导语'},{field:'sections.0.text',text:'
 const response=(value:unknown)=>new Response(JSON.stringify({choices:[{message:{content:JSON.stringify(value)}}]}));
 
 test('四平台统一篇幅；正文计数排除空白/标题/话题/说明，标点和emoji按码点计数',()=>{
-  assert.deepEqual(WRITING_LENGTH,{xiaohongshu:[500,900],wechat:[800,1200],moments:[120,260],poster:[80,180]});
+  assert.deepEqual(WRITING_LENGTH,{xiaohongshu:[500,900],wechat:[600,1000],moments:[200,350],poster:[80,180]});
   assert.equal(bodyLength(['甲 \n乙。','\u200b😀']),4);
   assert.equal(bodyLength(articleBody({lead:'导语',sections:[{heading:'不计入',text:'正文',factIds:[]}],cta:'行动'})),6);
   assert.equal(PLATFORMS.xiaohongshu.length,'500–900 字');

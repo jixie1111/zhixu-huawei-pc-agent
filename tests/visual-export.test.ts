@@ -89,6 +89,16 @@ test('短导语、段落、标签和条件合并排版，Unicode范围连续且�
   for(const block of doc.blocks){const ranges=result.manifest.pages.flatMap(p=>p.textRanges).filter(r=>r.blockId===block.id);assert.deepEqual(ranges,[{blockId:block.id,start:0,end:Array.from(block.text).length}]);}
 });
 
+test('朋友圈末页增加留白时重新测量，临界版面保持原字号且全文可导出',async()=>{
+  const doc=docFixture();doc.platform='moments';doc.draft=false;
+  doc.blocks=[43,75,70,72].map((length,index)=>({id:`tight-${index}`,heading:'',text:'景'.repeat(length),references:[],kind:index===0?'lead' as const:'section' as const}));
+  const result=await renderVisualBundle(doc,reader);
+  assert.equal(result.pages.length,2,'一个封面和完整正文，不为末页装饰额外分页');
+  for(const block of doc.blocks){
+    assert.deepEqual(result.manifest.pages.flatMap(page=>page.textRanges).filter(range=>range.blockId===block.id),[{blockId:block.id,start:0,end:Array.from(block.text).length}]);
+  }
+});
+
 test('文末配图与收尾文字同页，全部原图保留且不强制单开空白大图页',async()=>{
   const doc=docFixture();
   doc.images.push(...runFixture().article.images.slice(1,3).map(i=>({...i,position:'文末'})));

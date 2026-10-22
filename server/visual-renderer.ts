@@ -201,7 +201,15 @@ export async function renderVisualBundle(doc:VisualDocument,reader:ImageReader,o
     const flush=async(last=false)=>{
       if(!pending.length)return;
       await flow(pending);
-      if(last)await page.locator('.flow-zone').evaluate(node=>node.classList.add('is-final'));
+      if(last){
+        await page.locator('.flow-zone').evaluate(node=>node.classList.add('is-final'));
+        // Closing-page spacing is optional decoration. Recheck it against the
+        // measured layout; retain the normal spacing instead of losing text.
+        try{await validLayout(page);}catch(error){
+          if(!(error instanceof AppError)||error.code!=='VISUAL_OVERFLOW')throw error;
+          await page.locator('.flow-zone').evaluate(node=>node.classList.remove('is-final'));
+        }
+      }
       await capture(pending.every(f=>f.start===f.end)?'image':pending.every(f=>f.block.kind==='conditions')?'conditions':'content',pending.flatMap(f=>f.images),pending.filter(f=>f.end>f.start).map(f=>({blockId:f.block.id,start:f.start,end:f.end})));
       pending=[];
     };

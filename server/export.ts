@@ -41,7 +41,7 @@ pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.8 system-ui}details{
 <p class="notice">${run.audit.releaseReady&&!missing?'自动核验通过，发布前请人工审阅。':'未验收草稿，不用于正式发布或在线接入证明。'} ${run.brief.mode==='local'?'本地知识库。':'ima 在线检索。'} ${run.engine==='llm'?'模型生成。':'本地规则编排。'}${missing?` ${missing} 张图片尚未成功嵌入，本导出不完整。`:''}</p>
 <h1>${e(a.title)}</h1><p>${e(a.lead)}</p>${layout.cover.map(figure).join('')}
 ${a.sections.map((s,i)=>`<section><h2>${e(s.heading)}</h2><p>${e(s.text)}</p>${layout.after[i].map(figure).join('')}</section>`).join('')}
-${layout.end.map(figure).join('')}<p>${e(a.cta)}</p><p>${e(a.tags.map(t=>t.startsWith('#')?t:'#'+t).join(' '))}</p>
+${layout.end.map(figure).join('')}${a.cta?`<p>${e(a.cta)}</p>`:""}<p>${e(a.tags.map(t=>t.startsWith('#')?t:'#'+t).join(' '))}</p>
 <footer>${e(a.disclaimer)}</footer><details><summary>完整场景、事实依据、图片来源与核验记录</summary><pre>${e(toMarkdown(run))}</pre></details>
 </main></body></html>`;
 }

@@ -11,7 +11,7 @@ import { articleBody, bodyLength } from '../shared/writing-length';
 before(() => configure({ llmKey: 'qa-model-test-secret', llmModel: 'qa-only-not-real', llmBaseUrl: 'https://api.siliconflow.cn/v1' }));
 after(clearSession);
 const response = (value: unknown) => new Response(JSON.stringify({ choices: [{ message: { content: JSON.stringify(value) } }] }), { headers: { 'Content-Type': 'application/json' } });
-const testBodyLength={xiaohongshu:550,wechat:900,moments:160,poster:100};
+const testBodyLength={xiaohongshu:550,wechat:900,moments:250,poster:100};
 const modelOutput = (platform: keyof typeof testBodyLength = 'xiaohongshu') => ({ title: '场景选购清单', lead: '合成测试文案', sections: [{ heading: '屏幕', text: '14 英寸显示屏。'+syntheticText(testBodyLength[platform]), factIds: ['qa-屏幕'] }], cta: '请先验证实际需求', tags: ['测试'], images: [{ id: 'qa-image-1', position: '封面', reason: '合成图片用于测试结构' }, { id: 'qa-image-2', position: '段后', reason: '合成图片用于测试结构' }, { id: 'qa-image-3', position: '段后', reason: '合成图片用于测试结构' }], disclaimer: 'QA合成内容，不代表产品事实。' });
 
 test('模型结构化请求保留系统边界，证据中的文本不是高优先级指令', async t => {
@@ -39,7 +39,7 @@ test('模型自创图片ID、结构不完整、非JSON与HTTP失败都不能变�
     [response({ ...modelOutput(), images: [{ id: 'invented-id', position: '封面', reason: '伪造素材' }] }), 'IMAGE_UNKNOWN'],
     [response({ title: '不完整' }), 'LLM_SCHEMA'],
     [response({ ...modelOutput(), lead: ' \n ' }), 'LLM_SCHEMA'],
-    [response({ ...modelOutput(), cta: '' }), 'LLM_SCHEMA'],
+    [response({ ...modelOutput(), cta: null }), 'LLM_SCHEMA'],
     [response({ ...modelOutput(), sections: [{ heading: '', text: ' \n ', factIds: ['qa-屏幕'] }] }), 'LLM_SCHEMA'],
     [response({ ...modelOutput(), images: [{ id: 'qa-image-1', position: '封面', reason: '  ' }] }), 'LLM_SCHEMA'],
     [response({ ...modelOutput(), tags: ['  '] }), 'LLM_SCHEMA'],
@@ -63,14 +63,14 @@ test('附带拒绝说明不进入正文或导出，未知字段与超长说明�
   extra={reviewNotes:['x'.repeat(801)]};await assert.rejects(composeModel(brief,evidence(),buildStrategy(brief)),{code:'LLM_SCHEMA'});
 });
 
-test('缺失导语/行动引导的历史稿不能被语义模型通过覆盖；简洁海报仍可通过',async t=>{
+test('缺失标题或导语不能被语义模型通过覆盖；空行动字段允许自然结束',async t=>{
   const data=evidence(),input={...brief,platform:'poster' as const,generation:'model' as const};
   const article=composeLocal(input,data,buildStrategy(input));
-  article.title='选对你的日常';article.lead='合成测试型号';article.cta='欢迎到店体验';
+  article.title='选对你的日常';article.lead='合成测试型号';article.cta='';
   article.sections=[{heading:'',text:'14 英寸显示屏。'+syntheticText(85),factIds:['qa-屏幕']}];
   article.disclaimer='';
   t.mock.method(globalThis,'fetch',async()=>response({supported:true,issues:[]}));
-  for(const field of ['title','lead','cta'] as const) {
+  for(const field of ['title','lead'] as const) {
     const incomplete=structuredClone(article);incomplete[field]=' \n ';
     const result=await verifySemantic(incomplete,data,auditArticle(incomplete,data,input,'llm'),undefined,'local');
     assert.equal(result.releaseReady,false,field);assert.equal(result.status,'blocked',field);
@@ -79,8 +79,8 @@ test('缺失导语/行动引导的历史稿不能被语义模型通过覆盖；�
   const result=await verifySemantic(article,data,auditArticle(article,data,input,'llm'),undefined,'local');
   assert.equal(result.releaseReady,true,'a short poster needs no forced paragraph heading or boilerplate disclaimer');
   const {images,disclaimer,...editable}=article;
-  const parsed=editableSchema.parse({...editable,lead:'  合成测试型号  ',cta:' 欢迎到店体验 '});
-  assert.equal(parsed.lead,'合成测试型号');assert.equal(parsed.cta,'欢迎到店体验');
+  const parsed=editableSchema.parse({...editable,lead:'  合成测试型号  ',cta:'  '});
+  assert.equal(parsed.lead,'合成测试型号');assert.equal(parsed.cta,'');
 });
 
 test('独立核验收到服务端原图用途注释，不能把构图复核当作性能证据',async t=>{
@@ -167,7 +167,7 @@ test('各阶段采样进入真实请求结构，用户文字不能覆盖策略�
 });
 
 test('四平台写作采用不同表达指引，仍保留证据限制且不伪造亲身体验',async t=>{
-  const expected={xiaohongshu:['短段落',0.8],wechat:['决策逻辑',0.65],moments:['轻量邀请',0.7],poster:['主副层次',0.7]} as const;
+  const expected={xiaohongshu:['短段落',0.8],wechat:['决策逻辑',0.65],moments:['自然结束',0.7],poster:['主副层次',0.7]} as const;
   const seen=new Set<string>();
   for(const platform of Object.keys(expected) as (keyof typeof expected)[]){
     const mock=t.mock.method(globalThis,'fetch',async(_url:unknown,init:RequestInit)=>{

@@ -23,7 +23,7 @@ function setup(t:TestContext){
   const ecosystem=new EcosystemStore([relation],()=>now),store=new RunStore(':memory:');t.after(()=>store.close());
   const brief:EcosystemBrief={selection:{devices:records.map(d=>({productId:d.product.id,system:'QA 1'})),relationIds:[relation.id],conditions:{account:'一致'}},audience:'合成测试受众',platform:'wechat',goal:'测试到店体验',requirements:'',generation:'model',autoRepair:false};
   const plan:EcosystemPlan={angle:'QA两设备故事',rationale:'测试规划',deviceRoles:records.map(d=>({productId:d.product.id,role:'QA专属角色',factIds:[d.facts[0].id]})),relationIds:[relation.id],structure:['场景','设备','关系'],visualDirection:'QA真实原图说明'};
-  const output={title:block('一起安排一天'),lead:block('从日常任务开始'),sections:records.map(d=>({heading:block(d.product.name),body:block(d.product.name+' 的测试规格',[{productId:d.product.id,factId:d.facts[0].id}])})).concat([{heading:block('合成协同'),body:block('按已确认条件共享测试资料',[],[relation.id])}]),cta:block('到店了解需求'),tags:[],images:records.map(d=>({id:d.images[0].id,productId:d.product.id,position:'产品介绍后',reason:'说明对应设备的外观'}))};
+  const output={title:block('一起安排一天'),lead:block('从日常任务开始'),sections:records.map(d=>({heading:block(d.product.name),body:block(d.product.name+' 的测试规格',[{productId:d.product.id,factId:d.facts[0].id}])})).concat([{heading:block('合成协同'),body:block('按已确认条件共享测试资料',[],[relation.id])}]),cta:block(''),tags:[],images:records.map(d=>({id:d.images[0].id,productId:d.product.id,position:'产品介绍后',reason:'说明对应设备的外观'}))};
   output.sections[1].body.text+=syntheticText(850);
   const calls:string[]=[];
   const options={reviewFail:false,incomplete:false,wrongField:false,problem:false,repairBad:false,alwaysProblem:false};let repairs=0;
@@ -58,7 +58,7 @@ test('生态短稿一次补足篇幅后核验，设备引用、关系与图片�
   const s=setup(t);s.output.sections[1].body.text='合成设备正文';
   const delegate=s.deps.chat!;let adjustments=0;
   s.deps.chat=async(system,data,signal,task)=>{
-    if(system.includes('正文篇幅编辑')){adjustments++;assert.equal(task?.stage,'repair');assert.ok(system.includes('800–1200 字'));
+    if(system.includes('正文篇幅编辑')){adjustments++;assert.equal(task?.stage,'repair');assert.ok(system.includes('600–1000 字'));
       return {patches:[{field:'sections.1.body',before:s.output.sections[1].body.text,after:syntheticText(900)}]};}
     return delegate(system,data,signal,task);
   };
@@ -109,6 +109,15 @@ test('手工编辑创建版本重新核验，无法改图片和适用条件',asy
   const s=setup(t),original=await generateEcosystem(s.brief,s.deps),edited=content(structuredClone(original.article));edited.title.text='新的合成标题';s.options.problem=true;
   const run=await editEcosystem(original,edited,s.deps);assert.equal(run.version,2);assert.equal(run.parentId,original.id);assert.equal(run.audit.releaseReady,false);assert.deepEqual(s.store.getEcosystem(original.id),original);assert.deepEqual(run.article.images,original.article.images);
   await assert.rejects(editEcosystem(original,{...edited,disclosures:[]},s.deps));await assert.rejects(editEcosystem(original,{...edited,images:[]},s.deps));
+});
+
+test('生态稿同样要求无第一人称，独立事实通过不能放过编辑加入的自述',async t=>{
+  const s=setup(t),original=await generateEcosystem(s.brief,s.deps);
+  const edited=content(structuredClone(original.article));edited.cta.text='私信我咨询';
+  const run=await editEcosystem(original,edited,s.deps);
+  assert.equal(run.audit.releaseReady,false);
+  assert.ok(run.audit.findings.some(f=>f.id==='writing-person-cta'&&f.category==='platform'&&f.field==='cta'));
+  assert.equal(s.store.getEcosystem(original.id)!.audit.releaseReady,true,'the saved original is unchanged');
 });
 test('过期证据不沿用历史通过状态，编辑及生成中途过期均停止',async t=>{
   const s=setup(t),run=await generateEcosystem(s.brief,s.deps);s.expire();assert.equal(presentEcosystem(run,s.deps).audit.releaseReady,false);assert.equal(s.store.getEcosystem(run.id)!.audit.releaseReady,true);await assert.rejects(editEcosystem(run,content(run.article),s.deps),{code:'ECOSYSTEM_NOT_READY'});

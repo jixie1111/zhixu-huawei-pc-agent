@@ -17,16 +17,8 @@ export function buildStrategy(brief:Brief,category:ProductCategory='computer'):S
     /比较|考虑|选型/.test(brief.stage)?{focus:'解释和日常任务有关的配置特点',priorities:[]}:
     {focus:'从日常问题介绍相关产品特点',priorities:[]};
   const priorities=[...new Set([...phase.priorities,...scene.priorities])];
-  const goalAction=/收藏/.test(brief.goal)?'可以收藏，选电脑时再翻回来看看。':
-    /兴趣/.test(brief.goal)?'你平常用电脑最多的那件事是什么？':
-    /私信|咨询/.test(brief.goal)?'想聊具体配置，私信说说你的日常用法。':
-    /配置|决策/.test(brief.goal)?'想确定具体版本，可以私信我聊聊配置。':
-    /理解/.test(brief.goal)?'关于这款产品，你还想了解哪一点？':
-    /活动/.test(brief.goal)?'当期活动安排，可以向门店咨询。':'';
-  const base=goalAction||platform.cta;
-  // A store name makes thousands of identical rule drafts at least locally distinct.
-  const store=brief.voice?.store?.trim();
-  const cta=store?base.replace(/到店/u,`到${store}`):base;
+  // A marketing goal guides information selection, not an automatic invitation.
+  const cta='';
   return {angle:scene.angle,problem:scene.problem,priorities,tone:platform.tone,structure:platform.structure,cta,imageMin:platform.range[0],imageMax:platform.range[1],targetLength:shortRevision(brief.revision||'')?'按原稿精简，保留必要事实与条件':platform.length,stage:brief.stage,goal:brief.goal,rationale:`面向${brief.audience}，处于“${brief.stage}”阶段：${phase.focus}。优先回答“${scene.problem}”，以${priorities.slice(0,3).join('、')}取证，采用${platform.name}的${platform.structure.join(' → ')}结构，服务于“${brief.goal}”。`};
 }
 export { shortRevision } from './writing-length';
@@ -38,10 +30,10 @@ function summary(f:Fact):string {
   }
   if(f.label==='屏幕') {
     const size=clean.find(s=>/英寸/.test(s)&&s.length<35);const type=clean.find(s=>/OLED|LCD|IPS/.test(s)&&s.length<50);
-    return [size,type,'具体屏幕版本、亮度与功能限制请查阅规格依据'].filter(Boolean).join('，');
+    return [size,type].filter(Boolean).join('，');
   }
-  if(f.label==='电池')return clean.filter(s=>/Wh|额定|典型/.test(s)).slice(0,2).join('；')+'。额定容量不等于实际续航时长，续航需结合真实任务验证';
-  if(f.label==='特色应用')return '相关协同功能需满足设备、系统和软件版本条件，具体支持范围请查看原始资料并现场确认';
+  if(f.label==='电池')return clean.filter(s=>/Wh|额定|典型/.test(s)).slice(0,2).join('；');
+  if(f.label==='特色应用')return '相关协同功能需满足设备、系统和软件版本条件，具体支持范围见原始资料';
   return clean.slice(0,4).join('；').slice(0,220);
 }
 export function composeLocal(brief:Brief,evidence:Evidence,strategy:Strategy):Article {
@@ -54,18 +46,18 @@ export function composeLocal(brief:Brief,evidence:Evidence,strategy:Strategy):Ar
   if(shortRevision(brief.revision||''))count=Math.max(1,count-1);
   const facts=(strategy.prioritizedFactIds?.length?strategy.prioritizedFactIds.map(id=>evidence.facts.find(f=>f.id===id)):strategy.priorities.map(label=>evidence.facts.find(f=>f.label===label))).filter((f):f is Fact=>!!f).slice(0,count);
   const contexts:Record<string,string>={
-    '尺寸与重量':'每天放进包里的设备，先看携带条件。建议带上平时的背包，到店感受机身与配件一起携带的状态。',
-    '屏幕':'阅读资料、整理文档或查看素材时，显示需求各不相同。可以用常用文档现场确认字号、显示效果与交互是否适合自己。',
-    '电池':'把一天的任务与可充电时段列出来，能比单看一个参数更接近真实需求。不要把电池容量直接当成续航保证。',
-    '接口':'先列出显示器、会议设备和其他外设的连接方式，再确认接口、线材和转接需求。',
-    '操作系统':'购机前列出不可替代的应用，核对操作系统与软件版本。专业软件、业务系统及外设应逐项验证，不预设兼容。',
-    '内存':'可以带着实际的多任务清单咨询具体配置；不把不同销售版本的内存选项混为一谈。',
-    '存储':'先清点现有文件和未来的素材需求，再选择配置；同时安排迁移与备份，避免只关注纸面容量。',
-    '摄像头':'经常视频沟通的话，建议现场核对会议软件、环境和实际使用效果，不虚构实测结果。',
-    '处理器':'性能是否满足任务，仍需结合应用版本与真实项目验证，不能仅凭型号承诺软件运行效果。',
+    '尺寸与重量':'从教室到办公室，电脑也是随包携带的一件物品。',
+    '屏幕':'文档、照片和课程资料，都呈现在这块屏幕上。',
+    '电池':'移动使用还涉及设备的电池配置。',
+    '接口':'显示器和其他外设的连接会用到机身接口。',
+    '操作系统':'这款设备搭载的操作系统是：',
+    '内存':'内存有不同配置选项。',
+    '存储':'课程文件、工作文档与照片都需要存储空间。',
+    '摄像头':'视频沟通会用到机身摄像头。',
+    '处理器':'这款设备的处理器配置是：',
   };
-  const sections=facts.map((f,i)=>({heading:brief.platform==='poster'?f.label:brief.platform==='moments'?'这次，先关注这一点':`${String(i+1).padStart(2,'0')} / ${f.label}`,text:brief.platform==='poster'?summarize(f):brief.platform==='moments'?`${evidence.product.shortName}：${summarize(f)}。建议带着常用任务现场确认。`:`${contexts[f.label]||'请结合日常任务确认这一配置是否合适。'}\n\n资料依据：${summarize(f)}。${brief.platform==='wechat'?'这并不意味着同系列的每一个版本都具备相同配置。选购时，应把具体销售版本、使用条件与自己的任务一一对应，无法确认的项目先向门店或官方渠道核实。':''}`,factIds:[f.id]}));
+  const sections=facts.map((f,i)=>({heading:brief.platform==='poster'?f.label:brief.platform==='moments'?'':`${String(i+1).padStart(2,'0')} / ${f.label}`,text:brief.platform==='poster'?summarize(f):`${contexts[f.label]||''}\n\n${summarize(f)}。`.trim(),factIds:[f.id]}));
   const images=evidence.images.slice(0,Math.min(strategy.imageMax,strategy.imageMin)).map((image,i)=>({...image,position:i===0?'封面主视觉':`第 ${Math.min(i,sections.length)} 段后`,reason:i===0?`展示 ${evidence.product.shortName} 的产品外观，明确本篇讨论的型号。`:`围绕“${sections[Math.min(i-1,sections.length-1)]?.heading||scene.name}”组织视觉节奏；图片仅说明画面内容，不作为性能证明。`}));
   const titles={xiaohongshu:`${scene.name}选${productLabel}，先想清楚这几件事`,wechat:`${scene.angle}｜${evidence.product.shortName}`,moments:`${scene.name}，从一个真实需求开始`,poster:scene.name==='开学季'?'新学期，自有新可能':scene.angle};
-  return {title:titles[brief.platform],lead:brief.platform==='poster'?evidence.product.name:brief.platform==='moments'?scene.hook:`${scene.hook}\n面向${brief.audience}，这次以 ${evidence.product.name} 为例，把“${scene.problem}”逐项展开。`,sections,cta:strategy.cta,tags:brief.platform==='xiaohongshu'?[`华为${productLabel}`,scene.name,`${productLabel}选购`,'到店体验']:[],images,disclaimer:'具体配置、系统版本、适用条件和实际体验以产品资料及现场核实为准。此稿由规则模板与所选资料编排，未调用大模型；规则核验不替代人工审核，发布前请复核来源、适用条件与动态信息。'};
+  return {title:titles[brief.platform],lead:brief.platform==='poster'?evidence.product.name:brief.platform==='moments'?scene.hook:`${scene.hook}\n${evidence.product.name}，${scene.angle}。`,sections,cta:'',tags:brief.platform==='xiaohongshu'?[`华为${productLabel}`,scene.name,`${productLabel}选购`]:[],images,disclaimer:'具体配置、系统版本和适用条件以产品资料为准。此稿由规则模板与所选资料编排，未调用大模型；规则核验不替代人工审核，发布前请复核来源、适用条件与动态信息。'};
 }
