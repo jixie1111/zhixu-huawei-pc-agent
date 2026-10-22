@@ -4,10 +4,10 @@
 
 | 产品 | 平台 | 成品 | 正文字数 |
 | --- | --- | --- | ---: |
-| MateBook 14（鸿蒙版） | 小红书 | [开学电脑，屏幕和重量我都想要](examples/matebook-harmony-school.md) | 626 |
-| MatePad 11.5 2026 | 小红书 | [周末这块屏，想留给书和电影](examples/matepad-weekend.md) | 634 |
-| MateBook Pro | 微信公众号 | [每天背电脑出门，970g让我多看了一眼](examples/matebook-pro-work.md) | 1076 |
-| Pura 80 | 门店朋友圈 | [树梢那朵花，想拍进手机里](examples/pura80-photo.md) | 178 |
+| MateBook 14（鸿蒙版） | 小红书 | [开学电脑，屏幕和重量我都想要](examples/matebook-harmony-school.md) | 576 |
+| MatePad 11.5 2026 | 小红书 | [周末这块屏，想留给书和电影](examples/matepad-weekend.md) | 578 |
+| MateBook Pro | 微信公众号 | [每天背电脑出门，970g让我多看了一眼](examples/matebook-pro-work.md) | 985 |
+| Pura 80 | 门店朋友圈 | [树梢那朵花，想拍进手机里](examples/pura80-photo.md) | 181 |
 
 小红书正文范围已调整为500–900字。字数统计导语、段落正文和行动引导的非空白字符，含标点；标题、小标题、话题、图片说明和适用说明另列。
 
@@ -17,10 +17,11 @@
 
 | 项目 | 实际记录 |
 | --- | --- |
-| 正文片段 | 圆键盘款含电池约1.33kg，厚14.5mm；实际机身重量会因配置、制造工艺和测量方法而有差异。 |
+| 正文片段 | 圆键盘款含电池约1.33kg，厚14.5mm。电脑要和课本、水杯一起出门，我会带上常用的书包，看看装进去之后，其他东西准备怎么摆。 |
 | 绑定依据 | `9bc5f1841013bc99` · 当前型号「尺寸与重量」 |
 | 资料原文 | 厚度14.5 mm；约1.33 kg（圆键盘含电池）；约1.32 kg（方键盘含电池）。实际机身重量根据配置、制造工艺、测量方法的不同可能有所差异。 |
-| 对应版本 | `2b791552-32d3-47e8-a8b9-717f1b88f493` · 版本2 |
+| 条件保留 | “圆键盘款”“含电池”“约”与数值放在一起，测量差异在正文末尾说明一次。装包是读者可做的动作，不预先承诺轻松或不累。 |
+| 对应版本 | `18480e2d-0739-4494-83b5-23e371d25c97` · 版本4 |
 | 本次复核 | 数值、当前型号、段落引用、所选原图与独立语义核验通过 |
 
 原始依据见[华为官方产品规格](https://consumer.huawei.com/cn/harmonyos-computer/matebook-14-harmonyos-version/specs/)。在[在线工作台](https://www.modelscope.cn/studios/jixie1111/zhixu-huawei-pc-demo?mode=full)打开同名作品，可查看段落引用、原图来源及完整核验记录，并导出Markdown、HTML和PNG配图包。

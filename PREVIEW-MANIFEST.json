@@ -1,6 +1,6 @@
 {
   "status": "SOURCE_PREVIEW_ONLY",
-  "createdAt": "2026-10-22T09:10:00.016Z",
+  "createdAt": "2026-10-22T11:06:39.631Z",
   "notice": "仅准备本地源码预览包；未上传、未正式提交。原始知识库、图片、凭证、会话记录与供应商插件不在包中。",
   "excluded": [
     "private/",
@@ -38,8 +38,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 5141,
-      "sha256": "793527fff138c936d6dbc57f5001755ee6790331f8787ccf3335df584b476ba6"
+      "bytes": 5457,
+      "sha256": "05eba67add1747200d1be8bf66f0246d53e347380091b86ae12c57c2d313a2cc"
     },
     {
       "path": "docs/ACCEPTANCE.md",
@@ -58,8 +58,8 @@
     },
     {
       "path": "docs/REAL-MODEL-RESULTS.md",
-      "bytes": 2612,
-      "sha256": "d8f4c9e38ae9dd236c8a7ce9b3bf59ad4054a6af8664961605ee1bbfbc3022d7"
+      "bytes": 4789,
+      "sha256": "bd68cdf7d2168ebc41b314370ac071ce6f9869bdaff32b3cf99ef4c47c76bcd3"
     },
     {
       "path": "docs/SECURITY.md",
@@ -68,8 +68,8 @@
     },
     {
       "path": "docs/SHOWCASE.md",
-      "bytes": 2215,
-      "sha256": "ad283021769335fb0f76694ca5b8533a707a72f13f08542395444eab96a7eb8f"
+      "bytes": 2459,
+      "sha256": "debcf0978d736d7a66e4b8d1e219699089aa5db30ecc4b36206b24c365b01a99"
     },
     {
       "path": "docs/SOURCE-POLICY.md",
@@ -78,28 +78,28 @@
     },
     {
       "path": "docs/TEST-REPORT.md",
-      "bytes": 2511,
-      "sha256": "867627b6f33eba7f945da3bad4355dbbb4003ba2449725786d2688773e1621c0"
+      "bytes": 3483,
+      "sha256": "efc89589baf050d2016bcce9070ca06528d9935ecb8f749c566e30bbc452357b"
     },
     {
       "path": "docs/examples/matebook-harmony-school.md",
-      "bytes": 3465,
-      "sha256": "d901015e44aad3c6cdf82f84498361ea0fb30c87aece0487abd29c4e2365ca6b"
+      "bytes": 3364,
+      "sha256": "9cef0b60a3bf89425964a70d94a6fbb3c575fbe52be62d6296c0d96004884bc0"
     },
     {
       "path": "docs/examples/matebook-pro-work.md",
-      "bytes": 4446,
-      "sha256": "ea05ea27efb9a9a66714a1082ac0ec13a6244ee45aa337bb7060a8d2ef2e8d24"
+      "bytes": 4268,
+      "sha256": "6ca3cc2f6ecc01e50d0b2db08affb2c293a9d91981664e45a3b89c5582a87e84"
     },
     {
       "path": "docs/examples/matepad-weekend.md",
-      "bytes": 2626,
-      "sha256": "a813867858938d471d5842961c97ab6f9a18a0afbefa4aa149abaaf97a623206"
+      "bytes": 2552,
+      "sha256": "1b078098ad82052470839115c294fee291511c180243c313a4dc95ef657b594c"
     },
     {
       "path": "docs/examples/pura80-photo.md",
-      "bytes": 1017,
-      "sha256": "2f2e81c5d6ef111b08f9405abc66cd3b1f132eff309da12c8541b8b35ecbb909"
+      "bytes": 1034,
+      "sha256": "0aa50e8c09389525551a9b77afa5e9edee83d8f60b2c989886e0ab978f6f2fe1"
     },
     {
       "path": "index.html",
@@ -123,8 +123,8 @@
     },
     {
       "path": "prompts/system.md",
-      "bytes": 5651,
-      "sha256": "f7cb3c753db5de03b182cd9743c8188fc3a689a7bddbb7d3f3d3891e73736d70"
+      "bytes": 6820,
+      "sha256": "e95ae5abb2e079ebd9db006d8f13769ca4465ac967c33f91a06be244e4d1501f"
     },
     {
       "path": "public/favicon.svg",
@@ -248,8 +248,8 @@
     },
     {
       "path": "server/audit.ts",
-      "bytes": 12035,
-      "sha256": "ac0188f9fe36b5c16d687151c8f5bd29fbfbc6f113399e3aac480d12898cbf41"
+      "bytes": 12496,
+      "sha256": "56c3e898048ebecac27c928986cf5013779cee200b6c46cd7a2fd50be79efe31"
     },
     {
       "path": "server/brief-advisor.ts",
@@ -378,8 +378,8 @@
     },
     {
       "path": "server/style-editing.ts",
-      "bytes": 2657,
-      "sha256": "cfcd1da8ffee2929edfa771a59b397f61995ced15c317d25ee14a37190f3ec16"
+      "bytes": 3041,
+      "sha256": "fed24edc3847e1d33c6bbf1ead9ab934351b883240f45db89e0af824418cfd38"
     },
     {
       "path": "server/visual-document.ts",
@@ -428,8 +428,8 @@
     },
     {
       "path": "shared/rules.ts",
-      "bytes": 6655,
-      "sha256": "84d7f5ff3c5da35fce0e9327faa9c52b8035a05a3169b33d6ac7ce2521aee6a1"
+      "bytes": 6706,
+      "sha256": "9ff961223fa3546987354ea3669b889c9a3e1838b2107443286ea51e30c2ca9a"
     },
     {
       "path": "shared/types.ts",
@@ -448,8 +448,8 @@
     },
     {
       "path": "shared/writing-style.ts",
-      "bytes": 2625,
-      "sha256": "0fde592354a7e7d8df0871cac991ffd88ad8ad0136d2e05a9b4eecd6fda61e96"
+      "bytes": 4811,
+      "sha256": "e051c964dfb4870de4f20bc0785e8a0084145ff83d2d4c5eea65c222703f8e68"
     },
     {
       "path": "src/AgentPipeline.tsx",
@@ -618,8 +618,8 @@
     },
     {
       "path": "tests/audit.test.ts",
-      "bytes": 9558,
-      "sha256": "031bbb87305d8421e6151c6e4aa35f7fa3bb12bf048f36614eb32fabb4d613f5"
+      "bytes": 10631,
+      "sha256": "02f6d1319d0ceba9e6249e4e0c640d295adf14589f6cce7e0303b6a974716aca"
     },
     {
       "path": "tests/brief-advisor.test.ts",
@@ -893,8 +893,8 @@
     },
     {
       "path": "tests/writing-style.test.ts",
-      "bytes": 6391,
-      "sha256": "aaaa1880346ec69c4a941e356a9b64cd977ad2671696606cc594a1c8124bcfec"
+      "bytes": 9771,
+      "sha256": "29b2c0d4ed1af90806abdabba148a0cea579965bd76c0246c8e2020b38c5ff31"
     },
     {
       "path": "tsconfig.json",

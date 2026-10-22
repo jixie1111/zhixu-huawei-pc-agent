@@ -6,9 +6,11 @@
 
 ## 最新展示案例
 
-当前展示四款产品的案例：[MateBook 14 鸿蒙版 · 小红书626字](docs/examples/matebook-harmony-school.md)、[MatePad 11.5 2026 · 小红书634字](docs/examples/matepad-weekend.md)、[MateBook Pro · 公众号1076字](docs/examples/matebook-pro-work.md)、[Pura 80 · 朋友圈178字](docs/examples/pura80-photo.md)。实际模型初稿经逐篇文字编辑与独立复核；完整图文与依据可在工作台“作品记录”查看。[案例合集](docs/SHOWCASE.md)同时展示一条正文与产品依据的对应关系。
+当前展示四款产品的案例：[MateBook 14 鸿蒙版 · 小红书576字](docs/examples/matebook-harmony-school.md)、[MatePad 11.5 2026 · 小红书578字](docs/examples/matepad-weekend.md)、[MateBook Pro · 公众号985字](docs/examples/matebook-pro-work.md)、[Pura 80 · 朋友圈181字](docs/examples/pura80-photo.md)。实际模型初稿经逐篇文字编辑与独立复核；完整图文与依据可在工作台“作品记录”查看。[案例合集](docs/SHOWCASE.md)同时展示一条正文与产品依据的对应关系。
 
 默认正文篇幅：小红书 500–900 字，公众号 800–1200 字，朋友圈 120–260 字，海报 80–180 字。只统计导语、各段正文与行动引导的非空白字符，含标点。生成后实际计数，必要时整理一次篇幅；出现明显套话、反复防御转折或逐段试机邀请时，再尝试一次有界语言整理，随后执行独立事实核验。仍未达标的稿件提示复核。明确要求“精简正文”时按原稿缩短。
+
+写作规则按主题选择参数、减少文章推进旁白，并让结尾承接咨询或到店等目标。参数密度与分散的通用说明仅作为编辑提醒，不能用来删除配置、版本和功能条件；数值检查支持精确的质量、长度单位等值换算，不从参数推导体验效果。
 
 ## 完整资料与作品
 

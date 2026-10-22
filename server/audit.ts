@@ -24,13 +24,22 @@ export function scanCompliance(text:string):Finding[] {
   return findings;
 }
 const norm=(s:string)=>s.normalize('NFKC').replace(/\s+/g,'').replace(/×/g,'x').toLowerCase();
-const numberUnits=/(\d+(?:\.\d+)?\s*(?:GHz|MHz|GB|TB|Wh|W|kg|mm|英寸|Hz|nits|尼特|小时|%|g\b))/gi;
-// Compare decimal spellings exactly, without floating-point rounding or changing
-// units. Capacity alternatives may share a unit: "128/256 GB" means both sizes.
+const numberUnits=/(\d+(?:\.\d+)?\s*(?:GHz|MHz|GB|TB|Wh|W|kg|mm|cm|千克|毫米|厘米|克|英寸|Hz|nits|尼特|小时|%|g\b))/gi;
+// Decimal strings avoid floating-point rounding. Only exact mass and metric
+// length equivalents share a key; power, energy and storage stay distinct.
+const decimalKey=(integer:string,fraction:string)=>{
+  const whole=integer.replace(/^0+(?=\d)/,''),tail=fraction.replace(/0+$/,'');
+  return whole+(tail?'.'+tail:'');
+};
+const physicalUnits:Record<string,readonly[string,number]>={g:['g',0],克:['g',0],kg:['g',3],千克:['g',3],mm:['mm',0],毫米:['mm',0],cm:['mm',1],厘米:['mm',1]};
 const quantityKey=(value:string)=>{
   const normalized=norm(value),parts=/^(\d+)(?:\.(\d+))?(.*)$/.exec(normalized)!;
-  const integer=parts[1].replace(/^0+(?=\d)/,''),fraction=(parts[2]||'').replace(/0+$/,'');
-  return integer+(fraction?'.'+fraction:'')+parts[3];
+  const unit=physicalUnits[parts[3]];
+  if(unit){
+    const fraction=(parts[2]||'').padEnd(unit[1],'0');
+    return decimalKey(parts[1]+fraction.slice(0,unit[1]),fraction.slice(unit[1]))+unit[0];
+  }
+  return decimalKey(parts[1],parts[2]||'')+parts[3];
 };
 const quantities=(text:string)=>{
   const found=new Set([...text.matchAll(numberUnits)].map(m=>quantityKey(m[0])));

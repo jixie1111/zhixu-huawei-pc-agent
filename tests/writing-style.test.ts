@@ -31,6 +31,29 @@ test('平台创作使用语言要求，独立核验不接收风格信号或强�
   }
 });
 
+test('推进旁白精准提示，不把普通动作、数值标题或必要版本条件一律判成问题',()=>{
+  for(const text of ['先看打开之后的样子。','声音也有自己的位置。','合上电脑，话题就轮到机身。','接着聊工作里的另一面。','想聊聊HUAWEI Pura 80的长焦。']){
+    assert.ok(writingSignals([text]).some(s=>s.rule==='推进旁白'),text);
+  }
+  assert.deepEqual(writingSignals(['970g让我多看了一眼','先看配置表，下面的两个选项按需要选择。','柔光屏仅柔光版支持；应用支持取决于系统版本。']),[]);
+});
+
+test('参数堆砌和通用说明密度仅供编辑选择，必要条件不成为事实失败',()=>{
+  const dense='11.5英寸屏幕，2456×1600分辨率，256ppi，机身厚6.1毫米、约515克，逐项罗列这一组数字作为整段内容。';
+  assert.ok(writingSignals([dense]).some(s=>s.rule==='参数选择与读者动作'&&s.advisory));
+  const clauses=['实际可视区域略小。','实际有效像素略少。','实际尺寸和重量会因配置而有差异。'];
+  assert.ok(writingSignals(clauses).some(s=>s.rule==='通用说明分散'&&s.advisory));
+  assert.deepEqual(writingSignals(clauses.slice(0,2)),[]);
+});
+
+test('朋友圈按营销目标承接咨询，私信有效，纯互动目标不强制到店',()=>{
+  assert.ok(writingSignals(['你爱拍花吗？'],{platform:'moments',goal:'产品推广，引导咨询',cta:'你爱拍花吗？'}).some(s=>s.rule==='结尾未承接营销目标'));
+  for(const cta of ['想聊聊这款的配置，私信我。','想了解型号，可以问我。','想看看，可以到店聊聊。']){
+    assert.deepEqual(writingSignals([cta],{platform:'moments',goal:'到店咨询',cta}),[]);
+  }
+  assert.deepEqual(writingSignals(['你爱拍花吗？'],{platform:'moments',goal:'评论互动',cta:'你爱拍花吗？'}),[]);
+});
+
 test('自然稿无需额外调用；语言补丁只整理现有字段，原稿不变',async()=>{
   let calls=0;
   const clean=fields.map(f=>({...f,text:f.text.replace('把关注点落在每天的任务上。','')}));
@@ -62,6 +85,23 @@ test('语言整理故障保留原稿，取消信号继续传播；生态正文�
   const eco=[{field:'lead',text:'合成导语'},{field:'sections.0.body',text:oldText},{field:'cta',text:'聊聊你的用法'}];
   const result=await polishWriting(brief,eco,{},async()=>({patches:[{field:'sections.0.body',before:oldText,after:newText}]}));
   assert.equal(result.get('sections.0.body'),newText);
+});
+
+test('保留必要限定的改稿可留下软提示，明确旁白仍拒绝；结尾可单独补咨询动作',async()=>{
+  const conditions='实际可视区域略小。实际有效像素略少。';
+  const qualified=fields.map(f=>f.field==='sections.0.text'?{...f,text:oldText+conditions}:f);
+  const result=await polishWriting(brief,qualified,{},async()=>({patches:[{field:'sections.0.text',before:oldText+conditions,after:newText+conditions}]}));
+  assert.equal(result.get('sections.0.text'),newText+conditions);
+  const advisory='11.5英寸屏幕，2456×1600分辨率，256ppi，机身厚6.1毫米、约515克，具体配置及相应条件随产品版本确认。';
+  const soft=fields.map(f=>f.field==='sections.0.text'?{...f,text:oldText+advisory}:f);
+  const accepted=await polishWriting(brief,soft,{},async()=>({patches:[{field:'sections.0.text',before:oldText+advisory,after:newText+advisory}]}));
+  assert.equal(accepted.get('sections.0.text'),newText+advisory,'soft hints cannot force deletion of supported details');
+  const moments=[{field:'lead',text:syntheticText(110)},{field:'cta',text:'你爱拍花还是小路？'}];
+  const cta='想了解这款手机的长焦，私信我聊聊。';
+  const changed=await polishWriting({platform:'moments',goal:'推广与咨询'},moments,{},async(_system,data)=>{
+    assert.equal((data as any).context.goal,'推广与咨询');return{patches:[{field:'cta',before:moments[1].text,after:cta}]};
+  });
+  assert.equal(changed.get('cta'),cta);
 });
 
 test('语言整理不能充当事实审批：保留引用与原图，新编效果仍独立阻断',async t=>{

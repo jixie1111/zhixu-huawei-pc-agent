@@ -1,900 +1,10 @@
 {
   "runs": [
     {
-      "id": "2b791552-32d3-47e8-a8b9-717f1b88f493",
-      "createdAt": "2026-10-22T07:02:25.984Z",
-      "updatedAt": "2026-10-22T07:02:25.984Z",
-      "version": 2,
-      "brief": {
-        "productId": "ba31be3e28ba81ce",
-        "audience": "正在准备开学电脑的大学新生",
-        "scene": "school",
-        "platform": "xiaohongshu",
-        "stage": "了解产品",
-        "goal": "激发兴趣与咨询",
-        "requirements": "写一篇真正介绍MateBook 14鸿蒙版的小红书，正文约550至650字。主线是开学挑电脑，屏幕和每天要背的重量都想要。直接介绍14.2英寸OLED抗反射屏、3:2比例、2880×1920分辨率、十点触控，再自然聊圆键盘款约1.33kg、14.5mm厚以及全尺寸背光键盘。事实和适用条件以资料为准，数据不用全列成清单。开头直接说自己的产品偏好，不冒充使用者；观点、产品信息和少量上课日常穿插。让人读完记住这台电脑的特点，不教读者收拾书包或安排课程，不反复解释参数如何帮助判断。结尾只留一个自然的问题或到店邀请。",
-        "mode": "local",
-        "generation": "model",
-        "autoRepair": true,
-        "directorPlanId": "205b62b0-5598-47af-aabe-c381c68b68cb",
-        "conceptId": "05435d59-5b6c-491e-b350-2d485f613919",
-        "voice": {
-          "persona": "friend"
-        },
-        "parentId": "523eae1d-d13d-40e5-a252-ede1d42823a3"
-      },
-      "strategy": {
-        "angle": "偏好观点帖：直接表达开学选电脑时不想只看屏幕、也不想只看重量的选择态度，以屏幕为主、机身和键盘为辅介绍产品。",
-        "problem": "准备开学买电脑，既在意屏幕规格，也在意每天携带的机身重量，HUAWEI MateBook 14（鸿蒙版）有哪些特点值得了解？",
-        "priorities": [
-          "尺寸与重量",
-          "屏幕",
-          "电池",
-          "存储",
-          "操作系统"
-        ],
-        "tone": "像懂数码的朋友认真说自己的偏好，短段落、一段一到两句，可用“说真的”起笔；全文安排2—3个emoji，不写成体验报告。",
-        "structure": [
-          "用明确的个人选购偏好开场，写清产品全名，并提出屏幕与每天携带的重量都想兼顾。",
-          "以屏幕为正文重点，介绍14.2英寸OLED抗反射屏、3:2比例和2880×1920分辨率；尺寸旁保留标准矩形测量、实际可视区域略小的条件，穿插一句开学看课件的未来场景。",
-          "单独用一个短段介绍屏幕支持十点触控，让屏幕的介绍从显示规格自然转向操作方式。",
-          "把话题转到每天带电脑上课，介绍圆键盘款含电池约1.33kg、厚14.5mm，紧接实际重量随配置、制造工艺和测量方法不同可能有所差异的说明。",
-          "以全尺寸背光键盘补足这台电脑的输入特点，收回到屏幕、携带和键盘共同构成的选购偏好。",
-          "结尾只问读者选开学电脑时更先看屏幕还是重量；正文按550—650字展开，信息重点留给屏幕和机身。"
-        ],
-        "cta": "选开学电脑，你会先看屏幕，还是先看每天要背的重量？",
-        "imageMin": 3,
-        "imageMax": 6,
-        "targetLength": "500–900 字",
-        "stage": "了解产品",
-        "goal": "激发兴趣与咨询",
-        "rationale": "最贴合本次明确需求。屏幕信息有充分展开空间，重量和键盘又能补足产品认识；与历史的装包叙事、阅读报告场景不同，这次以鲜明偏好直接介绍产品。",
-        "prioritizedFactIds": [
-          "23d8055fa5af8fa4",
-          "9bc5f1841013bc99",
-          "9b8645c538e37cff"
-        ],
-        "visualDirection": "采用3张同型号原图，选用ed96016d68695cae、82adf3863c76fa9f、479c9df436453aa1。原图完整保留，标题及屏幕、机身信息放在独立留白文字区，形成首图观点、次图屏幕、末图机身与键盘的图文顺序；不根据图片索引指定未经查看的细节构图。"
-      },
-      "evidence": {
-        "product": {
-          "id": "ba31be3e28ba81ce",
-          "name": "HUAWEI MateBook 14（鸿蒙版）",
-          "shortName": "MateBook 14（鸿蒙版）",
-          "family": "鸿蒙电脑",
-          "category": "computer",
-          "os": "HarmonyOS 6",
-          "factCount": 12,
-          "imageCount": 4,
-          "cover": "/api/assets/ed96016d68695cae",
-          "conflicts": []
-        },
-        "facts": [
-          {
-            "id": "df6a8645734f4e7b",
-            "label": "操作系统",
-            "text": "HarmonyOS 6",
-            "sourceTitle": "HUAWEI MateBook 14（鸿蒙版） · 产品事实",
-            "sourceUrl": "https://consumer.huawei.com/cn/harmonyos-computer/matebook-14-harmonyos-version/specs/",
-            "sourcePath": "华为PC全板块深度知识库_v7/P1-产品参数库/01-鸿蒙电脑/HUAWEI MateBook 14/产品事实.md",
-            "sourceMode": "local",
-            "productId": "ba31be3e28ba81ce",
-            "retrievedAt": "2026-10-22T06:49:43.005Z"
-          },
-          {
-            "id": "9bc5f1841013bc99",
-            "label": "尺寸与重量",
-            "text": "长度\n\n312.6 mm\n\n宽度\n\n226.8 mm\n\n厚度\n\n14.5 mm\n\n重量\n\n约 1.33 kg（圆键盘含电池）\n\n约 1.32 kg（方键盘含电池）\n\n*实际机身重量根据配置、制造工艺、测量方法的不同可能有所差异。",
-            "sourceTitle": "HUAWEI MateBook 14（鸿蒙版） · 产品事实",
-            "sourceUrl": "https://consumer.huawei.com/cn/harmonyos-computer/matebook-14-harmonyos-version/specs/",
-            "sourcePath": "华为PC全板块深度知识库_v7/P1-产品参数库/01-鸿蒙电脑/HUAWEI MateBook 14/产品事实.md",
-            "sourceMode": "local",
-            "productId": "ba31be3e28ba81ce",
-            "retrievedAt": "2026-10-22T06:49:43.005Z"
-          },
-          {
-            "id": "23d8055fa5af8fa4",
-            "label": "屏幕",
-            "text": "尺寸\n\n14.2 英寸\n\n*显示屏采用圆角设计，按照标准矩形测量时，屏幕的对角线长度是 14.2 英寸（实际可视区域略小）。\n\n类型\n\nOLED（抗反射屏）\n\n屏占比\n\n91%\n\n屏幕比例\n\n3:2\n\n分辨率\n\n2880 × 1920，243 PPI\n\n刷新率\n\n静态刷新率：60 Hz / 120 Hz\n\n动态刷新率：智能动态调节（默认）\n\n亮度\n\n标准版：\n\n典型亮度：450 nits\n\n峰值亮度：500 nits\n\n柔光版：\n\n典型亮度：500 nits\n\n峰值亮度：600 nits\n\n色域\n\n100% sRGB（典型值）、P3 广色域（典型值）\n\n色准\n\n平均 DeltaE < 1，支持多屏同色显示\n\n*多屏同色，根据应用软件、屏幕设置、使用习惯、环境等因素不同，可能略有差异，请以实际体验为准。购买时最新支持的设备机型请见官网或咨询华为商用客户服务专线（950803）。\n\n对比度\n\n1000000:1（典型值）\n\n可视角度\n\n178°（典型值）\n\n触摸屏\n\n支持 10 点触控",
-            "sourceTitle": "HUAWEI MateBook 14（鸿蒙版） · 产品事实",
-            "sourceUrl": "https://consumer.huawei.com/cn/harmonyos-computer/matebook-14-harmonyos-version/specs/",
-            "sourcePath": "华为PC全板块深度知识库_v7/P1-产品参数库/01-鸿蒙电脑/HUAWEI MateBook 14/产品事实.md",
-            "sourceMode": "local",
-            "productId": "ba31be3e28ba81ce",
-            "retrievedAt": "2026-10-22T06:49:43.005Z"
-          },
-          {
-            "id": "2c8c5af1e8013f70",
-            "label": "处理器",
-            "text": "CPU\n\n麒麟 X90",
-            "sourceTitle": "HUAWEI MateBook 14（鸿蒙版） · 产品事实",
-            "sourceUrl": "https://consumer.huawei.com/cn/harmonyos-computer/matebook-14-harmonyos-version/specs/",
-            "sourcePath": "华为PC全板块深度知识库_v7/P1-产品参数库/01-鸿蒙电脑/HUAWEI MateBook 14/产品事实.md",
-            "sourceMode": "local",
-            "productId": "ba31be3e28ba81ce",
-            "retrievedAt": "2026-10-22T06:49:43.005Z"
-          },
-          {
-            "id": "3b2593d3786c17b3",
-            "label": "存储",
-            "text": "512 GB / 1 TB",
-            "sourceTitle": "HUAWEI MateBook 14（鸿蒙版） · 产品事实",
-            "sourceUrl": "https://consumer.huawei.com/cn/harmonyos-computer/matebook-14-harmonyos-version/specs/",
-            "sourcePath": "华为PC全板块深度知识库_v7/P1-产品参数库/01-鸿蒙电脑/HUAWEI MateBook 14/产品事实.md",
-            "sourceMode": "local",
-            "productId": "ba31be3e28ba81ce",
-            "retrievedAt": "2026-10-22T06:49:43.005Z"
-          },
-          {
-            "id": "f46bfa634a0d411b",
-            "label": "内存",
-            "text": "24 GB / 32 GB",
-            "sourceTitle": "HUAWEI MateBook 14（鸿蒙版） · 产品事实",
-            "sourceUrl": "https://consumer.huawei.com/cn/harmonyos-computer/matebook-14-harmonyos-version/specs/",
-            "sourcePath": "华为PC全板块深度知识库_v7/P1-产品参数库/01-鸿蒙电脑/HUAWEI MateBook 14/产品事实.md",
-            "sourceMode": "local",
-            "productId": "ba31be3e28ba81ce",
-            "retrievedAt": "2026-10-22T06:49:43.005Z"
-          },
-          {
-            "id": "54d97f6ae4f15ba8",
-            "label": "无线连接",
-            "text": "WLAN\n\nWi-Fi 7，IEEE 802.11a/b/g/n/ac/ax/be，160 MHz\n\n2.4 GHz 和 5 GHz 双频\n\n支持 WPA、WPA2、WPA3\n\n星闪\n\n支持，星闪 E1.0\n\n蓝牙\n\n蓝牙 6.0",
-            "sourceTitle": "HUAWEI MateBook 14（鸿蒙版） · 产品事实",
-            "sourceUrl": "https://consumer.huawei.com/cn/harmonyos-computer/matebook-14-harmonyos-version/specs/",
-            "sourcePath": "华为PC全板块深度知识库_v7/P1-产品参数库/01-鸿蒙电脑/HUAWEI MateBook 14/产品事实.md",
-            "sourceMode": "local",
-            "productId": "ba31be3e28ba81ce",
-            "retrievedAt": "2026-10-22T06:49:43.005Z"
-          },
-          {
-            "id": "9e8e814103bb022f",
-            "label": "电池",
-            "text": "材料\n\n锂聚合物\n\n容量\n\n70 Wh（额定容量）",
-            "sourceTitle": "HUAWEI MateBook 14（鸿蒙版） · 产品事实",
-            "sourceUrl": "https://consumer.huawei.com/cn/harmonyos-computer/matebook-14-harmonyos-version/specs/",
-            "sourcePath": "华为PC全板块深度知识库_v7/P1-产品参数库/01-鸿蒙电脑/HUAWEI MateBook 14/产品事实.md",
-            "sourceMode": "local",
-            "productId": "ba31be3e28ba81ce",
-            "retrievedAt": "2026-10-22T06:49:43.005Z"
-          },
-          {
-            "id": "980bd4ac44ac6f24",
-            "label": "接口",
-            "text": "左侧：HDMI2.1 TMDS × 1；USB-C × 1*；USB -A × 1**；3.5 mm 耳机和麦克风二合一接口\n\n右侧：USB-A × 1；\n\n*左侧 USB-C × 1，支持充电、支持数据（USB3.2 Gen1）和对外供电（开机状态最大 10 W：5V2A，关机状态最大 66 W：20V3.3A），支持 DisplayPort1.2（最大分辨率 4K@60 Hz）；\n\n**左侧第 2 个、右侧第 2 个，USB 3.2 Gen1 × 2，支持充电、支持数据（USB3.2 Gen1）和支持对外供电 10 W（5V2A）",
-            "sourceTitle": "HUAWEI MateBook 14（鸿蒙版） · 产品事实",
-            "sourceUrl": "https://consumer.huawei.com/cn/harmonyos-computer/matebook-14-harmonyos-version/specs/",
-            "sourcePath": "华为PC全板块深度知识库_v7/P1-产品参数库/01-鸿蒙电脑/HUAWEI MateBook 14/产品事实.md",
-            "sourceMode": "local",
-            "productId": "ba31be3e28ba81ce",
-            "retrievedAt": "2026-10-22T06:49:43.005Z"
-          },
-          {
-            "id": "9b8645c538e37cff",
-            "label": "键盘和触控板",
-            "text": "全尺寸背光键盘\n\n触控板支持 5 点触控\n\n电源键\n\n指纹电源键",
-            "sourceTitle": "HUAWEI MateBook 14（鸿蒙版） · 产品事实",
-            "sourceUrl": "https://consumer.huawei.com/cn/harmonyos-computer/matebook-14-harmonyos-version/specs/",
-            "sourcePath": "华为PC全板块深度知识库_v7/P1-产品参数库/01-鸿蒙电脑/HUAWEI MateBook 14/产品事实.md",
-            "sourceMode": "local",
-            "productId": "ba31be3e28ba81ce",
-            "retrievedAt": "2026-10-22T06:49:43.005Z"
-          },
-          {
-            "id": "b51a00e3a26b4a50",
-            "label": "摄像头",
-            "text": "1080P 高清摄像头\n\n*不同模式的照片和视频像素可能有差异，请以实际为准。",
-            "sourceTitle": "HUAWEI MateBook 14（鸿蒙版） · 产品事实",
-            "sourceUrl": "https://consumer.huawei.com/cn/harmonyos-computer/matebook-14-harmonyos-version/specs/",
-            "sourcePath": "华为PC全板块深度知识库_v7/P1-产品参数库/01-鸿蒙电脑/HUAWEI MateBook 14/产品事实.md",
-            "sourceMode": "local",
-            "productId": "ba31be3e28ba81ce",
-            "retrievedAt": "2026-10-22T06:49:43.005Z"
-          },
-          {
-            "id": "f04413d52dd7fbc2",
-            "label": "音频",
-            "text": "扬声器\n\n扬声器 × 2\n\n麦克风\n\n麦克风 × 2",
-            "sourceTitle": "HUAWEI MateBook 14（鸿蒙版） · 产品事实",
-            "sourceUrl": "https://consumer.huawei.com/cn/harmonyos-computer/matebook-14-harmonyos-version/specs/",
-            "sourcePath": "华为PC全板块深度知识库_v7/P1-产品参数库/01-鸿蒙电脑/HUAWEI MateBook 14/产品事实.md",
-            "sourceMode": "local",
-            "productId": "ba31be3e28ba81ce",
-            "retrievedAt": "2026-10-22T06:49:43.005Z"
-          }
-        ],
-        "images": [
-          {
-            "id": "ed96016d68695cae",
-            "name": "hwpc_matebook-14-harmonyos_原野绿多彩配色_04.png",
-            "productId": "ba31be3e28ba81ce",
-            "productName": "HUAWEI MateBook 14（鸿蒙版）",
-            "url": "/api/assets/ed96016d68695cae",
-            "sourceUrl": "https://consumer.huawei.com/cn/harmonyos-computer/matebook-14-harmonyos-version/",
-            "description": "原野绿多彩配色",
-            "sourceTitle": "华为PC全板块深度知识库_v7/P1-产品参数库/01-鸿蒙电脑/HUAWEI MateBook 14/图片索引.csv",
-            "width": 817,
-            "height": 892,
-            "sourceMode": "local"
-          },
-          {
-            "id": "82adf3863c76fa9f",
-            "name": "hwpc_matebook-14-harmonyos_多彩配色外观_01_7e0eedb6.png",
-            "productId": "ba31be3e28ba81ce",
-            "productName": "HUAWEI MateBook 14（鸿蒙版）",
-            "url": "/api/assets/82adf3863c76fa9f",
-            "sourceUrl": "https://consumer.huawei.com/cn/harmonyos-computer/matebook-14-harmonyos-version/",
-            "description": "HUAWEI MateBook 14 樱粉金",
-            "sourceTitle": "华为PC全板块深度知识库_v7/P1-产品参数库/01-鸿蒙电脑/HUAWEI MateBook 14/图片索引.csv",
-            "width": 817,
-            "height": 892,
-            "sourceMode": "local"
-          },
-          {
-            "id": "02a5ef241180e542",
-            "name": "hwpc_matebook-14-harmonyos_手写笔创作场景_07.jpg",
-            "productId": "ba31be3e28ba81ce",
-            "productName": "HUAWEI MateBook 14（鸿蒙版）",
-            "url": "/api/assets/02a5ef241180e542",
-            "sourceUrl": "https://consumer.huawei.com/cn/harmonyos-computer/matebook-14-harmonyos-version/",
-            "description": "手写笔创作场景",
-            "sourceTitle": "华为PC全板块深度知识库_v7/P1-产品参数库/01-鸿蒙电脑/HUAWEI MateBook 14/图片索引.csv",
-            "width": 1048,
-            "height": 588,
-            "sourceMode": "local"
-          },
-          {
-            "id": "479c9df436453aa1",
-            "name": "hwpc_matebook-14-harmonyos_深空灰沉稳配色_05.png",
-            "productId": "ba31be3e28ba81ce",
-            "productName": "HUAWEI MateBook 14（鸿蒙版）",
-            "url": "/api/assets/479c9df436453aa1",
-            "sourceUrl": "https://consumer.huawei.com/cn/harmonyos-computer/matebook-14-harmonyos-version/",
-            "description": "深空灰沉稳配色",
-            "sourceTitle": "华为PC全板块深度知识库_v7/P1-产品参数库/01-鸿蒙电脑/HUAWEI MateBook 14/图片索引.csv",
-            "width": 817,
-            "height": 892,
-            "sourceMode": "local"
-          }
-        ],
-        "warnings": [
-          "资料与原图来自本地知识库，不是 ima 在线检索。",
-          "配置、版本和动态信息须在发布前重新核实。",
-          "已排除型号标签不一致的图片：vmall_matebook-14-harmonyos_强劲性能释放展示_02.jpg",
-          "已排除型号标签不一致的图片：vmall_matebook-14-harmonyos_原野绿键盘俯视外观_03.png",
-          "已排除型号标签不一致的图片：vmall_matebook-14-harmonyos_轻薄原野绿侧面细节_04.png",
-          "已排除型号标签不一致的图片：vmall_matebook-14-harmonyos_原野绿简洁A面外观_05.png",
-          "已排除型号标签不一致的图片：vmall_matebook-14-harmonyos_樱粉金正面产品展示_06.png",
-          "已排除型号标签不一致的图片：vmall_matebook-14-harmonyos_樱粉金OLED云晰柔光屏_07.jpg",
-          "已排除型号标签不一致的图片：vmall_matebook-14-harmonyos_樱粉金开合产品外观_08.png",
-          "已排除型号标签不一致的图片：vmall_matebook-14-harmonyos_原野绿正面产品展示_09.png",
-          "已排除型号标签不一致的图片：vmall_matebook-14-harmonyos_柔光金优雅产品外观_11.webp",
-          "已排除型号标签不一致的图片：vmall_matebook-14-harmonyos_丰富接口轻薄侧面_13.png",
-          "已排除型号标签不一致的图片：vmall_matebook-14-harmonyos_双侧接口机身细节_14.png",
-          "已排除型号标签不一致的图片：vmall_matebook-14-harmonyos_手机协同桌面展示_15.png",
-          "已排除型号标签不一致的图片：vmall_matebook-14-harmonyos_原野绿键盘屏幕展示_16.png",
-          "已排除型号标签不一致的图片：vmall_matebook-14-harmonyos_长续航影音场景_17.jpg",
-          "已排除型号标签不一致的图片：vmall_matebook-14-harmonyos_原野绿经典开合外观_18.png"
-        ],
-        "trace": [
-          {
-            "action": "本地资料检索",
-            "detail": "精确读取 HUAWEI MateBook 14（鸿蒙版） 的产品事实与图片索引",
-            "at": "2026-10-22T06:49:43.021Z"
-          },
-          {
-            "action": "原始配图可用性",
-            "detail": "已验证 3/3 张所选原始图片的读取与位图签名；不将索引描述冒充像素级语义识别。",
-            "at": "2026-10-22T06:52:13.432Z"
-          }
-        ]
-      },
-      "article": {
-        "title": "开学电脑，屏幕和重量我都想要",
-        "lead": "开学买电脑，想要一块喜欢的屏幕，也惦记每天背去上课的重量。HUAWEI MateBook 14（鸿蒙版），这两点可以一起聊。🎒",
-        "sections": [
-          {
-            "heading": "",
-            "text": "先看打开之后的样子：14.2英寸OLED抗反射屏，3:2比例，2880×1920分辨率。课件、论文、小组展示的提纲，开学后想拿它看的东西已经列了一串。选学习电脑，我愿意把时间花在屏幕上，毕竟以后天天都要对着它。屏幕采用圆角设计，尺寸按标准矩形测量，实际可视区域略小。",
-            "factIds": [
-              "23d8055fa5af8fa4"
-            ]
-          },
-          {
-            "heading": "",
-            "text": "这块屏幕还支持十点触控。想直接伸手点一下的人，多了一种操作方式。翻资料时伸手碰屏幕，写作业时回到键盘，改几个字再挪动光标——想到这些日常小动作，会觉得触屏电脑挺有意思。",
-            "factIds": [
-              "23d8055fa5af8fa4",
-              "9b8645c538e37cff"
-            ]
-          },
-          {
-            "heading": "",
-            "text": "全尺寸背光键盘、支持五点触控的触控板也在。写课程报告，我会想认真试试键盘；读资料时，又会留意触控板怎么用。手边要有按键，也想保留伸手点屏幕的选择——这是我挑开学电脑时会有的一点小贪心。⌨️",
-            "factIds": [
-              "9b8645c538e37cff",
-              "23d8055fa5af8fa4"
-            ]
-          },
-          {
-            "heading": "",
-            "text": "合上电脑，话题就轮到每天带出门的机身。圆键盘款含电池约1.33kg，厚14.5mm；实际机身重量会因配置、制造工艺和测量方法而有差异。上午上课、下午去图书馆，电脑会跟着人换地方。对经常带电脑出门的同学，重量这一项确实很难跳过。",
-            "factIds": [
-              "9bc5f1841013bc99"
-            ]
-          },
-          {
-            "heading": "",
-            "text": "它用的是HarmonyOS 6和麒麟X90。内存有24GB、32GB，存储有512GB、1TB可选。想了解鸿蒙电脑的同学，可以从这款看起，再按自己的课程安排聊具体配置。第一次给大学买电脑，有疑问就直接问，尤其是已经列进课表的那几门专业课。",
-            "factIds": [
-              "df6a8645734f4e7b",
-              "2c8c5af1e8013f70",
-              "f46bfa634a0d411b",
-              "3b2593d3786c17b3"
-            ]
-          }
-        ],
-        "cta": "你挑开学电脑，会先看屏幕，还是每天要背的重量？",
-        "tags": [
-          "华为MateBook14鸿蒙版",
-          "大学新生",
-          "开学电脑",
-          "笔记本电脑"
-        ],
-        "images": [
-          {
-            "id": "ed96016d68695cae",
-            "name": "hwpc_matebook-14-harmonyos_原野绿多彩配色_04.png",
-            "productId": "ba31be3e28ba81ce",
-            "productName": "HUAWEI MateBook 14（鸿蒙版）",
-            "url": "/api/assets/ed96016d68695cae",
-            "sourceUrl": "https://consumer.huawei.com/cn/harmonyos-computer/matebook-14-harmonyos-version/",
-            "description": "原野绿多彩配色",
-            "sourceTitle": "华为PC全板块深度知识库_v7/P1-产品参数库/01-鸿蒙电脑/HUAWEI MateBook 14/图片索引.csv",
-            "width": 817,
-            "height": 892,
-            "sourceMode": "local",
-            "position": "封面",
-            "reason": "以原野绿配色产品原图作封面，完整保留原图，标题放在独立留白文字区。"
-          },
-          {
-            "id": "82adf3863c76fa9f",
-            "name": "hwpc_matebook-14-harmonyos_多彩配色外观_01_7e0eedb6.png",
-            "productId": "ba31be3e28ba81ce",
-            "productName": "HUAWEI MateBook 14（鸿蒙版）",
-            "url": "/api/assets/82adf3863c76fa9f",
-            "sourceUrl": "https://consumer.huawei.com/cn/harmonyos-computer/matebook-14-harmonyos-version/",
-            "description": "HUAWEI MateBook 14 樱粉金",
-            "sourceTitle": "华为PC全板块深度知识库_v7/P1-产品参数库/01-鸿蒙电脑/HUAWEI MateBook 14/图片索引.csv",
-            "width": 817,
-            "height": 892,
-            "sourceMode": "local",
-            "position": "第 2 段后",
-            "reason": "以樱粉金产品原图承接屏幕介绍，参数置于独立文字区，不将图片作为屏幕效果演示。"
-          },
-          {
-            "id": "479c9df436453aa1",
-            "name": "hwpc_matebook-14-harmonyos_深空灰沉稳配色_05.png",
-            "productId": "ba31be3e28ba81ce",
-            "productName": "HUAWEI MateBook 14（鸿蒙版）",
-            "url": "/api/assets/479c9df436453aa1",
-            "sourceUrl": "https://consumer.huawei.com/cn/harmonyos-computer/matebook-14-harmonyos-version/",
-            "description": "深空灰沉稳配色",
-            "sourceTitle": "华为PC全板块深度知识库_v7/P1-产品参数库/01-鸿蒙电脑/HUAWEI MateBook 14/图片索引.csv",
-            "width": 817,
-            "height": 892,
-            "sourceMode": "local",
-            "position": "第 5 段后",
-            "reason": "以深空灰产品原图搭配机身与键盘段落，保留完整画面，不额外指定局部裁切。"
-          }
-        ],
-        "disclaimer": "具体配置、版本和体验以实际产品及官方信息为准。"
-      },
-      "audit": {
-        "status": "passed",
-        "findings": [
-          {
-            "id": "offline-source",
-            "category": "source",
-            "severity": "info",
-            "message": "资料与原图来自本地知识库，内容由模型生成。",
-            "suggestion": "保留本地来源与原始资料链接；不标记为 ima 在线取证。公开展示仍需素材许可。"
-          }
-        ],
-        "factChecks": [
-          {
-            "factId": "23d8055fa5af8fa4",
-            "label": "屏幕",
-            "status": "supported",
-            "evidence": "尺寸\n\n14.2 英寸\n\n*显示屏采用圆角设计，按照标准矩形测量时，屏幕的对角线长度是 14.2 英寸（实际可视区域略小）。\n\n类型\n\nOLED（抗反射屏）\n\n屏占比\n\n91%\n\n屏幕比例\n\n3:2\n\n分辨率\n\n2880 × 1920，243 PPI\n\n刷新率\n\n静态刷新率：60 Hz / 120 Hz\n\n动态刷新率：智能动态调节（默认）\n\n亮度\n\n标准版：\n\n典型亮度：450 nits\n\n峰值亮度：500 nits\n\n柔光版：\n\n典型亮度：500 nits\n\n峰值亮度：600 nits\n\n色域\n\n100% sRGB（典型值）、P3 广色域（典型值）\n\n色准\n\n平均 DeltaE < 1，支持多屏同色显示\n\n*多屏同色，根据应用软件、屏幕设置、使用习惯、环境等因素不同，可能略有差异，请以实际体验为准。购买时最新支持的设备机型请见官网或咨询华为商用客户服务专线（950803）。\n\n对比度\n\n1000000:1（典型值）\n\n可视角度\n\n178°（典型值）\n\n触摸屏\n\n支持 10 点触控"
-          },
-          {
-            "factId": "9b8645c538e37cff",
-            "label": "键盘和触控板",
-            "status": "supported",
-            "evidence": "全尺寸背光键盘\n\n触控板支持 5 点触控\n\n电源键\n\n指纹电源键"
-          },
-          {
-            "factId": "9bc5f1841013bc99",
-            "label": "尺寸与重量",
-            "status": "supported",
-            "evidence": "长度\n\n312.6 mm\n\n宽度\n\n226.8 mm\n\n厚度\n\n14.5 mm\n\n重量\n\n约 1.33 kg（圆键盘含电池）\n\n约 1.32 kg（方键盘含电池）\n\n*实际机身重量根据配置、制造工艺、测量方法的不同可能有所差异。"
-          },
-          {
-            "factId": "df6a8645734f4e7b",
-            "label": "操作系统",
-            "status": "supported",
-            "evidence": "HarmonyOS 6"
-          },
-          {
-            "factId": "2c8c5af1e8013f70",
-            "label": "处理器",
-            "status": "supported",
-            "evidence": "CPU\n\n麒麟 X90"
-          },
-          {
-            "factId": "f46bfa634a0d411b",
-            "label": "内存",
-            "status": "supported",
-            "evidence": "24 GB / 32 GB"
-          },
-          {
-            "factId": "3b2593d3786c17b3",
-            "label": "存储",
-            "status": "supported",
-            "evidence": "512 GB / 1 TB"
-          }
-        ],
-        "checkedAt": "2026-10-22T07:02:25.984Z",
-        "releaseReady": true,
-        "sceneChecks": []
-      },
-      "engine": "llm",
-      "model": "gpt-6.1-sol",
-      "durationMs": 35477,
-      "trace": [
-        {
-          "action": "本地资料检索",
-          "detail": "精确读取 HUAWEI MateBook 14（鸿蒙版） 的产品事实与图片索引",
-          "at": "2026-10-22T06:49:43.021Z"
-        },
-        {
-          "action": "原始配图可用性",
-          "detail": "已验证 3/3 张所选原始图片的读取与位图签名；不将索引描述冒充像素级语义识别。",
-          "at": "2026-10-22T06:52:13.432Z"
-        },
-        {
-          "action": "生成引擎",
-          "detail": "模型：gpt-6.1-sol",
-          "at": "2026-10-22T06:52:17.503Z"
-        },
-        {
-          "action": "核验",
-          "detail": "0 项拦截，0 项待复核",
-          "at": "2026-10-22T06:52:17.503Z"
-        },
-        {
-          "action": "人工编辑并重新核验",
-          "detail": "保留原稿，创建新版本；不是覆盖旧证据。",
-          "at": "2026-10-22T07:02:25.984Z"
-        }
-      ],
-      "director": {
-        "planId": "205b62b0-5598-47af-aabe-c381c68b68cb",
-        "conceptId": "05435d59-5b6c-491e-b350-2d485f613919",
-        "engine": "model",
-        "conceptName": "MateBook 14：屏幕和重量，我都在意",
-        "angle": "偏好观点帖：直接表达开学选电脑时不想只看屏幕、也不想只看重量的选择态度，以屏幕为主、机身和键盘为辅介绍产品。",
-        "factIds": [
-          "23d8055fa5af8fa4",
-          "9bc5f1841013bc99",
-          "9b8645c538e37cff"
-        ],
-        "visualDirection": "采用3张同型号原图，选用ed96016d68695cae、82adf3863c76fa9f、479c9df436453aa1。原图完整保留，标题及屏幕、机身信息放在独立留白文字区，形成首图观点、次图屏幕、末图机身与键盘的图文顺序；不根据图片索引指定未经查看的细节构图。",
-        "reason": "最贴合本次明确需求。屏幕信息有充分展开空间，重量和键盘又能补足产品认识；与历史的装包叙事、阅读报告场景不同，这次以鲜明偏好直接介绍产品。",
-        "plannedAt": "2026-10-22T06:51:41.995Z"
-      },
-      "parentId": "523eae1d-d13d-40e5-a252-ede1d42823a3"
-    },
-    {
-      "id": "2141139c-089c-41b9-9ecb-59d0c43a43bf",
-      "createdAt": "2026-10-22T07:02:59.348Z",
-      "updatedAt": "2026-10-22T07:02:59.348Z",
-      "version": 2,
-      "brief": {
-        "productId": "8eac271997def7b9",
-        "audience": "周末喜欢逛公园、拍花和街景的顾客",
-        "scene": "store",
-        "platform": "moments",
-        "stage": "了解产品",
-        "goal": "激发兴趣与咨询",
-        "requirements": "发一条约140至190字的朋友圈，聊周末逛公园想拍树梢远处那朵花。早点带出HUAWEI Pura 80和后置1200万像素潜望式长焦，后置约5.5倍光学变焦的近似条件简短交代。其余条件按资料处理。像熟人聊天，句子有长有短，少用大词，产品信息后顺着公园拍花的念头聊一句，结束一个轻松问题。不写选手机指南，也不要告诉读者记下哪几点，不虚构实拍经历。",
-        "mode": "local",
-        "generation": "model",
-        "autoRepair": true,
-        "directorPlanId": "018e8a66-49c7-4da5-be5e-585ae31cda32",
-        "conceptId": "8952a846-1e43-4402-ba5e-2928af592206",
-        "voice": {
-          "persona": "friend"
-        },
-        "parentId": "fabb316f-661c-4607-be9d-b69eb095c9d2"
-      },
-      "strategy": {
-        "angle": "观点表达：从拍花时更关心哪颗镜头说起，不重复沿公园小路发现花朵的故事。",
-        "problem": "周末想拍树梢远处的花，HUAWEI Pura 80有哪些相关的长焦配置？",
-        "priorities": [
-          "屏幕",
-          "尺寸与重量",
-          "后置摄像头",
-          "电池",
-          "存储",
-          "操作系统"
-        ],
-        "tone": "懂数码的朋友表达一点明确偏好，短句中穿插一段稍长的配置说明，不写成选购指南。",
-        "structure": [
-          "用一句周末公园拍花的生活场景开头，马上带出HUAWEI Pura 80及后置1200万像素潜望式长焦。",
-          "以朋友聊数码的口吻表达对长焦配置的关注，介绍F3.4光圈与OIS光学防抖，紧邻交代不同模式照片和视频像素可能有差异。",
-          "补充后置支持约5.5倍光学变焦，简短说明5.5倍为近似值，顺接想拍树梢那朵花的念头。",
-          "以询问朋友最想拍哪种花收尾，将正文控制在140—190字，分成三段并自然放入2个表情。"
-        ],
-        "cta": "你逛公园时，最想拍的是哪种花？🌸",
-        "imageMin": 1,
-        "imageMax": 3,
-        "targetLength": "120–260 字",
-        "stage": "了解产品",
-        "goal": "激发兴趣与咨询",
-        "rationale": "以长焦这一项配置回答拍远处花朵的需要，信息集中；相较历史方案，改用观点推动，而非发现花朵后的动作叙事。",
-        "prioritizedFactIds": [
-          "0f489aa424d80d6d"
-        ],
-        "visualDirection": "配1张HUAWEI Pura 80同型号官方原图，文字承担长焦信息，图片承担整机外观展示；保留原图，不添加花朵实拍或变焦效果对比。"
-      },
-      "evidence": {
-        "product": {
-          "id": "8eac271997def7b9",
-          "name": "HUAWEI Pura 80",
-          "shortName": "Pura 80",
-          "family": "手机",
-          "category": "phone",
-          "os": "HarmonyOS 5.1 *可 HOTA 升级至 HarmonyOS 6 或以上版本，部分手机出厂预装 HarmonyOS 6 或以上版本。",
-          "factCount": 13,
-          "imageCount": 4,
-          "cover": "/api/assets/d82d12c8fa1928f4",
-          "conflicts": []
-        },
-        "facts": [
-          {
-            "id": "6da51c86d4a42738",
-            "label": "尺寸与重量",
-            "text": "长度 157.7 mm 宽度 74.4 mm 厚度 8.2 mm 重量 约 211 克（含电池） *实际尺寸与重量依配置、制造工艺、测量方法的不同可能有所差异。",
-            "sourceTitle": "HUAWEI Pura 80 · 产品事实",
-            "sourceUrl": "https://consumer.huawei.com/cn/phones/pura80/specs/",
-            "sourcePath": "official-ecosystem-2026-10/pura80/产品事实.md",
-            "sourceMode": "local",
-            "productId": "8eac271997def7b9",
-            "retrievedAt": "2026-10-22T06:49:42.997Z"
-          },
-          {
-            "id": "bcd22a30a2006c2f",
-            "label": "屏幕",
-            "text": "尺寸 6.6 英寸 *显示屏采用圆角设计，按照标准矩形测量时，屏幕的对角线长度是 6.58 英寸（实际可视区域略小）。 色彩 10.7 亿色，P3 广色域 类型 OLED，支持 1-120 Hz LTPO 自适应刷新率，1440 Hz 高频 PWM 调光，300 Hz 触控采样率 分辨率 FHD+ 2760 × 1256 像素 *该分辨率对应标准矩形，实际屏幕有效像素略少。 PPI 460 ppi 玻璃类型 第二代昆仑玻璃",
-            "sourceTitle": "HUAWEI Pura 80 · 产品事实",
-            "sourceUrl": "https://consumer.huawei.com/cn/phones/pura80/specs/",
-            "sourcePath": "official-ecosystem-2026-10/pura80/产品事实.md",
-            "sourceMode": "local",
-            "productId": "8eac271997def7b9",
-            "retrievedAt": "2026-10-22T06:49:42.997Z"
-          },
-          {
-            "id": "de1dec6c9f4b1acb",
-            "label": "操作系统",
-            "text": "HarmonyOS 5.1 *可 HOTA 升级至 HarmonyOS 6 或以上版本，部分手机出厂预装 HarmonyOS 6 或以上版本。",
-            "sourceTitle": "HUAWEI Pura 80 · 产品事实",
-            "sourceUrl": "https://consumer.huawei.com/cn/phones/pura80/specs/",
-            "sourcePath": "official-ecosystem-2026-10/pura80/产品事实.md",
-            "sourceMode": "local",
-            "productId": "8eac271997def7b9",
-            "retrievedAt": "2026-10-22T06:49:42.997Z"
-          },
-          {
-            "id": "dd06b616ce279fb4",
-            "label": "存储",
-            "text": "运行内存 12 GB RAM *可使用的内存容量小于此值，因为手机软件占用部分空间。 机身内存 256 GB / 512 GB / 1 TB ROM *可使用的内存容量小于此值，因为手机软件占用部分空间。 扩展存储 不支持存储卡扩展",
-            "sourceTitle": "HUAWEI Pura 80 · 产品事实",
-            "sourceUrl": "https://consumer.huawei.com/cn/phones/pura80/specs/",
-            "sourcePath": "official-ecosystem-2026-10/pura80/产品事实.md",
-            "sourceMode": "local",
-            "productId": "8eac271997def7b9",
-            "retrievedAt": "2026-10-22T06:49:42.997Z"
-          },
-          {
-            "id": "0f489aa424d80d6d",
-            "label": "后置摄像头",
-            "text": "后置摄像头 5000 万像素超聚光摄像头（F1.4-F4.0 光圈，OIS 光学防抖） 1200 万像素潜望式长焦摄像头（F3.4 光圈，OIS 光学防抖） 1300 万像素超广角摄像头（F2.2 光圈） 150 万多光谱通道红枫原色摄像头 *不同模式的照片和视频像素可能有差异，请以实际为准。 后置摄像头变焦模式 支持 5.5 倍光学变焦（5.5 倍变焦为近似值，镜头焦段分别为 13 mm，24 mm，125 mm）、50 倍数字变焦 后置摄像头对焦方式 自动对焦 后置摄像头照片分辨率 最大可支持 8192 × 6144 像素 *不同拍照模式的照片像素可能有差异，请以实际为准。 后置摄像头摄像分辨率 最大支持 4K（3840 × 2160）视频录制，支持 AIS 防抖；支持 1080p@480fps 超级慢动作视频 *不同拍摄模式的视频像素可能有差异，请以实际为准。 **1080p@480fps 基于 AI 插帧算法技术实现。 后置闪光灯 LED 闪光灯 后置摄像头拍摄功能 个性色卡、AI 动态照片、视频 HDR Vivid、闪拍、高画质模式、夜景模式、超级微距、微距视频、微距画中画、长焦画中画、高像素模式、延时摄影、超大广角、大光圈虚化、人像模式、专业模式、慢动作、全景模式、流光快门、智能滤镜、水印、AI 摄影大师、笑脸抓拍、声控拍照、定时拍照、连拍",
-            "sourceTitle": "HUAWEI Pura 80 · 产品事实",
-            "sourceUrl": "https://consumer.huawei.com/cn/phones/pura80/specs/",
-            "sourcePath": "official-ecosystem-2026-10/pura80/产品事实.md",
-            "sourceMode": "local",
-            "productId": "8eac271997def7b9",
-            "retrievedAt": "2026-10-22T06:49:42.997Z"
-          },
-          {
-            "id": "d846aa2d3196b91c",
-            "label": "前置摄像头",
-            "text": "前置摄像头 1300 万像素超广角摄像头（F2.0 光圈，自动对焦） *不同模式的照片和视频像素可能有差异，请以实际为准。 前置摄像头照片分辨率 最大可支持 4160 × 3120 像素 *不同拍照模式的照片像素可能有差异，请以实际为准。 前置摄像头摄像分辨率 最大可支持 3840 x 2160 像素，支持 1080p@240 fps 超级慢动作视频 *不同拍摄模式的视频像素可能有差异，请以实际为准。 前置摄像头拍摄功能 个性色卡、AI 动态照片、视频 HDR Vivid、慢动作、人像模式、延时摄影、笑脸抓拍、自拍镜像、声控拍照、定时拍照",
-            "sourceTitle": "HUAWEI Pura 80 · 产品事实",
-            "sourceUrl": "https://consumer.huawei.com/cn/phones/pura80/specs/",
-            "sourcePath": "official-ecosystem-2026-10/pura80/产品事实.md",
-            "sourceMode": "local",
-            "productId": "8eac271997def7b9",
-            "retrievedAt": "2026-10-22T06:49:42.997Z"
-          },
-          {
-            "id": "32d3ff31cf1617e7",
-            "label": "电池",
-            "text": "5600 mAh（典型值） *电池额定容量为 5480 mAh。 **电池内置不可拆卸。",
-            "sourceTitle": "HUAWEI Pura 80 · 产品事实",
-            "sourceUrl": "https://consumer.huawei.com/cn/phones/pura80/specs/",
-            "sourcePath": "official-ecosystem-2026-10/pura80/产品事实.md",
-            "sourceMode": "local",
-            "productId": "8eac271997def7b9",
-            "retrievedAt": "2026-10-22T06:49:42.997Z"
-          },
-          {
-            "id": "81e34d143b1f2bdb",
-            "label": "充电",
-            "text": "有线充电：手机支持最大超级快充 66 W (11V/6A)，兼容 10V/4A 或 10V/2.25A 或 4.5V/5A 或 5V/4.5A 超级快充，兼容 9V/2A 快充，支持 5 W 有线反向充电。 无线充电：支持 50 W 华为无线超级快充，支持无线反向充电。 *最大支持 66 W 华为有线超级快充，需搭配 66 W 及以上的华为超级快充充电套装使用。最大支持 5 W 有线反向充电，支持对通过华为实验室测试的设备进行反向充电。 **最大支持 50 W 华为无线超级快充，需单独购买华为超级快充立式无线充电器（Max 50 W/80 W）或华为超级快充无线车充（Max 50 W/80 W），并搭配特定 66 W 及以上的华为超级快充充电套装使用。 ***实际充电功率会随不同场景智能变化，请以实际使用情况为准。",
-            "sourceTitle": "HUAWEI Pura 80 · 产品事实",
-            "sourceUrl": "https://consumer.huawei.com/cn/phones/pura80/specs/",
-            "sourcePath": "official-ecosystem-2026-10/pura80/产品事实.md",
-            "sourceMode": "local",
-            "productId": "8eac271997def7b9",
-            "retrievedAt": "2026-10-22T06:49:42.997Z"
-          },
-          {
-            "id": "9c7e17c33ee3610e",
-            "label": "防尘抗水",
-            "text": "IP68 级 2 米抗水，IP69 级抗高温高压喷水 *本手机并非专业防水手机，在正常使用状态下可防溅、抗水、防尘，在受控实验室条件下经测试，其效果在GB/T 4208-2017（国内）/ IEC 60529（海外）标准下达到 IP68 和 IP69 级别。防溅、抗水、防尘功能并非永久有效，防护性能可能会因日常磨损而下降。请勿在潮湿状态下为手机充电；请参阅使用手册了解清洁和干燥说明。由于浸入液体而导致的损坏不在保修范围之内。 **IP68中防水条件为（1）无流动清水，水深 2 米；（2）试验时间 30 分钟；（3）水温与产品温差不大于 5 摄氏度。 ***IP69 级防水测试条件为：（1）转盘转速：（5 ± 1）r/min；（2）喷嘴角度：0°、30°、60°、90°；（3）流量：（15 ± 1）L/min；（4）水温：（80 ± 5）℃；（5）试验时间：30s/位置；（6）手机放置方式：水平放置，屏幕朝上。",
-            "sourceTitle": "HUAWEI Pura 80 · 产品事实",
-            "sourceUrl": "https://consumer.huawei.com/cn/phones/pura80/specs/",
-            "sourcePath": "official-ecosystem-2026-10/pura80/产品事实.md",
-            "sourceMode": "local",
-            "productId": "8eac271997def7b9",
-            "retrievedAt": "2026-10-22T06:49:42.997Z"
-          },
-          {
-            "id": "184e591c4db70a98",
-            "label": "数据连接",
-            "text": "WLAN 2.4 GHz 和 5 GHz IEEE 802.11a/b/g/n/ac/ax/be，2 × 2 MIMO，EHT160，8 Spatial-stream Sounding MU-MIMO *需要相应的路由器支持。 蓝牙 Bluetooth 5.2，支持低功耗蓝牙，支持 SBC、AAC，支持 LDAC 和 L2HC 高清音频 星闪 支持 ，星闪E2.0* *星闪E2.0 需 HOTA 升级支持。 卫星通信 北斗卫星消息 *本机为北斗卫星消息提供移动终端硬件，需在空旷无遮蔽处使用。首次使用前需在有地面网络的环境下，通过畅连应用激活或者开通运营商北斗卫星短信相关业务。此功能仅限中国大陆地区（不含港澳台地区）。华为将配合公众测试验证，功能及活动规则详情请以官方信息为准。 数据线接口 USB Type-C，USB 2.0 *不支持有线投屏。 耳机接口 USB Type-C 接口 *仅支持 USB Type-C 数字耳机，其它耳机需要搭配“华为 USB Type-C 转 3.5 毫米数字音频转换器”使用。 查找功能 支持在线查找，离线查找，关机查找",
-            "sourceTitle": "HUAWEI Pura 80 · 产品事实",
-            "sourceUrl": "https://consumer.huawei.com/cn/phones/pura80/specs/",
-            "sourcePath": "official-ecosystem-2026-10/pura80/产品事实.md",
-            "sourceMode": "local",
-            "productId": "8eac271997def7b9",
-            "retrievedAt": "2026-10-22T06:49:42.997Z"
-          },
-          {
-            "id": "360a884fcbf47908",
-            "label": "NFC",
-            "text": "支持读卡器模式,卡模拟模式（华为钱包支付，SIM 卡支付*，HCE 支付） *SIM 卡支付所使用的 SIM 卡只能放在 SIM 1 卡槽。",
-            "sourceTitle": "HUAWEI Pura 80 · 产品事实",
-            "sourceUrl": "https://consumer.huawei.com/cn/phones/pura80/specs/",
-            "sourcePath": "official-ecosystem-2026-10/pura80/产品事实.md",
-            "sourceMode": "local",
-            "productId": "8eac271997def7b9",
-            "retrievedAt": "2026-10-22T06:49:42.997Z"
-          },
-          {
-            "id": "97400c1d17ffc943",
-            "label": "定位",
-            "text": "支持 GPS（L1 + L5 双频）/AGPS/GLONASS/北斗（B1I + B1C + B2a + B2b 四频）/GALILEO（E1 + E5a + E5b 三频）/QZSS（L1 + L5 双频）/NavIC",
-            "sourceTitle": "HUAWEI Pura 80 · 产品事实",
-            "sourceUrl": "https://consumer.huawei.com/cn/phones/pura80/specs/",
-            "sourcePath": "official-ecosystem-2026-10/pura80/产品事实.md",
-            "sourceMode": "local",
-            "productId": "8eac271997def7b9",
-            "retrievedAt": "2026-10-22T06:49:42.997Z"
-          },
-          {
-            "id": "a0423e80f39d3ae0",
-            "label": "感应器",
-            "text": "姿态感应器 重力传感器 红外传感器 侧边指纹 霍尔传感器 陀螺仪 指南针 环境光传感器 接近光传感器 Camera 激光对焦传感器 多光谱传感器",
-            "sourceTitle": "HUAWEI Pura 80 · 产品事实",
-            "sourceUrl": "https://consumer.huawei.com/cn/phones/pura80/specs/",
-            "sourcePath": "official-ecosystem-2026-10/pura80/产品事实.md",
-            "sourceMode": "local",
-            "productId": "8eac271997def7b9",
-            "retrievedAt": "2026-10-22T06:49:42.997Z"
-          }
-        ],
-        "images": [
-          {
-            "id": "d82d12c8fa1928f4",
-            "name": "velvet-gold.png",
-            "productId": "8eac271997def7b9",
-            "productName": "HUAWEI Pura 80",
-            "url": "/api/assets/d82d12c8fa1928f4",
-            "sourceUrl": "https://consumer.huawei.com/cn/phones/pura80/specs/",
-            "description": "HUAWEI Pura 80 官方规格页配色图：丝绒金；外观示意，以实物为准。",
-            "sourceTitle": "official-ecosystem-2026-10/pura80/图片索引.csv",
-            "width": 290,
-            "height": 800,
-            "sourceMode": "local"
-          },
-          {
-            "id": "b40579e38541aa32",
-            "name": "velvet-green.png",
-            "productId": "8eac271997def7b9",
-            "productName": "HUAWEI Pura 80",
-            "url": "/api/assets/b40579e38541aa32",
-            "sourceUrl": "https://consumer.huawei.com/cn/phones/pura80/specs/",
-            "description": "HUAWEI Pura 80 官方规格页配色图：丝绒绿；外观示意，以实物为准。",
-            "sourceTitle": "official-ecosystem-2026-10/pura80/图片索引.csv",
-            "width": 290,
-            "height": 800,
-            "sourceMode": "local"
-          },
-          {
-            "id": "90e54b1a7027a5a5",
-            "name": "velvet-white.png",
-            "productId": "8eac271997def7b9",
-            "productName": "HUAWEI Pura 80",
-            "url": "/api/assets/90e54b1a7027a5a5",
-            "sourceUrl": "https://consumer.huawei.com/cn/phones/pura80/specs/",
-            "description": "HUAWEI Pura 80 官方规格页配色图：丝绒白；外观示意，以实物为准。",
-            "sourceTitle": "official-ecosystem-2026-10/pura80/图片索引.csv",
-            "width": 290,
-            "height": 800,
-            "sourceMode": "local"
-          },
-          {
-            "id": "c79d1cd62efb178f",
-            "name": "velvet-black.png",
-            "productId": "8eac271997def7b9",
-            "productName": "HUAWEI Pura 80",
-            "url": "/api/assets/c79d1cd62efb178f",
-            "sourceUrl": "https://consumer.huawei.com/cn/phones/pura80/specs/",
-            "description": "HUAWEI Pura 80 官方规格页配色图：丝绒黑；外观示意，以实物为准。",
-            "sourceTitle": "official-ecosystem-2026-10/pura80/图片索引.csv",
-            "width": 290,
-            "height": 800,
-            "sourceMode": "local"
-          }
-        ],
-        "warnings": [
-          "资料与原图来自本地知识库，不是 ima 在线检索。",
-          "配置、版本和动态信息须在发布前重新核实。"
-        ],
-        "trace": [
-          {
-            "action": "本地资料检索",
-            "detail": "精确读取 HUAWEI Pura 80 的产品事实与图片索引",
-            "at": "2026-10-22T06:49:43.005Z"
-          },
-          {
-            "action": "原始配图可用性",
-            "detail": "已验证 1/1 张所选原始图片的读取与位图签名；不将索引描述冒充像素级语义识别。",
-            "at": "2026-10-22T06:58:02.156Z"
-          }
-        ]
-      },
-      "article": {
-        "title": "树梢那朵花，想拍进手机里",
-        "lead": "周末逛公园，花开在树梢，想拍的那一朵偏偏离得有点远。🌸",
-        "sections": [
-          {
-            "heading": "",
-            "text": "想聊聊HUAWEI Pura 80的长焦：后置1200万像素潜望式长焦摄像头，后置支持约5.5倍光学变焦，5.5倍为近似值；不同模式的照片和视频像素可能有差异。",
-            "factIds": [
-              "0f489aa424d80d6d"
-            ]
-          },
-          {
-            "heading": "",
-            "text": "散步可以慢一点，抬头看看，绕到另一边再看看。想留在相册里的，常常就是路上突然让人停下来的那一朵花。",
-            "factIds": []
-          }
-        ],
-        "cta": "你逛公园，是爱拍树梢的花，还是整条开满花的小路？",
-        "tags": [],
-        "images": [
-          {
-            "id": "b40579e38541aa32",
-            "name": "velvet-green.png",
-            "productId": "8eac271997def7b9",
-            "productName": "HUAWEI Pura 80",
-            "url": "/api/assets/b40579e38541aa32",
-            "sourceUrl": "https://consumer.huawei.com/cn/phones/pura80/specs/",
-            "description": "HUAWEI Pura 80 官方规格页配色图：丝绒绿；外观示意，以实物为准。",
-            "sourceTitle": "official-ecosystem-2026-10/pura80/图片索引.csv",
-            "width": 290,
-            "height": 800,
-            "sourceMode": "local",
-            "position": "封面",
-            "reason": "用丝绒绿配色整机外观图作封面，展示产品外观，与正文长焦配置介绍搭配。"
-          }
-        ],
-        "disclaimer": "具体配置、版本和体验以实际产品及官方信息为准。"
-      },
-      "audit": {
-        "status": "passed",
-        "findings": [
-          {
-            "id": "offline-source",
-            "category": "source",
-            "severity": "info",
-            "message": "资料与原图来自本地知识库，内容由模型生成。",
-            "suggestion": "保留本地来源与原始资料链接；不标记为 ima 在线取证。公开展示仍需素材许可。"
-          }
-        ],
-        "factChecks": [
-          {
-            "factId": "0f489aa424d80d6d",
-            "label": "后置摄像头",
-            "status": "supported",
-            "evidence": "后置摄像头 5000 万像素超聚光摄像头（F1.4-F4.0 光圈，OIS 光学防抖） 1200 万像素潜望式长焦摄像头（F3.4 光圈，OIS 光学防抖） 1300 万像素超广角摄像头（F2.2 光圈） 150 万多光谱通道红枫原色摄像头 *不同模式的照片和视频像素可能有差异，请以实际为准。 后置摄像头变焦模式 支持 5.5 倍光学变焦（5.5 倍变焦为近似值，镜头焦段分别为 13 mm，24 mm，125 mm）、50 倍数字变焦 后置摄像头对焦方式 自动对焦 后置摄像头照片分辨率 最大可支持 8192 × 6144 像素 *不同拍照模式的照片像素可能有差异，请以实际为准。 后置摄像头摄像分辨率 最大支持 4K（3840 × 2160）视频录制，支持 AIS 防抖；支持 1080p@480fps 超级慢动作视频 *不同拍摄模式的视频像素可能有差异，请以实际为准。 **1080p@480fps 基于 AI 插帧算法技术实现。 后置闪光灯 LED 闪光灯 后置摄像头拍摄功能 个性色卡、AI 动态照片、视频 HDR Vivid、闪拍、高画质模式、夜景模式、超级微距、微距视频、微距画中画、长焦画中画、高像素模式、延时摄影、超大广角、大光圈虚化、人像模式、专业模式、慢动作、全景模式、流光快门、智能滤镜、水印、AI 摄影大师、笑脸抓拍、声控拍照、定时拍照、连拍"
-          }
-        ],
-        "checkedAt": "2026-10-22T07:02:59.348Z",
-        "releaseReady": true,
-        "sceneChecks": [
-          {
-            "sectionIndex": 1,
-            "kind": "scene-only",
-            "reason": "全段仅包含散步、观察和拍花留念的场景建议与主观感受，不含产品功能、参数、效果、兼容性或价格承诺。"
-          }
-        ]
-      },
-      "engine": "llm",
-      "model": "gpt-6.1-sol",
-      "durationMs": 24251,
-      "trace": [
-        {
-          "action": "本地资料检索",
-          "detail": "精确读取 HUAWEI Pura 80 的产品事实与图片索引",
-          "at": "2026-10-22T06:49:43.005Z"
-        },
-        {
-          "action": "原始配图可用性",
-          "detail": "已验证 1/1 张所选原始图片的读取与位图签名；不将索引描述冒充像素级语义识别。",
-          "at": "2026-10-22T06:58:02.156Z"
-        },
-        {
-          "action": "生成引擎",
-          "detail": "模型：gpt-6.1-sol",
-          "at": "2026-10-22T06:58:12.352Z"
-        },
-        {
-          "action": "核验",
-          "detail": "0 项拦截，0 项待复核",
-          "at": "2026-10-22T06:58:12.352Z"
-        },
-        {
-          "action": "人工编辑并重新核验",
-          "detail": "保留原稿，创建新版本；不是覆盖旧证据。",
-          "at": "2026-10-22T07:02:59.348Z"
-        }
-      ],
-      "director": {
-        "planId": "018e8a66-49c7-4da5-be5e-585ae31cda32",
-        "conceptId": "8952a846-1e43-4402-ba5e-2928af592206",
-        "engine": "model",
-        "conceptName": "拍花，我更在意长焦",
-        "angle": "观点表达：从拍花时更关心哪颗镜头说起，不重复沿公园小路发现花朵的故事。",
-        "factIds": [
-          "0f489aa424d80d6d"
-        ],
-        "visualDirection": "配1张HUAWEI Pura 80同型号官方原图，文字承担长焦信息，图片承担整机外观展示；保留原图，不添加花朵实拍或变焦效果对比。",
-        "reason": "以长焦这一项配置回答拍远处花朵的需要，信息集中；相较历史方案，改用观点推动，而非发现花朵后的动作叙事。",
-        "plannedAt": "2026-10-22T06:57:48.096Z"
-      },
-      "parentId": "fabb316f-661c-4607-be9d-b69eb095c9d2"
-    },
-    {
-      "id": "43616e15-6456-4d21-9e05-35303ac70a91",
-      "createdAt": "2026-10-22T07:07:49.238Z",
-      "updatedAt": "2026-10-22T07:07:49.238Z",
-      "version": 3,
+      "id": "17493ebe-7c4f-4711-a987-005429388093",
+      "createdAt": "2026-10-22T11:02:49.211Z",
+      "updatedAt": "2026-10-22T11:02:49.211Z",
+      "version": 4,
       "brief": {
         "productId": "89b845fb87a4c142",
         "audience": "想为周末看书、看视频添一块平板的年轻人",
@@ -911,7 +21,7 @@
         "voice": {
           "persona": "friend"
         },
-        "parentId": "7d5362fd-bbf4-470a-a6ee-9c0b87884a06"
+        "parentId": "43616e15-6456-4d21-9e05-35303ac70a91"
       },
       "strategy": {
         "angle": "偏好观点帖：从“我会先看屏幕，再聊声音”的选购偏好展开，把屏幕、声音和机身讲成一个完整的产品印象，避开纸书与茶的周末叙事。",
@@ -1199,47 +309,47 @@
       },
       "article": {
         "title": "周末这块屏，想留给书和电影",
-        "lead": "周末想看点东西：书翻几页，电影挑一部，喜欢的歌再听一遍。要是准备添块平板，HUAWEI MatePad 11.5 2026可以聊聊。📖",
+        "lead": "周末想看完一篇长文，再挑部电影。要给这些小计划添块屏，我会看看HUAWEI MatePad 11.5 2026。书桌和沙发，都是想待的地方。📖",
         "sections": [
           {
             "heading": "",
-            "text": "11.5英寸IPS触屏。纸书可以摊在桌上，平板里想打开的可能是一篇长文章，也可能是下周出门的路线。尺寸按圆角屏的标准矩形测量，实际可视区域略小。想窝在沙发上看完一部电影的时候，就会惦记一块这样的屏幕。",
+            "text": "11.5英寸IPS触屏，挑的时候可以打开一页自己爱读的内容。书里的注释、文章里的配图，都按平常的字号看一遍。选书的时候会在书店翻上几页，选一块用来读书的屏幕，我也想留出这点时间。",
             "factIds": [
               "2171a9907ba12e0d"
             ]
           },
           {
             "heading": "",
-            "text": "这块屏幕的分辨率是2456×1600，256ppi，支持最多十点触控。分辨率对应标准矩形，实际有效像素略少。拿起平板，伸手点选，再找个舒服的位置坐下——我对周末的期待差不多就是这样。想看的内容，可以临时改主意。",
+            "text": "它支持最多十点触控。想看哪一页，伸手点选；坐到桌前，或者换个地方拿着用，手指都直接碰着屏幕。买之前我会横着、竖着各拿一会儿，看看自己更习惯哪种姿势。读长文和看电影，握的方式也可以分别试试。",
             "factIds": [
               "2171a9907ba12e0d"
             ]
           },
           {
             "heading": "",
-            "text": "声音也有自己的位置：四扬声器，HUAWEI Histen 9.0音效。片单里存着的那部电影、最近循环的歌，都让人惦记一块平板的声音配置。看书的时间安静一点，看电影的时候再热闹一点，周末的节目可以自己排。🎵",
+            "text": "机身有四个扬声器。片单里有喜欢配乐的电影，也有对白很多的老片，挑平板时我会想听一小段。安静看书的时候，让音乐歇一会儿；电影开始，再把声音打开。周末能慢慢看完一部片子，就已经很开心。🎵",
             "factIds": [
-              "b03280891cd8442a",
-              "e128af8b75c5511c"
+              "b03280891cd8442a"
             ]
           },
           {
             "heading": "",
-            "text": "机身厚6.1毫米，含电池约515克；实际尺寸和重量会因配置、制造工艺、测量方法而有差异。选平板时，我也会想它要放在哪：常用的书桌、床边的小柜子，还是周末出门带的包。拿着用和摆着用，都想过一遍，再聊自己喜欢的尺寸。",
+            "text": "含电池约515克。我会先单手拿一会儿，再换成双手横握；出门准备装包时，也看看包里还要带什么。平板既会摆在桌上，也常要拿起来用，重量就和这些小动作连在一起。拿法和放的位置，可以按自己的习惯选。",
             "factIds": [
               "208ae9156e9262d7"
             ]
           },
           {
             "heading": "",
-            "text": "系统是HarmonyOS 5.1，机身存储有128GB、256GB，运行内存有8GB、12GB。具体容量随配置而定，系统软件会占用部分空间。想给书、照片和视频各留多少位置，可以按自己的打算选。对我来说，周末添一块屏的吸引力，就在于那些一直想看、还没腾出时间看的东西。",
+            "text": "存储有128GB、256GB配置可选，可用容量会因系统软件占用而少于标称值。想留的书、照片和视频可以一起盘算，再选容量。屏幕尺寸按圆角屏标准矩形测量，实际可视区域略小；机身重量会因配置、制造工艺和测量方法而有差异。",
             "factIds": [
-              "82a6b3164b82b1de",
-              "1aa532b1b5ba9301"
+              "1aa532b1b5ba9301",
+              "2171a9907ba12e0d",
+              "208ae9156e9262d7"
             ]
           }
         ],
-        "cta": "如果这周末有一块平板，你最先想打开哪本书，或哪部电影？",
+        "cta": "你想给周末留哪本书、哪部电影？想聊这款平板的尺寸和容量，私信我就好。",
         "tags": [
           "华为MatePad",
           "MatePad11点5",
@@ -1321,22 +431,10 @@
             "evidence": "扬声器 × 4"
           },
           {
-            "factId": "e128af8b75c5511c",
-            "label": "音频",
-            "status": "supported",
-            "evidence": "HUAWEI Histen 9.0 音效"
-          },
-          {
             "factId": "208ae9156e9262d7",
             "label": "尺寸与重量",
             "status": "supported",
             "evidence": "高度 177.5 mm 宽度 262.6 mm 厚度 6.1 mm *实际尺寸依配置、制造工艺、测量方法的不同可能有所差异。 重量 约 515 克（含电池） *实际重量依配置、制造工艺、测量方法的不同可能有所差异。"
-          },
-          {
-            "factId": "82a6b3164b82b1de",
-            "label": "操作系统",
-            "status": "supported",
-            "evidence": "HarmonyOS 5.1"
           },
           {
             "factId": "1aa532b1b5ba9301",
@@ -1345,7 +443,7 @@
             "evidence": "机身内存（ROM） 128/256 GB* 运行内存（RAM） 8/12 GB* *根据不同配置情况，存储空间有所不同。可使用的内存容量小于此栏标明的数值，因为系统软件占用部分空间。"
           }
         ],
-        "checkedAt": "2026-10-22T07:07:49.238Z",
+        "checkedAt": "2026-10-22T11:02:49.211Z",
         "releaseReady": true,
         "sceneChecks": []
       },
@@ -1382,6 +480,11 @@
           "action": "人工编辑并重新核验",
           "detail": "保留原稿，创建新版本；不是覆盖旧证据。",
           "at": "2026-10-22T07:07:49.238Z"
+        },
+        {
+          "action": "人工编辑并重新核验",
+          "detail": "保留原稿，创建新版本；不是覆盖旧证据。",
+          "at": "2026-10-22T11:02:49.211Z"
         }
       ],
       "director": {
@@ -1400,13 +503,13 @@
         "reason": "屏幕信息最充分，也最贴合用户指定的开场。以观点串联触控、声音和机身，产品信息占主体，与历史中的翻书、查资料、收桌面结构明显不同。",
         "plannedAt": "2026-10-22T06:53:27.106Z"
       },
-      "parentId": "7d5362fd-bbf4-470a-a6ee-9c0b87884a06"
+      "parentId": "43616e15-6456-4d21-9e05-35303ac70a91"
     },
     {
-      "id": "2edcbc56-79e9-48a8-b1c7-a883b9d54025",
-      "createdAt": "2026-10-22T07:07:58.152Z",
-      "updatedAt": "2026-10-22T07:07:58.152Z",
-      "version": 3,
+      "id": "ced3c988-e5f6-405b-a16d-9ccdf8b041b8",
+      "createdAt": "2026-10-22T11:02:58.323Z",
+      "updatedAt": "2026-10-22T11:02:58.323Z",
+      "version": 4,
       "brief": {
         "productId": "3d677e42bc581fe3",
         "audience": "经常背电脑在办公室和会议室之间走动的人",
@@ -1423,7 +526,7 @@
         "voice": {
           "persona": "editor"
         },
-        "parentId": "be3888d0-d68b-4e2c-87dc-6f1f939ecadf"
+        "parentId": "2edcbc56-79e9-48a8-b1c7-a883b9d54025"
       },
       "strategy": {
         "angle": "观点型产品介绍：先表明编辑对屏幕的重视，再介绍键盘与系统，最后回到每天携带的重量和厚度，避开装包到会议室的时间线。",
@@ -1743,49 +846,47 @@
       },
       "article": {
         "title": "每天背电脑出门，970g让我多看了一眼",
-        "lead": "电脑要放进包里，也要在办公桌上打开。每天带电脑出门的人，常常两头都在意：背着走的时候惦记重量，坐下来之后又很在意屏幕和键盘。HUAWEI MateBook Pro，从970g这个数字开始，就让人想继续了解。",
+        "lead": "通勤包里已经有水杯、充电器和一堆小东西，电脑还要天天跟着走。看到HUAWEI MateBook Pro的970g，我会想拿起来看看。但电脑到了办公室，终归要打开用：写方案、改邮件、开会，屏幕和键盘同样要认真挑。",
         "sections": [
           {
-            "heading": "970g，是合上电脑之后的事",
-            "text": "机身重量970g，厚13.5mm，宽310mm、深222mm。实际尺寸和重量会因配置、制造工艺、测量方法而有差异。对每天带电脑往返办公室的人，介绍一台电脑时先聊重量，很自然。出门要带的东西里已经有水杯、充电器和零碎物件，留给电脑的那一格，当然也想认真挑。",
+            "heading": "970g，放进你每天背的那个包",
+            "text": "970g，也就是0.97kg，机身厚13.5mm。挑通勤电脑时，可以带着平常用的包，放进去，再拿出来。包里要不要放纸质资料、电脑习惯横着还是竖着收，这些小事每天都会碰到。上班要带的东西各有位置，我也想让电脑在常用的包里放得合适。",
             "factIds": [
               "fc2a26f8dac23145"
             ]
           },
           {
-            "heading": "14.2英寸，目光停留的地方",
-            "text": "打开之后，是14.2英寸屏幕，3:2比例，3120×2080分辨率。准备读的方案、待修改的长文、会上要讨论的图表，都会出现在这块屏幕上。它还支持最多十点触控，键盘、触控板之外，屏幕也能直接触摸操作。有人喜欢一路用键盘，有人习惯看见哪里就伸手点哪里，选电脑时，这种个人偏好也很重要。",
+            "heading": "14.2英寸屏幕，打开一页自己的方案",
+            "text": "屏幕14.2英寸，3:2比例，支持最多十点触控。选屏幕时，我想打开一页常读的方案：字、表格、配图，按平常用的字号放好，再往下读。触屏则多了一种直接点选的方式。写长文时用键盘，想伸手点屏幕时就点，操作习惯也可以成为挑电脑的理由。",
             "factIds": [
               "6f9f102dcde05125"
             ]
           },
           {
-            "heading": "柔光版，把办公室的光线也考虑进来",
-            "text": "关心办公室顶灯、窗边阳光的，还可以看看柔光版。仅HUAWEI MateBook Pro柔光版支持OLED云晰柔光屏。按华为对这块屏幕的定义，它通过形成漫反射，减轻灯光、阳光等光照的影响，让屏幕观感更舒适；体验会随使用条件和环境有所差异。经常换会议室、换座位的人，挑屏幕时大概也会想起平常坐的那个位置。",
+            "heading": "柔光屏，先分清是不是柔光版",
+            "text": "办公室常有顶灯，靠窗的位置又会遇到阳光。关心这些光线的，可以留意柔光版：仅MateBook Pro柔光版支持OLED云晰柔光屏，通过形成漫反射，减轻灯光、阳光等光照影响，让屏幕观感更舒适；具体体验随使用条件和环境而有差异。挑选前想一想自己常坐的位置，也更容易聊清楚对屏幕的要求。",
             "factIds": [
               "6f9f102dcde05125"
             ]
           },
           {
-            "heading": "1.8mm键程，留给每天要写的那些字",
-            "text": "全尺寸背光键盘，1.8mm键程；旁边是支持多点触控的大尺寸触控板，还有指纹电源键。邮件里的措辞、小组讨论的提纲、方案里迟迟没定下来的那句话，最后都要落到一行行输入上。我很在意选电脑时的这一小段时间：坐下来，敲几句话，看看手指愿意怎么放。每天接触的东西，个人习惯很有分量。",
+            "heading": "1.8mm键程，敲几句自己真要写的话",
+            "text": "它配了全尺寸背光键盘，键程1.8mm，还有支持多点触控的大尺寸触控板、指纹电源键。邮件里一句话改了又改，方案里一段文字来回调整，手指会反复接触按键和触控板。我会在选购时敲一段真要写的文字，试试常用的手势。每天都要用的部件，自己的习惯很重要。",
             "factIds": [
               "10619db320e58979"
             ]
           },
           {
-            "heading": "HarmonyOS 6.1，也是这台电脑的主角",
-            "text": "MateBook Pro搭载HarmonyOS 6.1和麒麟X90 Plus，内存有24GB、32GB可选。日常应用中列有华为笔记、文件管理、备忘录和日历。想了解鸿蒙电脑的读者，可以从自己每天要做的事情聊起：记录、整理、安排日程，再问清相应功能。具体应用的使用限制和支持机型，可咨询华为客服950800。",
+            "heading": "HarmonyOS 6.1，带着日常任务来聊",
+            "text": "这款搭载HarmonyOS 6.1，应用中列有华为笔记、备忘录、日历和文件管理。对想了解鸿蒙电脑的人，我更想从工作内容聊起：会议要记什么、每天怎样看待办、文件通常放在哪。把自己需要的功能列出来，问起来也具体。应用的使用限制、支持机型等问题，可咨询华为客服950800。",
             "factIds": [
               "9d93741a3f10a895",
-              "8e1a76d54665d562",
-              "ea35a53b9355add3",
               "6513d3d0ac4c02aa"
             ]
           },
           {
-            "heading": "摄像头和声音，接着聊工作里的另一面",
-            "text": "这台电脑还有1080P高清摄像头、四个麦克风和六个扬声器。工作清单里常有线上会议、远程沟通，选电脑时，目光也会从屏幕挪到这些部件上。要写字、要看内容，也会有开口说话、听别人发言的时候。一台办公电脑打开后的时间，装着的就是这些具体的小事。",
+            "heading": "摄像头、麦克风和扬声器，也要问到",
+            "text": "线上会议多的读者，也可以留意1080P高清摄像头、四个麦克风和六个扬声器。选办公电脑时，除了自己看屏幕、敲键盘，还会有听同事发言、对着镜头讨论方案的时候。采购前把这些常用场合一起说清楚，比只问一个笼统的“适合办公吗”，更容易聊到你关心的部件。",
             "factIds": [
               "9886092dc1f4f3fe",
               "27d16212cfeaef60"
@@ -1793,15 +894,13 @@
           },
           {
             "heading": "",
-            "text": "我对这台电脑的兴趣，开始于重量，后来停在屏幕和键盘上。每天背着走，坐下又要用很久，挑选时很难只看其中一面。970g、能触控的14.2英寸屏幕、全尺寸背光键盘，各自回答了一个很日常的期待。那些每天都会碰到的地方，放在一起看，才更像是在挑自己的电脑。",
+            "text": "我会先拿起电脑，再坐下来读一页资料、敲几句话。每天背着走的东西，到了工位还要陪你完成具体的工作，挑的时候就按自己一天的用法慢慢看。机身尺寸和重量会因配置、制造工艺、测量方法而有差异，选购时也请确认对应的具体配置。",
             "factIds": [
-              "fc2a26f8dac23145",
-              "6f9f102dcde05125",
-              "10619db320e58979"
+              "fc2a26f8dac23145"
             ]
           }
         ],
-        "cta": "想看看MateBook Pro，可以到店坐下来，按自己的习惯敲一段文字。",
+        "cta": "想了解MateBook Pro，私信聊聊你的工作用法，或预约到店敲一段文字。",
         "tags": [],
         "images": [
           {
@@ -1874,18 +973,6 @@
             "evidence": "HarmonyOS 6.1"
           },
           {
-            "factId": "8e1a76d54665d562",
-            "label": "处理器",
-            "status": "supported",
-            "evidence": "麒麟X90 Plus"
-          },
-          {
-            "factId": "ea35a53b9355add3",
-            "label": "内存",
-            "status": "supported",
-            "evidence": "24 GB / 32 GB"
-          },
-          {
             "factId": "6513d3d0ac4c02aa",
             "label": "特色应用",
             "status": "supported",
@@ -1904,7 +991,7 @@
             "evidence": "麦克风 × 4\n\n扬声器 × 6"
           }
         ],
-        "checkedAt": "2026-10-22T07:07:58.152Z",
+        "checkedAt": "2026-10-22T11:02:58.323Z",
         "releaseReady": true,
         "sceneChecks": []
       },
@@ -1941,6 +1028,11 @@
           "action": "人工编辑并重新核验",
           "detail": "保留原稿，创建新版本；不是覆盖旧证据。",
           "at": "2026-10-22T07:07:58.152Z"
+        },
+        {
+          "action": "人工编辑并重新核验",
+          "detail": "保留原稿，创建新版本；不是覆盖旧证据。",
+          "at": "2026-10-22T11:02:58.323Z"
         }
       ],
       "director": {
@@ -1960,7 +1052,891 @@
         "reason": "屏幕事实较充足，能承担文章主体；键盘、系统与携带信息依次补充，既回应完整需求，也与历史方案的携带动作叙事形成明显区别。",
         "plannedAt": "2026-10-22T06:55:54.806Z"
       },
-      "parentId": "be3888d0-d68b-4e2c-87dc-6f1f939ecadf"
+      "parentId": "2edcbc56-79e9-48a8-b1c7-a883b9d54025"
+    },
+    {
+      "id": "d79fcb0b-bbf7-4e86-b92d-d320aa091087",
+      "createdAt": "2026-10-22T11:03:07.556Z",
+      "updatedAt": "2026-10-22T11:03:07.556Z",
+      "version": 3,
+      "brief": {
+        "productId": "8eac271997def7b9",
+        "audience": "周末喜欢逛公园、拍花和街景的顾客",
+        "scene": "store",
+        "platform": "moments",
+        "stage": "了解产品",
+        "goal": "激发兴趣与咨询",
+        "requirements": "发一条约140至190字的朋友圈，聊周末逛公园想拍树梢远处那朵花。早点带出HUAWEI Pura 80和后置1200万像素潜望式长焦，后置约5.5倍光学变焦的近似条件简短交代。其余条件按资料处理。像熟人聊天，句子有长有短，少用大词，产品信息后顺着公园拍花的念头聊一句，结束一个轻松问题。不写选手机指南，也不要告诉读者记下哪几点，不虚构实拍经历。",
+        "mode": "local",
+        "generation": "model",
+        "autoRepair": true,
+        "directorPlanId": "018e8a66-49c7-4da5-be5e-585ae31cda32",
+        "conceptId": "8952a846-1e43-4402-ba5e-2928af592206",
+        "voice": {
+          "persona": "friend"
+        },
+        "parentId": "2141139c-089c-41b9-9ecb-59d0c43a43bf"
+      },
+      "strategy": {
+        "angle": "观点表达：从拍花时更关心哪颗镜头说起，不重复沿公园小路发现花朵的故事。",
+        "problem": "周末想拍树梢远处的花，HUAWEI Pura 80有哪些相关的长焦配置？",
+        "priorities": [
+          "屏幕",
+          "尺寸与重量",
+          "后置摄像头",
+          "电池",
+          "存储",
+          "操作系统"
+        ],
+        "tone": "懂数码的朋友表达一点明确偏好，短句中穿插一段稍长的配置说明，不写成选购指南。",
+        "structure": [
+          "用一句周末公园拍花的生活场景开头，马上带出HUAWEI Pura 80及后置1200万像素潜望式长焦。",
+          "以朋友聊数码的口吻表达对长焦配置的关注，介绍F3.4光圈与OIS光学防抖，紧邻交代不同模式照片和视频像素可能有差异。",
+          "补充后置支持约5.5倍光学变焦，简短说明5.5倍为近似值，顺接想拍树梢那朵花的念头。",
+          "以询问朋友最想拍哪种花收尾，将正文控制在140—190字，分成三段并自然放入2个表情。"
+        ],
+        "cta": "你逛公园时，最想拍的是哪种花？🌸",
+        "imageMin": 1,
+        "imageMax": 3,
+        "targetLength": "120–260 字",
+        "stage": "了解产品",
+        "goal": "激发兴趣与咨询",
+        "rationale": "以长焦这一项配置回答拍远处花朵的需要，信息集中；相较历史方案，改用观点推动，而非发现花朵后的动作叙事。",
+        "prioritizedFactIds": [
+          "0f489aa424d80d6d"
+        ],
+        "visualDirection": "配1张HUAWEI Pura 80同型号官方原图，文字承担长焦信息，图片承担整机外观展示；保留原图，不添加花朵实拍或变焦效果对比。"
+      },
+      "evidence": {
+        "product": {
+          "id": "8eac271997def7b9",
+          "name": "HUAWEI Pura 80",
+          "shortName": "Pura 80",
+          "family": "手机",
+          "category": "phone",
+          "os": "HarmonyOS 5.1 *可 HOTA 升级至 HarmonyOS 6 或以上版本，部分手机出厂预装 HarmonyOS 6 或以上版本。",
+          "factCount": 13,
+          "imageCount": 4,
+          "cover": "/api/assets/d82d12c8fa1928f4",
+          "conflicts": []
+        },
+        "facts": [
+          {
+            "id": "6da51c86d4a42738",
+            "label": "尺寸与重量",
+            "text": "长度 157.7 mm 宽度 74.4 mm 厚度 8.2 mm 重量 约 211 克（含电池） *实际尺寸与重量依配置、制造工艺、测量方法的不同可能有所差异。",
+            "sourceTitle": "HUAWEI Pura 80 · 产品事实",
+            "sourceUrl": "https://consumer.huawei.com/cn/phones/pura80/specs/",
+            "sourcePath": "official-ecosystem-2026-10/pura80/产品事实.md",
+            "sourceMode": "local",
+            "productId": "8eac271997def7b9",
+            "retrievedAt": "2026-10-22T06:49:42.997Z"
+          },
+          {
+            "id": "bcd22a30a2006c2f",
+            "label": "屏幕",
+            "text": "尺寸 6.6 英寸 *显示屏采用圆角设计，按照标准矩形测量时，屏幕的对角线长度是 6.58 英寸（实际可视区域略小）。 色彩 10.7 亿色，P3 广色域 类型 OLED，支持 1-120 Hz LTPO 自适应刷新率，1440 Hz 高频 PWM 调光，300 Hz 触控采样率 分辨率 FHD+ 2760 × 1256 像素 *该分辨率对应标准矩形，实际屏幕有效像素略少。 PPI 460 ppi 玻璃类型 第二代昆仑玻璃",
+            "sourceTitle": "HUAWEI Pura 80 · 产品事实",
+            "sourceUrl": "https://consumer.huawei.com/cn/phones/pura80/specs/",
+            "sourcePath": "official-ecosystem-2026-10/pura80/产品事实.md",
+            "sourceMode": "local",
+            "productId": "8eac271997def7b9",
+            "retrievedAt": "2026-10-22T06:49:42.997Z"
+          },
+          {
+            "id": "de1dec6c9f4b1acb",
+            "label": "操作系统",
+            "text": "HarmonyOS 5.1 *可 HOTA 升级至 HarmonyOS 6 或以上版本，部分手机出厂预装 HarmonyOS 6 或以上版本。",
+            "sourceTitle": "HUAWEI Pura 80 · 产品事实",
+            "sourceUrl": "https://consumer.huawei.com/cn/phones/pura80/specs/",
+            "sourcePath": "official-ecosystem-2026-10/pura80/产品事实.md",
+            "sourceMode": "local",
+            "productId": "8eac271997def7b9",
+            "retrievedAt": "2026-10-22T06:49:42.997Z"
+          },
+          {
+            "id": "dd06b616ce279fb4",
+            "label": "存储",
+            "text": "运行内存 12 GB RAM *可使用的内存容量小于此值，因为手机软件占用部分空间。 机身内存 256 GB / 512 GB / 1 TB ROM *可使用的内存容量小于此值，因为手机软件占用部分空间。 扩展存储 不支持存储卡扩展",
+            "sourceTitle": "HUAWEI Pura 80 · 产品事实",
+            "sourceUrl": "https://consumer.huawei.com/cn/phones/pura80/specs/",
+            "sourcePath": "official-ecosystem-2026-10/pura80/产品事实.md",
+            "sourceMode": "local",
+            "productId": "8eac271997def7b9",
+            "retrievedAt": "2026-10-22T06:49:42.997Z"
+          },
+          {
+            "id": "0f489aa424d80d6d",
+            "label": "后置摄像头",
+            "text": "后置摄像头 5000 万像素超聚光摄像头（F1.4-F4.0 光圈，OIS 光学防抖） 1200 万像素潜望式长焦摄像头（F3.4 光圈，OIS 光学防抖） 1300 万像素超广角摄像头（F2.2 光圈） 150 万多光谱通道红枫原色摄像头 *不同模式的照片和视频像素可能有差异，请以实际为准。 后置摄像头变焦模式 支持 5.5 倍光学变焦（5.5 倍变焦为近似值，镜头焦段分别为 13 mm，24 mm，125 mm）、50 倍数字变焦 后置摄像头对焦方式 自动对焦 后置摄像头照片分辨率 最大可支持 8192 × 6144 像素 *不同拍照模式的照片像素可能有差异，请以实际为准。 后置摄像头摄像分辨率 最大支持 4K（3840 × 2160）视频录制，支持 AIS 防抖；支持 1080p@480fps 超级慢动作视频 *不同拍摄模式的视频像素可能有差异，请以实际为准。 **1080p@480fps 基于 AI 插帧算法技术实现。 后置闪光灯 LED 闪光灯 后置摄像头拍摄功能 个性色卡、AI 动态照片、视频 HDR Vivid、闪拍、高画质模式、夜景模式、超级微距、微距视频、微距画中画、长焦画中画、高像素模式、延时摄影、超大广角、大光圈虚化、人像模式、专业模式、慢动作、全景模式、流光快门、智能滤镜、水印、AI 摄影大师、笑脸抓拍、声控拍照、定时拍照、连拍",
+            "sourceTitle": "HUAWEI Pura 80 · 产品事实",
+            "sourceUrl": "https://consumer.huawei.com/cn/phones/pura80/specs/",
+            "sourcePath": "official-ecosystem-2026-10/pura80/产品事实.md",
+            "sourceMode": "local",
+            "productId": "8eac271997def7b9",
+            "retrievedAt": "2026-10-22T06:49:42.997Z"
+          },
+          {
+            "id": "d846aa2d3196b91c",
+            "label": "前置摄像头",
+            "text": "前置摄像头 1300 万像素超广角摄像头（F2.0 光圈，自动对焦） *不同模式的照片和视频像素可能有差异，请以实际为准。 前置摄像头照片分辨率 最大可支持 4160 × 3120 像素 *不同拍照模式的照片像素可能有差异，请以实际为准。 前置摄像头摄像分辨率 最大可支持 3840 x 2160 像素，支持 1080p@240 fps 超级慢动作视频 *不同拍摄模式的视频像素可能有差异，请以实际为准。 前置摄像头拍摄功能 个性色卡、AI 动态照片、视频 HDR Vivid、慢动作、人像模式、延时摄影、笑脸抓拍、自拍镜像、声控拍照、定时拍照",
+            "sourceTitle": "HUAWEI Pura 80 · 产品事实",
+            "sourceUrl": "https://consumer.huawei.com/cn/phones/pura80/specs/",
+            "sourcePath": "official-ecosystem-2026-10/pura80/产品事实.md",
+            "sourceMode": "local",
+            "productId": "8eac271997def7b9",
+            "retrievedAt": "2026-10-22T06:49:42.997Z"
+          },
+          {
+            "id": "32d3ff31cf1617e7",
+            "label": "电池",
+            "text": "5600 mAh（典型值） *电池额定容量为 5480 mAh。 **电池内置不可拆卸。",
+            "sourceTitle": "HUAWEI Pura 80 · 产品事实",
+            "sourceUrl": "https://consumer.huawei.com/cn/phones/pura80/specs/",
+            "sourcePath": "official-ecosystem-2026-10/pura80/产品事实.md",
+            "sourceMode": "local",
+            "productId": "8eac271997def7b9",
+            "retrievedAt": "2026-10-22T06:49:42.997Z"
+          },
+          {
+            "id": "81e34d143b1f2bdb",
+            "label": "充电",
+            "text": "有线充电：手机支持最大超级快充 66 W (11V/6A)，兼容 10V/4A 或 10V/2.25A 或 4.5V/5A 或 5V/4.5A 超级快充，兼容 9V/2A 快充，支持 5 W 有线反向充电。 无线充电：支持 50 W 华为无线超级快充，支持无线反向充电。 *最大支持 66 W 华为有线超级快充，需搭配 66 W 及以上的华为超级快充充电套装使用。最大支持 5 W 有线反向充电，支持对通过华为实验室测试的设备进行反向充电。 **最大支持 50 W 华为无线超级快充，需单独购买华为超级快充立式无线充电器（Max 50 W/80 W）或华为超级快充无线车充（Max 50 W/80 W），并搭配特定 66 W 及以上的华为超级快充充电套装使用。 ***实际充电功率会随不同场景智能变化，请以实际使用情况为准。",
+            "sourceTitle": "HUAWEI Pura 80 · 产品事实",
+            "sourceUrl": "https://consumer.huawei.com/cn/phones/pura80/specs/",
+            "sourcePath": "official-ecosystem-2026-10/pura80/产品事实.md",
+            "sourceMode": "local",
+            "productId": "8eac271997def7b9",
+            "retrievedAt": "2026-10-22T06:49:42.997Z"
+          },
+          {
+            "id": "9c7e17c33ee3610e",
+            "label": "防尘抗水",
+            "text": "IP68 级 2 米抗水，IP69 级抗高温高压喷水 *本手机并非专业防水手机，在正常使用状态下可防溅、抗水、防尘，在受控实验室条件下经测试，其效果在GB/T 4208-2017（国内）/ IEC 60529（海外）标准下达到 IP68 和 IP69 级别。防溅、抗水、防尘功能并非永久有效，防护性能可能会因日常磨损而下降。请勿在潮湿状态下为手机充电；请参阅使用手册了解清洁和干燥说明。由于浸入液体而导致的损坏不在保修范围之内。 **IP68中防水条件为（1）无流动清水，水深 2 米；（2）试验时间 30 分钟；（3）水温与产品温差不大于 5 摄氏度。 ***IP69 级防水测试条件为：（1）转盘转速：（5 ± 1）r/min；（2）喷嘴角度：0°、30°、60°、90°；（3）流量：（15 ± 1）L/min；（4）水温：（80 ± 5）℃；（5）试验时间：30s/位置；（6）手机放置方式：水平放置，屏幕朝上。",
+            "sourceTitle": "HUAWEI Pura 80 · 产品事实",
+            "sourceUrl": "https://consumer.huawei.com/cn/phones/pura80/specs/",
+            "sourcePath": "official-ecosystem-2026-10/pura80/产品事实.md",
+            "sourceMode": "local",
+            "productId": "8eac271997def7b9",
+            "retrievedAt": "2026-10-22T06:49:42.997Z"
+          },
+          {
+            "id": "184e591c4db70a98",
+            "label": "数据连接",
+            "text": "WLAN 2.4 GHz 和 5 GHz IEEE 802.11a/b/g/n/ac/ax/be，2 × 2 MIMO，EHT160，8 Spatial-stream Sounding MU-MIMO *需要相应的路由器支持。 蓝牙 Bluetooth 5.2，支持低功耗蓝牙，支持 SBC、AAC，支持 LDAC 和 L2HC 高清音频 星闪 支持 ，星闪E2.0* *星闪E2.0 需 HOTA 升级支持。 卫星通信 北斗卫星消息 *本机为北斗卫星消息提供移动终端硬件，需在空旷无遮蔽处使用。首次使用前需在有地面网络的环境下，通过畅连应用激活或者开通运营商北斗卫星短信相关业务。此功能仅限中国大陆地区（不含港澳台地区）。华为将配合公众测试验证，功能及活动规则详情请以官方信息为准。 数据线接口 USB Type-C，USB 2.0 *不支持有线投屏。 耳机接口 USB Type-C 接口 *仅支持 USB Type-C 数字耳机，其它耳机需要搭配“华为 USB Type-C 转 3.5 毫米数字音频转换器”使用。 查找功能 支持在线查找，离线查找，关机查找",
+            "sourceTitle": "HUAWEI Pura 80 · 产品事实",
+            "sourceUrl": "https://consumer.huawei.com/cn/phones/pura80/specs/",
+            "sourcePath": "official-ecosystem-2026-10/pura80/产品事实.md",
+            "sourceMode": "local",
+            "productId": "8eac271997def7b9",
+            "retrievedAt": "2026-10-22T06:49:42.997Z"
+          },
+          {
+            "id": "360a884fcbf47908",
+            "label": "NFC",
+            "text": "支持读卡器模式,卡模拟模式（华为钱包支付，SIM 卡支付*，HCE 支付） *SIM 卡支付所使用的 SIM 卡只能放在 SIM 1 卡槽。",
+            "sourceTitle": "HUAWEI Pura 80 · 产品事实",
+            "sourceUrl": "https://consumer.huawei.com/cn/phones/pura80/specs/",
+            "sourcePath": "official-ecosystem-2026-10/pura80/产品事实.md",
+            "sourceMode": "local",
+            "productId": "8eac271997def7b9",
+            "retrievedAt": "2026-10-22T06:49:42.997Z"
+          },
+          {
+            "id": "97400c1d17ffc943",
+            "label": "定位",
+            "text": "支持 GPS（L1 + L5 双频）/AGPS/GLONASS/北斗（B1I + B1C + B2a + B2b 四频）/GALILEO（E1 + E5a + E5b 三频）/QZSS（L1 + L5 双频）/NavIC",
+            "sourceTitle": "HUAWEI Pura 80 · 产品事实",
+            "sourceUrl": "https://consumer.huawei.com/cn/phones/pura80/specs/",
+            "sourcePath": "official-ecosystem-2026-10/pura80/产品事实.md",
+            "sourceMode": "local",
+            "productId": "8eac271997def7b9",
+            "retrievedAt": "2026-10-22T06:49:42.997Z"
+          },
+          {
+            "id": "a0423e80f39d3ae0",
+            "label": "感应器",
+            "text": "姿态感应器 重力传感器 红外传感器 侧边指纹 霍尔传感器 陀螺仪 指南针 环境光传感器 接近光传感器 Camera 激光对焦传感器 多光谱传感器",
+            "sourceTitle": "HUAWEI Pura 80 · 产品事实",
+            "sourceUrl": "https://consumer.huawei.com/cn/phones/pura80/specs/",
+            "sourcePath": "official-ecosystem-2026-10/pura80/产品事实.md",
+            "sourceMode": "local",
+            "productId": "8eac271997def7b9",
+            "retrievedAt": "2026-10-22T06:49:42.997Z"
+          }
+        ],
+        "images": [
+          {
+            "id": "d82d12c8fa1928f4",
+            "name": "velvet-gold.png",
+            "productId": "8eac271997def7b9",
+            "productName": "HUAWEI Pura 80",
+            "url": "/api/assets/d82d12c8fa1928f4",
+            "sourceUrl": "https://consumer.huawei.com/cn/phones/pura80/specs/",
+            "description": "HUAWEI Pura 80 官方规格页配色图：丝绒金；外观示意，以实物为准。",
+            "sourceTitle": "official-ecosystem-2026-10/pura80/图片索引.csv",
+            "width": 290,
+            "height": 800,
+            "sourceMode": "local"
+          },
+          {
+            "id": "b40579e38541aa32",
+            "name": "velvet-green.png",
+            "productId": "8eac271997def7b9",
+            "productName": "HUAWEI Pura 80",
+            "url": "/api/assets/b40579e38541aa32",
+            "sourceUrl": "https://consumer.huawei.com/cn/phones/pura80/specs/",
+            "description": "HUAWEI Pura 80 官方规格页配色图：丝绒绿；外观示意，以实物为准。",
+            "sourceTitle": "official-ecosystem-2026-10/pura80/图片索引.csv",
+            "width": 290,
+            "height": 800,
+            "sourceMode": "local"
+          },
+          {
+            "id": "90e54b1a7027a5a5",
+            "name": "velvet-white.png",
+            "productId": "8eac271997def7b9",
+            "productName": "HUAWEI Pura 80",
+            "url": "/api/assets/90e54b1a7027a5a5",
+            "sourceUrl": "https://consumer.huawei.com/cn/phones/pura80/specs/",
+            "description": "HUAWEI Pura 80 官方规格页配色图：丝绒白；外观示意，以实物为准。",
+            "sourceTitle": "official-ecosystem-2026-10/pura80/图片索引.csv",
+            "width": 290,
+            "height": 800,
+            "sourceMode": "local"
+          },
+          {
+            "id": "c79d1cd62efb178f",
+            "name": "velvet-black.png",
+            "productId": "8eac271997def7b9",
+            "productName": "HUAWEI Pura 80",
+            "url": "/api/assets/c79d1cd62efb178f",
+            "sourceUrl": "https://consumer.huawei.com/cn/phones/pura80/specs/",
+            "description": "HUAWEI Pura 80 官方规格页配色图：丝绒黑；外观示意，以实物为准。",
+            "sourceTitle": "official-ecosystem-2026-10/pura80/图片索引.csv",
+            "width": 290,
+            "height": 800,
+            "sourceMode": "local"
+          }
+        ],
+        "warnings": [
+          "资料与原图来自本地知识库，不是 ima 在线检索。",
+          "配置、版本和动态信息须在发布前重新核实。"
+        ],
+        "trace": [
+          {
+            "action": "本地资料检索",
+            "detail": "精确读取 HUAWEI Pura 80 的产品事实与图片索引",
+            "at": "2026-10-22T06:49:43.005Z"
+          },
+          {
+            "action": "原始配图可用性",
+            "detail": "已验证 1/1 张所选原始图片的读取与位图签名；不将索引描述冒充像素级语义识别。",
+            "at": "2026-10-22T06:58:02.156Z"
+          }
+        ]
+      },
+      "article": {
+        "title": "树梢那朵花，想拍进手机里",
+        "lead": "周末逛公园，花开在树梢，想拍的那一朵偏偏离得有点远。🌸",
+        "sections": [
+          {
+            "heading": "",
+            "text": "HUAWEI Pura 80配有潜望式长焦摄像头，支持约5.5倍光学变焦。喜欢拍花的人，可以从整棵树的画面开始，再试着把取景转向枝头的一簇。",
+            "factIds": [
+              "0f489aa424d80d6d"
+            ]
+          },
+          {
+            "heading": "",
+            "text": "散步时慢一点，绕到另一边看看花的方向。挑手机时，也可以聊聊你爱拍的东西：树梢的花、远处的屋檐，还是路上遇到的小景。",
+            "factIds": []
+          }
+        ],
+        "cta": "想了解这款的长焦和具体配置，私信我，或到店一起聊聊怎么选。",
+        "tags": [],
+        "images": [
+          {
+            "id": "b40579e38541aa32",
+            "name": "velvet-green.png",
+            "productId": "8eac271997def7b9",
+            "productName": "HUAWEI Pura 80",
+            "url": "/api/assets/b40579e38541aa32",
+            "sourceUrl": "https://consumer.huawei.com/cn/phones/pura80/specs/",
+            "description": "HUAWEI Pura 80 官方规格页配色图：丝绒绿；外观示意，以实物为准。",
+            "sourceTitle": "official-ecosystem-2026-10/pura80/图片索引.csv",
+            "width": 290,
+            "height": 800,
+            "sourceMode": "local",
+            "position": "封面",
+            "reason": "用丝绒绿配色整机外观图作封面，展示产品外观，与正文长焦配置介绍搭配。"
+          }
+        ],
+        "disclaimer": "具体配置、版本和体验以实际产品及官方信息为准。"
+      },
+      "audit": {
+        "status": "passed",
+        "findings": [
+          {
+            "id": "offline-source",
+            "category": "source",
+            "severity": "info",
+            "message": "资料与原图来自本地知识库，内容由模型生成。",
+            "suggestion": "保留本地来源与原始资料链接；不标记为 ima 在线取证。公开展示仍需素材许可。"
+          }
+        ],
+        "factChecks": [
+          {
+            "factId": "0f489aa424d80d6d",
+            "label": "后置摄像头",
+            "status": "supported",
+            "evidence": "后置摄像头 5000 万像素超聚光摄像头（F1.4-F4.0 光圈，OIS 光学防抖） 1200 万像素潜望式长焦摄像头（F3.4 光圈，OIS 光学防抖） 1300 万像素超广角摄像头（F2.2 光圈） 150 万多光谱通道红枫原色摄像头 *不同模式的照片和视频像素可能有差异，请以实际为准。 后置摄像头变焦模式 支持 5.5 倍光学变焦（5.5 倍变焦为近似值，镜头焦段分别为 13 mm，24 mm，125 mm）、50 倍数字变焦 后置摄像头对焦方式 自动对焦 后置摄像头照片分辨率 最大可支持 8192 × 6144 像素 *不同拍照模式的照片像素可能有差异，请以实际为准。 后置摄像头摄像分辨率 最大支持 4K（3840 × 2160）视频录制，支持 AIS 防抖；支持 1080p@480fps 超级慢动作视频 *不同拍摄模式的视频像素可能有差异，请以实际为准。 **1080p@480fps 基于 AI 插帧算法技术实现。 后置闪光灯 LED 闪光灯 后置摄像头拍摄功能 个性色卡、AI 动态照片、视频 HDR Vivid、闪拍、高画质模式、夜景模式、超级微距、微距视频、微距画中画、长焦画中画、高像素模式、延时摄影、超大广角、大光圈虚化、人像模式、专业模式、慢动作、全景模式、流光快门、智能滤镜、水印、AI 摄影大师、笑脸抓拍、声控拍照、定时拍照、连拍"
+          }
+        ],
+        "checkedAt": "2026-10-22T11:03:07.556Z",
+        "releaseReady": true,
+        "sceneChecks": [
+          {
+            "sectionIndex": 1,
+            "kind": "scene-only",
+            "reason": "全段仅为散步观察及选购时交流拍摄兴趣的建议，没有断言产品功能、参数、拍摄效果、兼容性或价格。"
+          }
+        ]
+      },
+      "engine": "llm",
+      "model": "gpt-6.1-sol",
+      "durationMs": 24251,
+      "trace": [
+        {
+          "action": "本地资料检索",
+          "detail": "精确读取 HUAWEI Pura 80 的产品事实与图片索引",
+          "at": "2026-10-22T06:49:43.005Z"
+        },
+        {
+          "action": "原始配图可用性",
+          "detail": "已验证 1/1 张所选原始图片的读取与位图签名；不将索引描述冒充像素级语义识别。",
+          "at": "2026-10-22T06:58:02.156Z"
+        },
+        {
+          "action": "生成引擎",
+          "detail": "模型：gpt-6.1-sol",
+          "at": "2026-10-22T06:58:12.352Z"
+        },
+        {
+          "action": "核验",
+          "detail": "0 项拦截，0 项待复核",
+          "at": "2026-10-22T06:58:12.352Z"
+        },
+        {
+          "action": "人工编辑并重新核验",
+          "detail": "保留原稿，创建新版本；不是覆盖旧证据。",
+          "at": "2026-10-22T07:02:59.348Z"
+        },
+        {
+          "action": "人工编辑并重新核验",
+          "detail": "保留原稿，创建新版本；不是覆盖旧证据。",
+          "at": "2026-10-22T11:03:07.556Z"
+        }
+      ],
+      "director": {
+        "planId": "018e8a66-49c7-4da5-be5e-585ae31cda32",
+        "conceptId": "8952a846-1e43-4402-ba5e-2928af592206",
+        "engine": "model",
+        "conceptName": "拍花，我更在意长焦",
+        "angle": "观点表达：从拍花时更关心哪颗镜头说起，不重复沿公园小路发现花朵的故事。",
+        "factIds": [
+          "0f489aa424d80d6d"
+        ],
+        "visualDirection": "配1张HUAWEI Pura 80同型号官方原图，文字承担长焦信息，图片承担整机外观展示；保留原图，不添加花朵实拍或变焦效果对比。",
+        "reason": "以长焦这一项配置回答拍远处花朵的需要，信息集中；相较历史方案，改用观点推动，而非发现花朵后的动作叙事。",
+        "plannedAt": "2026-10-22T06:57:48.096Z"
+      },
+      "parentId": "2141139c-089c-41b9-9ecb-59d0c43a43bf"
+    },
+    {
+      "id": "18480e2d-0739-4494-83b5-23e371d25c97",
+      "createdAt": "2026-10-22T11:03:54.469Z",
+      "updatedAt": "2026-10-22T11:03:54.469Z",
+      "version": 4,
+      "brief": {
+        "productId": "ba31be3e28ba81ce",
+        "audience": "正在准备开学电脑的大学新生",
+        "scene": "school",
+        "platform": "xiaohongshu",
+        "stage": "了解产品",
+        "goal": "激发兴趣与咨询",
+        "requirements": "写一篇真正介绍MateBook 14鸿蒙版的小红书，正文约550至650字。主线是开学挑电脑，屏幕和每天要背的重量都想要。直接介绍14.2英寸OLED抗反射屏、3:2比例、2880×1920分辨率、十点触控，再自然聊圆键盘款约1.33kg、14.5mm厚以及全尺寸背光键盘。事实和适用条件以资料为准，数据不用全列成清单。开头直接说自己的产品偏好，不冒充使用者；观点、产品信息和少量上课日常穿插。让人读完记住这台电脑的特点，不教读者收拾书包或安排课程，不反复解释参数如何帮助判断。结尾只留一个自然的问题或到店邀请。",
+        "mode": "local",
+        "generation": "model",
+        "autoRepair": true,
+        "directorPlanId": "205b62b0-5598-47af-aabe-c381c68b68cb",
+        "conceptId": "05435d59-5b6c-491e-b350-2d485f613919",
+        "voice": {
+          "persona": "friend"
+        },
+        "parentId": "f2d56381-54e2-45af-8e8b-db04b5f512e8"
+      },
+      "strategy": {
+        "angle": "偏好观点帖：直接表达开学选电脑时不想只看屏幕、也不想只看重量的选择态度，以屏幕为主、机身和键盘为辅介绍产品。",
+        "problem": "准备开学买电脑，既在意屏幕规格，也在意每天携带的机身重量，HUAWEI MateBook 14（鸿蒙版）有哪些特点值得了解？",
+        "priorities": [
+          "尺寸与重量",
+          "屏幕",
+          "电池",
+          "存储",
+          "操作系统"
+        ],
+        "tone": "像懂数码的朋友认真说自己的偏好，短段落、一段一到两句，可用“说真的”起笔；全文安排2—3个emoji，不写成体验报告。",
+        "structure": [
+          "用明确的个人选购偏好开场，写清产品全名，并提出屏幕与每天携带的重量都想兼顾。",
+          "以屏幕为正文重点，介绍14.2英寸OLED抗反射屏、3:2比例和2880×1920分辨率；尺寸旁保留标准矩形测量、实际可视区域略小的条件，穿插一句开学看课件的未来场景。",
+          "单独用一个短段介绍屏幕支持十点触控，让屏幕的介绍从显示规格自然转向操作方式。",
+          "把话题转到每天带电脑上课，介绍圆键盘款含电池约1.33kg、厚14.5mm，紧接实际重量随配置、制造工艺和测量方法不同可能有所差异的说明。",
+          "以全尺寸背光键盘补足这台电脑的输入特点，收回到屏幕、携带和键盘共同构成的选购偏好。",
+          "结尾只问读者选开学电脑时更先看屏幕还是重量；正文按550—650字展开，信息重点留给屏幕和机身。"
+        ],
+        "cta": "选开学电脑，你会先看屏幕，还是先看每天要背的重量？",
+        "imageMin": 3,
+        "imageMax": 6,
+        "targetLength": "500–900 字",
+        "stage": "了解产品",
+        "goal": "激发兴趣与咨询",
+        "rationale": "最贴合本次明确需求。屏幕信息有充分展开空间，重量和键盘又能补足产品认识；与历史的装包叙事、阅读报告场景不同，这次以鲜明偏好直接介绍产品。",
+        "prioritizedFactIds": [
+          "23d8055fa5af8fa4",
+          "9bc5f1841013bc99",
+          "9b8645c538e37cff"
+        ],
+        "visualDirection": "采用3张同型号原图，选用ed96016d68695cae、82adf3863c76fa9f、479c9df436453aa1。原图完整保留，标题及屏幕、机身信息放在独立留白文字区，形成首图观点、次图屏幕、末图机身与键盘的图文顺序；不根据图片索引指定未经查看的细节构图。"
+      },
+      "evidence": {
+        "product": {
+          "id": "ba31be3e28ba81ce",
+          "name": "HUAWEI MateBook 14（鸿蒙版）",
+          "shortName": "MateBook 14（鸿蒙版）",
+          "family": "鸿蒙电脑",
+          "category": "computer",
+          "os": "HarmonyOS 6",
+          "factCount": 12,
+          "imageCount": 4,
+          "cover": "/api/assets/ed96016d68695cae",
+          "conflicts": []
+        },
+        "facts": [
+          {
+            "id": "df6a8645734f4e7b",
+            "label": "操作系统",
+            "text": "HarmonyOS 6",
+            "sourceTitle": "HUAWEI MateBook 14（鸿蒙版） · 产品事实",
+            "sourceUrl": "https://consumer.huawei.com/cn/harmonyos-computer/matebook-14-harmonyos-version/specs/",
+            "sourcePath": "华为PC全板块深度知识库_v7/P1-产品参数库/01-鸿蒙电脑/HUAWEI MateBook 14/产品事实.md",
+            "sourceMode": "local",
+            "productId": "ba31be3e28ba81ce",
+            "retrievedAt": "2026-10-22T06:49:43.005Z"
+          },
+          {
+            "id": "9bc5f1841013bc99",
+            "label": "尺寸与重量",
+            "text": "长度\n\n312.6 mm\n\n宽度\n\n226.8 mm\n\n厚度\n\n14.5 mm\n\n重量\n\n约 1.33 kg（圆键盘含电池）\n\n约 1.32 kg（方键盘含电池）\n\n*实际机身重量根据配置、制造工艺、测量方法的不同可能有所差异。",
+            "sourceTitle": "HUAWEI MateBook 14（鸿蒙版） · 产品事实",
+            "sourceUrl": "https://consumer.huawei.com/cn/harmonyos-computer/matebook-14-harmonyos-version/specs/",
+            "sourcePath": "华为PC全板块深度知识库_v7/P1-产品参数库/01-鸿蒙电脑/HUAWEI MateBook 14/产品事实.md",
+            "sourceMode": "local",
+            "productId": "ba31be3e28ba81ce",
+            "retrievedAt": "2026-10-22T06:49:43.005Z"
+          },
+          {
+            "id": "23d8055fa5af8fa4",
+            "label": "屏幕",
+            "text": "尺寸\n\n14.2 英寸\n\n*显示屏采用圆角设计，按照标准矩形测量时，屏幕的对角线长度是 14.2 英寸（实际可视区域略小）。\n\n类型\n\nOLED（抗反射屏）\n\n屏占比\n\n91%\n\n屏幕比例\n\n3:2\n\n分辨率\n\n2880 × 1920，243 PPI\n\n刷新率\n\n静态刷新率：60 Hz / 120 Hz\n\n动态刷新率：智能动态调节（默认）\n\n亮度\n\n标准版：\n\n典型亮度：450 nits\n\n峰值亮度：500 nits\n\n柔光版：\n\n典型亮度：500 nits\n\n峰值亮度：600 nits\n\n色域\n\n100% sRGB（典型值）、P3 广色域（典型值）\n\n色准\n\n平均 DeltaE < 1，支持多屏同色显示\n\n*多屏同色，根据应用软件、屏幕设置、使用习惯、环境等因素不同，可能略有差异，请以实际体验为准。购买时最新支持的设备机型请见官网或咨询华为商用客户服务专线（950803）。\n\n对比度\n\n1000000:1（典型值）\n\n可视角度\n\n178°（典型值）\n\n触摸屏\n\n支持 10 点触控",
+            "sourceTitle": "HUAWEI MateBook 14（鸿蒙版） · 产品事实",
+            "sourceUrl": "https://consumer.huawei.com/cn/harmonyos-computer/matebook-14-harmonyos-version/specs/",
+            "sourcePath": "华为PC全板块深度知识库_v7/P1-产品参数库/01-鸿蒙电脑/HUAWEI MateBook 14/产品事实.md",
+            "sourceMode": "local",
+            "productId": "ba31be3e28ba81ce",
+            "retrievedAt": "2026-10-22T06:49:43.005Z"
+          },
+          {
+            "id": "2c8c5af1e8013f70",
+            "label": "处理器",
+            "text": "CPU\n\n麒麟 X90",
+            "sourceTitle": "HUAWEI MateBook 14（鸿蒙版） · 产品事实",
+            "sourceUrl": "https://consumer.huawei.com/cn/harmonyos-computer/matebook-14-harmonyos-version/specs/",
+            "sourcePath": "华为PC全板块深度知识库_v7/P1-产品参数库/01-鸿蒙电脑/HUAWEI MateBook 14/产品事实.md",
+            "sourceMode": "local",
+            "productId": "ba31be3e28ba81ce",
+            "retrievedAt": "2026-10-22T06:49:43.005Z"
+          },
+          {
+            "id": "3b2593d3786c17b3",
+            "label": "存储",
+            "text": "512 GB / 1 TB",
+            "sourceTitle": "HUAWEI MateBook 14（鸿蒙版） · 产品事实",
+            "sourceUrl": "https://consumer.huawei.com/cn/harmonyos-computer/matebook-14-harmonyos-version/specs/",
+            "sourcePath": "华为PC全板块深度知识库_v7/P1-产品参数库/01-鸿蒙电脑/HUAWEI MateBook 14/产品事实.md",
+            "sourceMode": "local",
+            "productId": "ba31be3e28ba81ce",
+            "retrievedAt": "2026-10-22T06:49:43.005Z"
+          },
+          {
+            "id": "f46bfa634a0d411b",
+            "label": "内存",
+            "text": "24 GB / 32 GB",
+            "sourceTitle": "HUAWEI MateBook 14（鸿蒙版） · 产品事实",
+            "sourceUrl": "https://consumer.huawei.com/cn/harmonyos-computer/matebook-14-harmonyos-version/specs/",
+            "sourcePath": "华为PC全板块深度知识库_v7/P1-产品参数库/01-鸿蒙电脑/HUAWEI MateBook 14/产品事实.md",
+            "sourceMode": "local",
+            "productId": "ba31be3e28ba81ce",
+            "retrievedAt": "2026-10-22T06:49:43.005Z"
+          },
+          {
+            "id": "54d97f6ae4f15ba8",
+            "label": "无线连接",
+            "text": "WLAN\n\nWi-Fi 7，IEEE 802.11a/b/g/n/ac/ax/be，160 MHz\n\n2.4 GHz 和 5 GHz 双频\n\n支持 WPA、WPA2、WPA3\n\n星闪\n\n支持，星闪 E1.0\n\n蓝牙\n\n蓝牙 6.0",
+            "sourceTitle": "HUAWEI MateBook 14（鸿蒙版） · 产品事实",
+            "sourceUrl": "https://consumer.huawei.com/cn/harmonyos-computer/matebook-14-harmonyos-version/specs/",
+            "sourcePath": "华为PC全板块深度知识库_v7/P1-产品参数库/01-鸿蒙电脑/HUAWEI MateBook 14/产品事实.md",
+            "sourceMode": "local",
+            "productId": "ba31be3e28ba81ce",
+            "retrievedAt": "2026-10-22T06:49:43.005Z"
+          },
+          {
+            "id": "9e8e814103bb022f",
+            "label": "电池",
+            "text": "材料\n\n锂聚合物\n\n容量\n\n70 Wh（额定容量）",
+            "sourceTitle": "HUAWEI MateBook 14（鸿蒙版） · 产品事实",
+            "sourceUrl": "https://consumer.huawei.com/cn/harmonyos-computer/matebook-14-harmonyos-version/specs/",
+            "sourcePath": "华为PC全板块深度知识库_v7/P1-产品参数库/01-鸿蒙电脑/HUAWEI MateBook 14/产品事实.md",
+            "sourceMode": "local",
+            "productId": "ba31be3e28ba81ce",
+            "retrievedAt": "2026-10-22T06:49:43.005Z"
+          },
+          {
+            "id": "980bd4ac44ac6f24",
+            "label": "接口",
+            "text": "左侧：HDMI2.1 TMDS × 1；USB-C × 1*；USB -A × 1**；3.5 mm 耳机和麦克风二合一接口\n\n右侧：USB-A × 1；\n\n*左侧 USB-C × 1，支持充电、支持数据（USB3.2 Gen1）和对外供电（开机状态最大 10 W：5V2A，关机状态最大 66 W：20V3.3A），支持 DisplayPort1.2（最大分辨率 4K@60 Hz）；\n\n**左侧第 2 个、右侧第 2 个，USB 3.2 Gen1 × 2，支持充电、支持数据（USB3.2 Gen1）和支持对外供电 10 W（5V2A）",
+            "sourceTitle": "HUAWEI MateBook 14（鸿蒙版） · 产品事实",
+            "sourceUrl": "https://consumer.huawei.com/cn/harmonyos-computer/matebook-14-harmonyos-version/specs/",
+            "sourcePath": "华为PC全板块深度知识库_v7/P1-产品参数库/01-鸿蒙电脑/HUAWEI MateBook 14/产品事实.md",
+            "sourceMode": "local",
+            "productId": "ba31be3e28ba81ce",
+            "retrievedAt": "2026-10-22T06:49:43.005Z"
+          },
+          {
+            "id": "9b8645c538e37cff",
+            "label": "键盘和触控板",
+            "text": "全尺寸背光键盘\n\n触控板支持 5 点触控\n\n电源键\n\n指纹电源键",
+            "sourceTitle": "HUAWEI MateBook 14（鸿蒙版） · 产品事实",
+            "sourceUrl": "https://consumer.huawei.com/cn/harmonyos-computer/matebook-14-harmonyos-version/specs/",
+            "sourcePath": "华为PC全板块深度知识库_v7/P1-产品参数库/01-鸿蒙电脑/HUAWEI MateBook 14/产品事实.md",
+            "sourceMode": "local",
+            "productId": "ba31be3e28ba81ce",
+            "retrievedAt": "2026-10-22T06:49:43.005Z"
+          },
+          {
+            "id": "b51a00e3a26b4a50",
+            "label": "摄像头",
+            "text": "1080P 高清摄像头\n\n*不同模式的照片和视频像素可能有差异，请以实际为准。",
+            "sourceTitle": "HUAWEI MateBook 14（鸿蒙版） · 产品事实",
+            "sourceUrl": "https://consumer.huawei.com/cn/harmonyos-computer/matebook-14-harmonyos-version/specs/",
+            "sourcePath": "华为PC全板块深度知识库_v7/P1-产品参数库/01-鸿蒙电脑/HUAWEI MateBook 14/产品事实.md",
+            "sourceMode": "local",
+            "productId": "ba31be3e28ba81ce",
+            "retrievedAt": "2026-10-22T06:49:43.005Z"
+          },
+          {
+            "id": "f04413d52dd7fbc2",
+            "label": "音频",
+            "text": "扬声器\n\n扬声器 × 2\n\n麦克风\n\n麦克风 × 2",
+            "sourceTitle": "HUAWEI MateBook 14（鸿蒙版） · 产品事实",
+            "sourceUrl": "https://consumer.huawei.com/cn/harmonyos-computer/matebook-14-harmonyos-version/specs/",
+            "sourcePath": "华为PC全板块深度知识库_v7/P1-产品参数库/01-鸿蒙电脑/HUAWEI MateBook 14/产品事实.md",
+            "sourceMode": "local",
+            "productId": "ba31be3e28ba81ce",
+            "retrievedAt": "2026-10-22T06:49:43.005Z"
+          }
+        ],
+        "images": [
+          {
+            "id": "ed96016d68695cae",
+            "name": "hwpc_matebook-14-harmonyos_原野绿多彩配色_04.png",
+            "productId": "ba31be3e28ba81ce",
+            "productName": "HUAWEI MateBook 14（鸿蒙版）",
+            "url": "/api/assets/ed96016d68695cae",
+            "sourceUrl": "https://consumer.huawei.com/cn/harmonyos-computer/matebook-14-harmonyos-version/",
+            "description": "原野绿多彩配色",
+            "sourceTitle": "华为PC全板块深度知识库_v7/P1-产品参数库/01-鸿蒙电脑/HUAWEI MateBook 14/图片索引.csv",
+            "width": 817,
+            "height": 892,
+            "sourceMode": "local"
+          },
+          {
+            "id": "82adf3863c76fa9f",
+            "name": "hwpc_matebook-14-harmonyos_多彩配色外观_01_7e0eedb6.png",
+            "productId": "ba31be3e28ba81ce",
+            "productName": "HUAWEI MateBook 14（鸿蒙版）",
+            "url": "/api/assets/82adf3863c76fa9f",
+            "sourceUrl": "https://consumer.huawei.com/cn/harmonyos-computer/matebook-14-harmonyos-version/",
+            "description": "HUAWEI MateBook 14 樱粉金",
+            "sourceTitle": "华为PC全板块深度知识库_v7/P1-产品参数库/01-鸿蒙电脑/HUAWEI MateBook 14/图片索引.csv",
+            "width": 817,
+            "height": 892,
+            "sourceMode": "local"
+          },
+          {
+            "id": "02a5ef241180e542",
+            "name": "hwpc_matebook-14-harmonyos_手写笔创作场景_07.jpg",
+            "productId": "ba31be3e28ba81ce",
+            "productName": "HUAWEI MateBook 14（鸿蒙版）",
+            "url": "/api/assets/02a5ef241180e542",
+            "sourceUrl": "https://consumer.huawei.com/cn/harmonyos-computer/matebook-14-harmonyos-version/",
+            "description": "手写笔创作场景",
+            "sourceTitle": "华为PC全板块深度知识库_v7/P1-产品参数库/01-鸿蒙电脑/HUAWEI MateBook 14/图片索引.csv",
+            "width": 1048,
+            "height": 588,
+            "sourceMode": "local"
+          },
+          {
+            "id": "479c9df436453aa1",
+            "name": "hwpc_matebook-14-harmonyos_深空灰沉稳配色_05.png",
+            "productId": "ba31be3e28ba81ce",
+            "productName": "HUAWEI MateBook 14（鸿蒙版）",
+            "url": "/api/assets/479c9df436453aa1",
+            "sourceUrl": "https://consumer.huawei.com/cn/harmonyos-computer/matebook-14-harmonyos-version/",
+            "description": "深空灰沉稳配色",
+            "sourceTitle": "华为PC全板块深度知识库_v7/P1-产品参数库/01-鸿蒙电脑/HUAWEI MateBook 14/图片索引.csv",
+            "width": 817,
+            "height": 892,
+            "sourceMode": "local"
+          }
+        ],
+        "warnings": [
+          "资料与原图来自本地知识库，不是 ima 在线检索。",
+          "配置、版本和动态信息须在发布前重新核实。",
+          "已排除型号标签不一致的图片：vmall_matebook-14-harmonyos_强劲性能释放展示_02.jpg",
+          "已排除型号标签不一致的图片：vmall_matebook-14-harmonyos_原野绿键盘俯视外观_03.png",
+          "已排除型号标签不一致的图片：vmall_matebook-14-harmonyos_轻薄原野绿侧面细节_04.png",
+          "已排除型号标签不一致的图片：vmall_matebook-14-harmonyos_原野绿简洁A面外观_05.png",
+          "已排除型号标签不一致的图片：vmall_matebook-14-harmonyos_樱粉金正面产品展示_06.png",
+          "已排除型号标签不一致的图片：vmall_matebook-14-harmonyos_樱粉金OLED云晰柔光屏_07.jpg",
+          "已排除型号标签不一致的图片：vmall_matebook-14-harmonyos_樱粉金开合产品外观_08.png",
+          "已排除型号标签不一致的图片：vmall_matebook-14-harmonyos_原野绿正面产品展示_09.png",
+          "已排除型号标签不一致的图片：vmall_matebook-14-harmonyos_柔光金优雅产品外观_11.webp",
+          "已排除型号标签不一致的图片：vmall_matebook-14-harmonyos_丰富接口轻薄侧面_13.png",
+          "已排除型号标签不一致的图片：vmall_matebook-14-harmonyos_双侧接口机身细节_14.png",
+          "已排除型号标签不一致的图片：vmall_matebook-14-harmonyos_手机协同桌面展示_15.png",
+          "已排除型号标签不一致的图片：vmall_matebook-14-harmonyos_原野绿键盘屏幕展示_16.png",
+          "已排除型号标签不一致的图片：vmall_matebook-14-harmonyos_长续航影音场景_17.jpg",
+          "已排除型号标签不一致的图片：vmall_matebook-14-harmonyos_原野绿经典开合外观_18.png"
+        ],
+        "trace": [
+          {
+            "action": "本地资料检索",
+            "detail": "精确读取 HUAWEI MateBook 14（鸿蒙版） 的产品事实与图片索引",
+            "at": "2026-10-22T06:49:43.021Z"
+          },
+          {
+            "action": "原始配图可用性",
+            "detail": "已验证 3/3 张所选原始图片的读取与位图签名；不将索引描述冒充像素级语义识别。",
+            "at": "2026-10-22T06:52:13.432Z"
+          }
+        ]
+      },
+      "article": {
+        "title": "开学电脑，屏幕和重量我都想要",
+        "lead": "课表刚排好，电脑也想早点选定。每天要背去上课，坐下来又要对着它读资料、写报告。HUAWEI MateBook 14（鸿蒙版），我最想聊的是屏幕和重量。🎒",
+        "sections": [
+          {
+            "heading": "",
+            "text": "14.2英寸OLED抗反射屏，3:2比例。挑学习电脑，我想打开一页平常读的资料：有长段文字，也有配图，把字号调成自己的习惯，再慢慢往下读。每天要看那么久的屏幕，选之前多花几分钟，很有必要。",
+            "factIds": [
+              "23d8055fa5af8fa4"
+            ]
+          },
+          {
+            "heading": "",
+            "text": "它支持十点触控，键盘之外，还能直接伸手点屏幕。看到想选的地方，就想碰一下；需要写长段文字，再把手放回键盘。我喜欢这种多一种操作选择的感觉。第一次接触触屏电脑，也可以从这些小动作试起。",
+            "factIds": [
+              "23d8055fa5af8fa4"
+            ]
+          },
+          {
+            "heading": "",
+            "text": "课程报告一写就是好几段，键盘当然也要认真挑。它配了全尺寸背光键盘，触控板支持五点触控。试的时候，我会敲一段自己要交的作业，再移动光标改几个字。按键怎么按、手怎么放，还是自己试过最直接。⌨️",
+            "factIds": [
+              "9b8645c538e37cff"
+            ]
+          },
+          {
+            "heading": "",
+            "text": "圆键盘款含电池约1.33kg，厚14.5mm。电脑要和课本、水杯一起出门，我会带上常用的书包，看看装进去之后，其他东西准备怎么摆。上午上课、下午去图书馆，挑电脑时把每天带的包也算进去，挺实际。",
+            "factIds": [
+              "9bc5f1841013bc99"
+            ]
+          },
+          {
+            "heading": "",
+            "text": "这款搭载HarmonyOS 6。准备上大学的同学，可以把课程要用的软件名称一起带来聊，按自己的专业选电脑。屏幕尺寸按圆角屏标准矩形测量，实际可视区域略小；重量会因配置、制造工艺和测量方法而有差异。",
+            "factIds": [
+              "df6a8645734f4e7b",
+              "23d8055fa5af8fa4",
+              "9bc5f1841013bc99"
+            ]
+          }
+        ],
+        "cta": "想聊聊这款和你的课表合不合拍，私信告诉我专业和常用软件就好。",
+        "tags": [
+          "华为MateBook14鸿蒙版",
+          "大学新生",
+          "开学电脑",
+          "笔记本电脑"
+        ],
+        "images": [
+          {
+            "id": "ed96016d68695cae",
+            "name": "hwpc_matebook-14-harmonyos_原野绿多彩配色_04.png",
+            "productId": "ba31be3e28ba81ce",
+            "productName": "HUAWEI MateBook 14（鸿蒙版）",
+            "url": "/api/assets/ed96016d68695cae",
+            "sourceUrl": "https://consumer.huawei.com/cn/harmonyos-computer/matebook-14-harmonyos-version/",
+            "description": "原野绿多彩配色",
+            "sourceTitle": "华为PC全板块深度知识库_v7/P1-产品参数库/01-鸿蒙电脑/HUAWEI MateBook 14/图片索引.csv",
+            "width": 817,
+            "height": 892,
+            "sourceMode": "local",
+            "position": "封面",
+            "reason": "以原野绿配色产品原图作封面，完整保留原图，标题放在独立留白文字区。"
+          },
+          {
+            "id": "82adf3863c76fa9f",
+            "name": "hwpc_matebook-14-harmonyos_多彩配色外观_01_7e0eedb6.png",
+            "productId": "ba31be3e28ba81ce",
+            "productName": "HUAWEI MateBook 14（鸿蒙版）",
+            "url": "/api/assets/82adf3863c76fa9f",
+            "sourceUrl": "https://consumer.huawei.com/cn/harmonyos-computer/matebook-14-harmonyos-version/",
+            "description": "HUAWEI MateBook 14 樱粉金",
+            "sourceTitle": "华为PC全板块深度知识库_v7/P1-产品参数库/01-鸿蒙电脑/HUAWEI MateBook 14/图片索引.csv",
+            "width": 817,
+            "height": 892,
+            "sourceMode": "local",
+            "position": "第 2 段后",
+            "reason": "以樱粉金产品原图承接屏幕介绍，参数置于独立文字区，不将图片作为屏幕效果演示。"
+          },
+          {
+            "id": "479c9df436453aa1",
+            "name": "hwpc_matebook-14-harmonyos_深空灰沉稳配色_05.png",
+            "productId": "ba31be3e28ba81ce",
+            "productName": "HUAWEI MateBook 14（鸿蒙版）",
+            "url": "/api/assets/479c9df436453aa1",
+            "sourceUrl": "https://consumer.huawei.com/cn/harmonyos-computer/matebook-14-harmonyos-version/",
+            "description": "深空灰沉稳配色",
+            "sourceTitle": "华为PC全板块深度知识库_v7/P1-产品参数库/01-鸿蒙电脑/HUAWEI MateBook 14/图片索引.csv",
+            "width": 817,
+            "height": 892,
+            "sourceMode": "local",
+            "position": "第 5 段后",
+            "reason": "以深空灰产品原图搭配机身与键盘段落，保留完整画面，不额外指定局部裁切。"
+          }
+        ],
+        "disclaimer": "具体配置、版本和体验以实际产品及官方信息为准。"
+      },
+      "audit": {
+        "status": "passed",
+        "findings": [
+          {
+            "id": "offline-source",
+            "category": "source",
+            "severity": "info",
+            "message": "资料与原图来自本地知识库，内容由模型生成。",
+            "suggestion": "保留本地来源与原始资料链接；不标记为 ima 在线取证。公开展示仍需素材许可。"
+          }
+        ],
+        "factChecks": [
+          {
+            "factId": "23d8055fa5af8fa4",
+            "label": "屏幕",
+            "status": "supported",
+            "evidence": "尺寸\n\n14.2 英寸\n\n*显示屏采用圆角设计，按照标准矩形测量时，屏幕的对角线长度是 14.2 英寸（实际可视区域略小）。\n\n类型\n\nOLED（抗反射屏）\n\n屏占比\n\n91%\n\n屏幕比例\n\n3:2\n\n分辨率\n\n2880 × 1920，243 PPI\n\n刷新率\n\n静态刷新率：60 Hz / 120 Hz\n\n动态刷新率：智能动态调节（默认）\n\n亮度\n\n标准版：\n\n典型亮度：450 nits\n\n峰值亮度：500 nits\n\n柔光版：\n\n典型亮度：500 nits\n\n峰值亮度：600 nits\n\n色域\n\n100% sRGB（典型值）、P3 广色域（典型值）\n\n色准\n\n平均 DeltaE < 1，支持多屏同色显示\n\n*多屏同色，根据应用软件、屏幕设置、使用习惯、环境等因素不同，可能略有差异，请以实际体验为准。购买时最新支持的设备机型请见官网或咨询华为商用客户服务专线（950803）。\n\n对比度\n\n1000000:1（典型值）\n\n可视角度\n\n178°（典型值）\n\n触摸屏\n\n支持 10 点触控"
+          },
+          {
+            "factId": "9b8645c538e37cff",
+            "label": "键盘和触控板",
+            "status": "supported",
+            "evidence": "全尺寸背光键盘\n\n触控板支持 5 点触控\n\n电源键\n\n指纹电源键"
+          },
+          {
+            "factId": "9bc5f1841013bc99",
+            "label": "尺寸与重量",
+            "status": "supported",
+            "evidence": "长度\n\n312.6 mm\n\n宽度\n\n226.8 mm\n\n厚度\n\n14.5 mm\n\n重量\n\n约 1.33 kg（圆键盘含电池）\n\n约 1.32 kg（方键盘含电池）\n\n*实际机身重量根据配置、制造工艺、测量方法的不同可能有所差异。"
+          },
+          {
+            "factId": "df6a8645734f4e7b",
+            "label": "操作系统",
+            "status": "supported",
+            "evidence": "HarmonyOS 6"
+          }
+        ],
+        "checkedAt": "2026-10-22T11:03:54.469Z",
+        "releaseReady": true,
+        "sceneChecks": []
+      },
+      "engine": "llm",
+      "model": "gpt-6.1-sol",
+      "durationMs": 35477,
+      "trace": [
+        {
+          "action": "本地资料检索",
+          "detail": "精确读取 HUAWEI MateBook 14（鸿蒙版） 的产品事实与图片索引",
+          "at": "2026-10-22T06:49:43.021Z"
+        },
+        {
+          "action": "原始配图可用性",
+          "detail": "已验证 3/3 张所选原始图片的读取与位图签名；不将索引描述冒充像素级语义识别。",
+          "at": "2026-10-22T06:52:13.432Z"
+        },
+        {
+          "action": "生成引擎",
+          "detail": "模型：gpt-6.1-sol",
+          "at": "2026-10-22T06:52:17.503Z"
+        },
+        {
+          "action": "核验",
+          "detail": "0 项拦截，0 项待复核",
+          "at": "2026-10-22T06:52:17.503Z"
+        },
+        {
+          "action": "人工编辑并重新核验",
+          "detail": "保留原稿，创建新版本；不是覆盖旧证据。",
+          "at": "2026-10-22T07:02:25.984Z"
+        },
+        {
+          "action": "人工编辑并重新核验",
+          "detail": "保留原稿，创建新版本；不是覆盖旧证据。",
+          "at": "2026-10-22T11:01:08.580Z"
+        },
+        {
+          "action": "人工编辑并重新核验",
+          "detail": "保留原稿，创建新版本；不是覆盖旧证据。",
+          "at": "2026-10-22T11:03:54.469Z"
+        }
+      ],
+      "director": {
+        "planId": "205b62b0-5598-47af-aabe-c381c68b68cb",
+        "conceptId": "05435d59-5b6c-491e-b350-2d485f613919",
+        "engine": "model",
+        "conceptName": "MateBook 14：屏幕和重量，我都在意",
+        "angle": "偏好观点帖：直接表达开学选电脑时不想只看屏幕、也不想只看重量的选择态度，以屏幕为主、机身和键盘为辅介绍产品。",
+        "factIds": [
+          "23d8055fa5af8fa4",
+          "9bc5f1841013bc99",
+          "9b8645c538e37cff"
+        ],
+        "visualDirection": "采用3张同型号原图，选用ed96016d68695cae、82adf3863c76fa9f、479c9df436453aa1。原图完整保留，标题及屏幕、机身信息放在独立留白文字区，形成首图观点、次图屏幕、末图机身与键盘的图文顺序；不根据图片索引指定未经查看的细节构图。",
+        "reason": "最贴合本次明确需求。屏幕信息有充分展开空间，重量和键盘又能补足产品认识；与历史的装包叙事、阅读报告场景不同，这次以鲜明偏好直接介绍产品。",
+        "plannedAt": "2026-10-22T06:51:41.995Z"
+      },
+      "parentId": "f2d56381-54e2-45af-8e8b-db04b5f512e8"
     }
   ],
   "campaigns": [],

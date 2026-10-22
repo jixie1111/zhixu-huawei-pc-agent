@@ -86,6 +86,20 @@ test('等值小数和容量共用单位可自然表述，精度与单位仍精�
   assert.ok(auditArticle(article,data,brief,'llm').findings.some(f=>f.id.startsWith('quantity-0-')),'fraction is not a capacity option');
 });
 
+test('质量长度只接受精确等值换算，保留原引用、单位维度和完整小数',()=>{
+  const data=evidence(),article=composeLocal(brief,data,buildStrategy(brief));
+  data.facts.push(fact('便携尺寸','含电池约970g，厚13.5mm；另一配置515克。'));
+  article.sections=[{heading:'',text:'含电池约0.97kg，厚1.35cm；另一配置0.515千克。',factIds:['qa-便携尺寸']}];
+  article.title='约0.97kg的机身';article.lead='厚1.35厘米。';
+  assert.deepEqual(auditArticle(article,data,brief,'llm').findings.filter(f=>f.id.startsWith('quantity-')),[]);
+  for(const text of ['0.9700000000000001kg','0.97g','0.515克','1.35mm','13.5cm','970Wh','1kg']){
+    article.sections[0].text=text;
+    assert.ok(auditArticle(article,data,brief,'llm').findings.some(f=>f.id.startsWith('quantity-0-')),text);
+  }
+  article.sections[0]={heading:'',text:'0.97kg',factIds:['qa-内存']};
+  assert.ok(auditArticle(article,data,brief,'llm').findings.some(f=>f.id.startsWith('quantity-0-')),'conversion still needs this paragraph’s direct evidence');
+});
+
 test('同型号、独立图片、受控地址、编排信息与平台数量统一核验', () => {
   const data = evidence(); const article = composeLocal(brief, data, buildStrategy(brief));
   article.images[0].url = 'https://attacker.example/image.png';
