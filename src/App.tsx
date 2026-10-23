@@ -45,7 +45,7 @@ export default function App() {
   const authEpoch = useRef(0);
 
   const notify = useCallback((message: string) => { setToast(message); clearTimeout(toastTimer.current); toastTimer.current = setTimeout(() => setToast(''), 4200); }, []);
-  const navigate = useCallback((next: Page) => { setPage(next); location.hash = next; setMobileNav(false); window.scrollTo({ top: 0, behavior: 'smooth' }); }, []);
+  const navigate = useCallback((next: Page, scrollToTop = true) => { setPage(next); location.hash = next; setMobileNav(false); if (scrollToTop) window.scrollTo({ top: 0, behavior: 'smooth' }); }, []);
   const refresh = useCallback(async () => {
     const epoch = authEpoch.current;
     try {
@@ -105,8 +105,7 @@ export default function App() {
   }
   async function startGeneration(nextBrief: Brief) {
     if (generating) return;
-    setGenerationError(''); setStages([]); setGenerating(true); setBrief(nextBrief); navigate('studio');
-    setTimeout(() => document.querySelector('.generation-progress')?.scrollIntoView({ behavior: 'smooth', block: 'center' }), 60);
+    setGenerationError(''); setStages([]); setGenerating(true); setBrief(nextBrief); navigate('studio', false);
     const controller = new AbortController(); abortRef.current = controller;
     const epoch = authEpoch.current;
     try {

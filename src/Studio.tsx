@@ -9,6 +9,7 @@ import EvidencePreview from './EvidencePreview';
 import { isDemo } from './demo-mode';
 import DirectorStudio from './DirectorStudio';
 import EcosystemStudio from './EcosystemStudio';
+import { useStepScroll } from './useStepScroll';
 
 export interface StudioProps {
   bootstrap: Bootstrap; brief: Brief; onBrief: Dispatch<SetStateAction<Brief>>;
@@ -31,6 +32,7 @@ export default function Studio(props: StudioProps) {
 
 function ClassicStudio(props: StudioProps) {
   const { bootstrap, brief, onBrief, evidence, evidenceError, evidenceLoading, run, generating, stages, generationError, onGenerate, onCancel, onSettings, onKnowledge, onNew } = props;
+  const progressRef = useStepScroll<HTMLDivElement>(generating);
   const selectedProduct = bootstrap.products.find(p => p.id === brief.productId);
   const set = <K extends keyof Brief>(key: K, value: Brief[K]) => onBrief(current => ({ ...current, [key]: value }));
   const changeScene = (scene: Scene) => onBrief(current => ({ ...current, scene, audience: SCENES[scene].audience }));
@@ -65,7 +67,7 @@ function ClassicStudio(props: StudioProps) {
         {modelBlocked && !sourceBlocked && <div className="form-notice"><Notice type="warning">{brief.mode === 'local' ? (bootstrap.stats.documents ? '本地知识库已就绪。AI 创作只需配置模型，无需连接 ima；也可明确选择“规则预览”体验流程。' : '尚未导入本地资料。请先完成资料导入；AI 创作还需另外配置模型。') : 'ima 已配置；生成图文还需要模型凭证。可先使用右侧“预览 ima 取证”检查资料。'}<button type="button" className="text-button" onClick={onSettings}>配置生成模型 <ArrowRight size={13} /></button></Notice></div>}
         {conflictBlocked && <div className="form-notice"><Notice type="error">该型号资料存在冲突，已停止生成。请更换无冲突型号，或核实原始资料。</Notice></div>}
         {generationError && <div className="form-notice"><Notice type="error">{generationError}</Notice></div>}
-        {generating ? <div className="generation-progress" aria-live="polite"><div className="generation-title"><Spinner label={stages.at(-1)?.name || '正在准备创作'} /><button type="button" className="text-button muted" onClick={onCancel}>停止等待</button></div><div className="progress-track"><span style={{ width: `${Math.min(96, Math.max(8, stages.length * 15))}%` }} /></div><p>{stages.at(-1)?.detail || '正在连接创作服务，请稍等片刻。'}</p><div className="stage-pills">{stages.map(stage => <span key={stage.step}><Check size={11} />{stage.name}</span>)}</div></div> : <div className="composer-footer"><p><ShieldCheck size={14} /><span>{usesModel ? (brief.mode === 'local' ? '本地知识检索 + AI 模型创作 · 结果可溯源' : 'ima 资料检索 + AI 模型创作 · 结果可溯源') : '规则预览 · 不调用模型 · 结果仍需核验'}</span></p><button type="submit" className="button primary generate-button" disabled={!brief.productId || sourceBlocked || modelBlocked || conflictBlocked || (brief.mode === 'local' && !bootstrap.stats.documents)}><Sparkles size={17} />开始创作<ArrowRight size={16} /></button></div>}
+        {generating ? <div ref={progressRef} className="generation-progress" aria-live="polite"><div className="generation-title"><Spinner label={stages.at(-1)?.name || '正在准备创作'} /><button type="button" className="text-button muted" onClick={onCancel}>停止等待</button></div><div className="progress-track"><span style={{ width: `${Math.min(96, Math.max(8, stages.length * 15))}%` }} /></div><p>{stages.at(-1)?.detail || '正在连接创作服务，请稍等片刻。'}</p><div className="stage-pills">{stages.map(stage => <span key={stage.step}><Check size={11} />{stage.name}</span>)}</div></div> : <div className="composer-footer"><p><ShieldCheck size={14} /><span>{usesModel ? (brief.mode === 'local' ? '本地知识检索 + AI 模型创作 · 结果可溯源' : 'ima 资料检索 + AI 模型创作 · 结果可溯源') : '规则预览 · 不调用模型 · 结果仍需核验'}</span></p><button type="submit" className="button primary generate-button" disabled={!brief.productId || sourceBlocked || modelBlocked || conflictBlocked || (brief.mode === 'local' && !bootstrap.stats.documents)}><Sparkles size={17} />开始创作<ArrowRight size={16} /></button></div>}
       </form>
 
       <aside className="creative-sidebar">

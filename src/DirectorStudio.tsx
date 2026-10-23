@@ -11,6 +11,7 @@ import BriefChoice, { type FocusAnswer } from './BriefChoice';
 import { AgentPipeline } from './AgentPipeline';
 import { ProductShot } from './ProductShot';
 import { displayCover, displayName, HERO_PRODUCTS } from './display-covers';
+import { useStepScroll } from './useStepScroll';
 import './director.css';
 
 const examples = ['开学季，给大学新生写一篇小红书，介绍课堂笔记和小组汇报相关的产品特点。', '面向经常出差的商务人士，写一篇公众号，围绕真实办公任务展开。', '门店朋友圈，围绕周末拍花，介绍手机长焦。'];
@@ -35,7 +36,8 @@ export default function DirectorStudio(props: StudioProps) {
   const [evidenceBusy, setEvidenceBusy] = useState(false);
   const [expired, setExpired] = useState(false);
   const controller = useRef<AbortController | null>(null);
-  const planRef = useRef<HTMLDivElement>(null);
+  const planRef = useStepScroll<HTMLElement>(plan?.id);
+  const busyRef = useStepScroll<HTMLDivElement>(busy);
   const requestSequence = useRef(0);
   const locked = !!busy || generating;
   const product = bootstrap.products.find(p => p.id === draft.productId);
@@ -80,7 +82,6 @@ export default function DirectorStudio(props: StudioProps) {
       const next = await request<CreativePlan>('/api/director/plan', { method: 'POST', body: JSON.stringify({ message, engine, brief: draft }), signal: abort.signal });
       if (abort.signal.aborted || seq !== requestSequence.current) return;
       setPlan(next); setConceptId(next.recommendedConceptId);
-      setTimeout(() => planRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 40);
     } catch (e) { if (!abort.signal.aborted) setError(e instanceof Error ? e.message : '请稍后重新策划'); }
     finally { if (seq === requestSequence.current) { setBusy(null); controller.current = null; } }
   }
@@ -110,7 +111,7 @@ export default function DirectorStudio(props: StudioProps) {
     </section>
     <div className={`director-layout ${product ? 'has-side' : ''}`}><section className="director-main">
       {proposal && <BriefChoice proposal={proposal} draft={draft} products={bootstrap.products} locked={locked} focus={focus} planning={busy==='plan'} hasPlan={!!plan} canPlan={!locked&&!!product&&!product.conflicts.length&&!!draft.audience.trim()&&modelReady&&!evidenceBusy&&!!evidence} onChange={change} onFocus={value=>void interpret(value)} onPlan={()=>void makePlan()}/>}
-      {error && <Notice type="error">{error}</Notice>}{busy && <div className="director-busy" aria-live="polite"><Spinner label={busy === 'intent' ? '正在理解需求' : '正在策划三个写法'} /><button className="text-button" onClick={cancel}>取消</button></div>}
+      {error && <Notice type="error">{error}</Notice>}{busy && <div ref={busyRef} className="director-busy" aria-live="polite"><Spinner label={busy === 'intent' ? '正在理解需求' : '正在策划三个写法'} /><button className="text-button" onClick={cancel}>取消</button></div>}
       {plan && <section ref={planRef} className="creative-plans" aria-label="创意方案">
         <div className="director-card-head"><span className="step-label">03 写法</span><span className="subtle-label">同一款产品，同一批事实</span></div>
         <h2>三种写法，选一个</h2>

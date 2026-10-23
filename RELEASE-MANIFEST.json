@@ -1,6 +1,6 @@
 {
   "format": "wuyan-full-release-v1",
-  "createdAt": "2026-10-22T16:52:08.237Z",
+  "createdAt": "2026-10-23T07:54:16.512Z",
   "counts": {
     "knowledgeFiles": 1538,
     "runs": 4,
@@ -446,18 +446,18 @@
     },
     {
       "path": "src/AgentPipeline.tsx",
-      "bytes": 2865,
-      "sha256": "5981b58ce738a5b5bf7e7dc8ef066a7c5a0d2965d9793d41ffc8111f68b84813"
+      "bytes": 2991,
+      "sha256": "3e56a94cd4bc9e99c9f2e1b912e1218f2d6e0c2ac3d36898a17ad2bb4cc6ba92"
     },
     {
       "path": "src/App.tsx",
-      "bytes": 17294,
-      "sha256": "d97a3b1ad0003e2955b2b8d1d8021a4138e9ebc59123559ce023013fd34d8c41"
+      "bytes": 17207,
+      "sha256": "80f69034a6c36fa2f78da323502a152c25bc2e9a47fb061844ddde6418fd8532"
     },
     {
       "path": "src/BriefChoice.tsx",
-      "bytes": 5831,
-      "sha256": "666ceabcf48e06958063343e73c6907fae661658b1d98b1f2ba17129a4b0f0c2"
+      "bytes": 5951,
+      "sha256": "a83a871fab21dd6166daa8e0562588da245f6f0a8f6b75c3466a36989abc79c2"
     },
     {
       "path": "src/CampaignPanel.tsx",
@@ -471,8 +471,8 @@
     },
     {
       "path": "src/DirectorStudio.tsx",
-      "bytes": 15278,
-      "sha256": "385850c5aab38672df9c36ce97a6a7b8fcd08f7c3923dd32e080daa4c83e120a"
+      "bytes": 15303,
+      "sha256": "5b152a84cc0b958522831daa91f94b126e368b9ce5f0a89c7ce1695c7bda9dcd"
     },
     {
       "path": "src/EcosystemStudio.tsx",
@@ -511,8 +511,8 @@
     },
     {
       "path": "src/Studio.tsx",
-      "bytes": 17336,
-      "sha256": "7d497ab08639e89871065596e5305db531ee8fa1a32410ecf01f0cea322ab206"
+      "bytes": 17468,
+      "sha256": "c33ee845d902755a83bf52bd06ee12c73e0e994aab9c1a8f62458128372306ab"
     },
     {
       "path": "src/WorkspacePages.tsx",
@@ -586,8 +586,8 @@
     },
     {
       "path": "src/theme.css",
-      "bytes": 33325,
-      "sha256": "85847f48a2bcf29396b5741c56399422390457c8ea52f299d948946245676d11"
+      "bytes": 33444,
+      "sha256": "b4ce11c8821fb115d1932c981c737863b4dd3f54938c6e4b70612dbc4e2e16c1"
     },
     {
       "path": "src/typography.css",
@@ -8613,6 +8613,16 @@
       "path": "docs/作品说明书.pdf",
       "bytes": 2935602,
       "sha256": "6a0074aead679ad7f41a25b985626cabb7e6afef5b3aa8d6b7a6ec6c1641ff53"
+    },
+    {
+      "path": "src/useStepScroll.ts",
+      "bytes": 630,
+      "sha256": "abe4838705b5ed7c96768a67e23c7d79326642c3975a657a06e1f5c874c42646"
+    },
+    {
+      "path": "tests/e2e/workflow-scroll.spec.ts",
+      "bytes": 5466,
+      "sha256": "50ce6715422463425f21166eeaf215ffad607383d087daf21f5509ee83899781"
     }
   ]
 }

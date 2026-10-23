@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Check, LoaderCircle } from 'lucide-react';
 import type { StageEvent } from './api';
+import { useStepScroll } from './useStepScroll';
 
 /** Server stage order from server/agent.ts. Step 5 may repeat for bounded repair. */
 export const PIPELINE = [
@@ -26,10 +27,11 @@ function useElapsed(running: boolean) {
 
 /** Live agent pipeline driven only by real server stage events, never a fake timer. */
 export function AgentPipeline({ stages, running, onCancel }: { stages: StageEvent[]; running: boolean; onCancel?: () => void }) {
+  const progressRef = useStepScroll<HTMLElement>(running);
   const elapsed = useElapsed(running);
   const current = stages.length ? Math.max(...stages.map(s => s.step)) : -1;
   const latest = stages.find(s => s.step === current);
-  return <section className="agent-pipeline" aria-label="智能体执行过程" aria-live="polite">
+  return <section ref={progressRef} className="agent-pipeline" aria-label="智能体执行过程" aria-live="polite">
     <header className="pipeline-head">
       <div><span className="pipeline-pulse" aria-hidden="true" /><h3>智能体正在工作</h3></div>
       <span className="pipeline-clock" aria-label={`已用时 ${(elapsed / 1000).toFixed(0)} 秒`}>{(elapsed / 1000).toFixed(1)}s</span>

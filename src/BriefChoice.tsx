@@ -5,6 +5,7 @@ import { PERSONAS, PLATFORMS, SCENES } from '../shared/rules';
 import type { Persona } from '../shared/types';
 import { Notice, SafeImage, SafeLink } from './components';
 import { isDemo } from './demo-mode';
+import { useStepScroll } from './useStepScroll';
 
 export type FocusAnswer='carry'|'screen'|'meeting'|'home';
 interface Props{
@@ -14,8 +15,9 @@ interface Props{
   onFocus:(value:FocusAnswer)=>void;onPlan:()=>void;
 }
 export default function BriefChoice({proposal,draft,products,locked,focus,planning,hasPlan,canPlan,onChange,onFocus,onPlan}:Props){
+  const stepRef=useStepScroll<HTMLElement>(proposal.id);
   const product=products.find(p=>p.id===draft.productId);
-  return <section className="brief-card"><div className="director-card-head"><span className="step-label">02 / 方向</span><span className="subtle-label">确认后开始策划</span></div><h2>{product?'这次，就这样创作。':'先选定这次的主角。'}</h2>
+  return <section ref={stepRef} className="brief-card"><div className="director-card-head"><span className="step-label">02 / 方向</span><span className="subtle-label">确认后开始策划</span></div><h2>{product?'这次，就这样创作。':'先选定这次的主角。'}</h2>
     {!product&&proposal.followUp&&<div className="focus-question"><h3>{proposal.followUp.question}</h3><div className="choice-row">{proposal.followUp.options.map(option=><button key={option.value} className="choice-chip" disabled={locked} aria-pressed={focus===option.value} onClick={()=>onFocus(option.value as FocusAnswer)}>{option.label}</button>)}</div></div>}
     {!product&&!!proposal.recommendations?.length&&<div className="product-shortlist" aria-label="可选产品">{proposal.recommendations.map(candidate=>{const p=products.find(p=>p.id===candidate.productId);return <article className="shortlist-card" key={candidate.productId}>{p?.cover&&<SafeImage src={p.cover} alt={candidate.name}/>}<h3>{candidate.name}</h3><p>{candidate.reason}</p><details><summary>查看原始资料<ChevronDown size={14}/></summary>{candidate.facts.map(f=><div className="shortlist-fact" key={f.id}><strong>{f.label}</strong><p>{f.text}</p><SafeLink url={f.sourceUrl}>官方来源</SafeLink></div>)}</details><button disabled={locked} className="button light small" onClick={()=>onChange('productId',candidate.productId)}>选择此型号<ArrowRight size={14}/></button></article>;})}</div>}
     <label className="field brief-product"><span>{product?'产品型号':'具体型号与版本'}</span><select aria-label="策划产品型号" disabled={locked} value={draft.productId} onChange={e=>onChange('productId',e.target.value)}><option value="">选择具体型号与版本</option>{products.map(p=><option key={p.id} value={p.id}>{p.name}{p.conflicts.length?' · 资料待核实':''}</option>)}</select></label>

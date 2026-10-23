@@ -187,6 +187,7 @@ code,pre{background:var(--s2);color:var(--ink-2)}
 .material-fact{border-color:var(--edge)} .material-fact summary{color:var(--ink)} .material-fact p{color:var(--ink-2)}
 .director-new{margin-top:18px}
 /* ---------- 智能体执行流水线 ---------- */
+.brief-card,.creative-plans,.director-busy,.agent-pipeline,.generation-progress,.output-anchor{scroll-margin-top:90px}
 .agent-pipeline{margin:22px 0;padding:24px 26px;border-radius:var(--radius-l);background:var(--s1);border:0;box-shadow:0 1px 2px rgba(0,0,0,.04)}
 .pipeline-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
 .pipeline-head>div{display:flex;align-items:center;gap:10px}
